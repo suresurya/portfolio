@@ -56,7 +56,7 @@ const NavBar = () => {
                 <div id="right" className="flex items-center justify-end gap-3 sm:gap-5 w-full sm:w-auto">
                     <div id="icon-links" className="text-lg sm:text-xl flex justify-end items-center gap-4 sm:gap-5 w-full sm:w-auto">
                        <div id="github" className="cursor-pointer transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110 hover:text-[color:var(--color-accent)]">
-                                                 <a href="https://github.com/luffynokaizoku" target="_blank" rel="noopener noreferrer"><FaGithub/>
+                                                 <a href="https://github.com/suresurya" target="_blank" rel="noopener noreferrer"><FaGithub/>
                         </a>
                        </div>
                        <div id="linkedin" className="cursor-pointer transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110 hover:text-[color:var(--color-accent)]">

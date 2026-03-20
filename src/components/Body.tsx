@@ -76,7 +76,7 @@ const Body = () => {
         <h3 className="text-gray-400 text-2xl sm:text-3xl">A Java Dev.</h3>
       </div>
 
-      <div id="desc" className="text-gray-300/90 mt-6 text-sm sm:text-base leading-relaxed">
+      <div id="desc" className="mt-6 text-sm sm:text-base leading-relaxed text-[color:var(--color-text-main)]">
         <p>
 I am Sure Sri Venak Rama Surya,a B.Tech CSE (3rd Year) student at Vignan Foundation for Science & Technology. I am a JAVA DEVELOPER(Fresher) with strong fundamentals in Core JAVA and hands-on experience in SPRING BOOT,REST API's,Mysql,JDBC,and Hibernate. I have build multiple Database-driven Java applicatoins and am seeking internship oppotrunities to gain real-world industry experience.        </p>
       </div>
