@@ -69,6 +69,7 @@ body {
 	background-color: var(--color-bg);
 	color: var(--color-text-main);
 	transition: background-color var(--theme-transition-duration) ease, color var(--theme-transition-duration) ease;
+	overflow-x: hidden;
 }
 
 /* Surfaces & glassmorphism */
@@ -126,4 +127,21 @@ body {
 	width: 100%;
 	max-width: 100%;
 	height: auto;
+}
+
+@media (max-width: 640px) {
+	.theme-card-glass {
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+	}
+
+	body {
+		font-size: 15px;
+	}
+}
+
+@media (pointer: coarse) {
+	.cursor-none {
+		cursor: auto;
+	}
 }

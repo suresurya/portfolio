@@ -2,8 +2,11 @@ import { useEffect, useRef } from "react";
 
 const GreenCursor = () => {
   const cursorRef = useRef<HTMLDivElement | null>(null);
+  const showCustomCursor = typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches;
 
   useEffect(() => {
+    if (!showCustomCursor) return;
+
     const handleMove = (e: MouseEvent) => {
       if (!cursorRef.current) return;
       cursorRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
@@ -11,7 +14,11 @@ const GreenCursor = () => {
 
     window.addEventListener("mousemove", handleMove);
     return () => window.removeEventListener("mousemove", handleMove);
-  }, []);
+  }, [showCustomCursor]);
+
+  if (!showCustomCursor) {
+    return null;
+  }
 
   return (
     <div

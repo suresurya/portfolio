@@ -10,11 +10,9 @@ const MouseTracker: React.FC = () => {
   const [pos, setPos] = useState<MousePosition>({ x: 0, y: 0 })
   const showCustomCursor = typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches
 
-  if (!showCustomCursor) {
-    return null
-  }
-
   useEffect(() => {
+    if (!showCustomCursor) return
+
     const handleMove = (e: MouseEvent) => {
       setPos({
         x: e.clientX,
@@ -27,7 +25,11 @@ const MouseTracker: React.FC = () => {
     return () => {
       window.removeEventListener("mousemove", handleMove)
     }
-  }, [])
+  }, [showCustomCursor])
+
+  if (!showCustomCursor) {
+    return null
+  }
 
   return (
     <img
