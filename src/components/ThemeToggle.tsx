@@ -1,32 +1,27 @@
 import { useState, useEffect } from 'react';
 import { FiSun, FiMoon } from 'react-icons/fi';
 
+const getInitialDarkMode = () => {
+  if (typeof window === 'undefined') return false;
+
+  const storedTheme = window.localStorage.getItem('theme');
+  return storedTheme === 'dark' ||
+    (!storedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+};
+
 export const ThemeToggle = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(getInitialDarkMode);
 
   useEffect(() => {
-    // Check for saved theme preference or use system preference
-    const isDark = localStorage.theme === 'dark' || 
-      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    
-    setDarkMode(isDark);
-    updateTheme(isDark);
-  }, []);
-
-  const updateTheme = (isDark: boolean) => {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-      localStorage.theme = 'dark';
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.theme = 'light';
-    }
-  };
+    document.documentElement.classList.toggle('dark', darkMode);
+    window.localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+  }, [darkMode]);
 
   const toggleTheme = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
-    updateTheme(newDarkMode);
+    document.documentElement.classList.toggle('dark', newDarkMode);
+    window.localStorage.setItem('theme', newDarkMode ? 'dark' : 'light');
   };
 
   return (

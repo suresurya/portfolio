@@ -1,4 +1,4 @@
-import Profile from "../../src/assets/pfp.png";
+import Profile from "../assets/pfp.png";
 import { GoDotFill, GoDot } from "react-icons/go";
 import { IoDocumentLockSharp } from "react-icons/io5";
 import { useState, useEffect } from "react";
@@ -44,14 +44,14 @@ const Body = () => {
   { name: "PyCharm", icon: PyCharm },
 ];
   return (
-    <div className="font-jetMono mt-10 ">
+    <div className="font-jetMono mt-6 sm:mt-10">
       <div id="image" className="mb-5 w-fit relative p-0">
         <img
           src={Profile}
           alt="profile here"
-          className="rounded-full"
-          height={50}
-          width={100}
+          className="rounded-full size-20 sm:size-24 object-cover"
+          height={96}
+          width={96}
         />
         {online ? (
           <span className="text-2xl text-green-500 absolute bottom-0 right-0">
@@ -64,8 +64,8 @@ const Body = () => {
           </span>
         )}
       </div>
-      <div className="flex flex-wrap items-baseline gap-x-5 gap-y-1">
-        <h1 className="text-2xl sm:text-3xl whitespace-nowrap">
+      <div className="flex flex-wrap items-baseline gap-x-3 sm:gap-x-5 gap-y-2">
+        <h1 className="text-2xl sm:text-3xl leading-tight">
           Hi, I am{' '}
           <span className="hover:underline cursor-pointer underline-offset-8 transition-all duration-300">
             <span className="hidden sm:inline">S.S V R SURYA</span>
@@ -73,48 +73,52 @@ const Body = () => {
           </span>
         </h1>
         <span className="hidden sm:inline text-2xl font-medium"> -- </span>
-        <h3 className="text-gray-400 whitespace-nowrap text-2xl sm:text-3xl">A Java Dev.</h3>
+        <h3 className="text-gray-400 text-2xl sm:text-3xl">A Java Dev.</h3>
       </div>
 
-      <div id="desc" className="text-gray-300/90 mt-6">
+      <div id="desc" className="text-gray-300/90 mt-6 text-sm sm:text-base leading-relaxed">
         <p>
 I am Sure Sri Venak Rama Surya,a B.Tech CSE (3rd Year) student at Vignan Foundation for Science & Technology. I am a JAVA DEVELOPER(Fresher) with strong fundamentals in Core JAVA and hands-on experience in SPRING BOOT,REST API's,Mysql,JDBC,and Hibernate. I have build multiple Database-driven Java applicatoins and am seeking internship oppotrunities to gain real-world industry experience.        </p>
       </div>
 
-      <div id="res-contact" className="text-sm flex items-center mt-6 gap-4 ">
-        <div
+      <div id="res-contact" className="text-sm flex flex-wrap items-center mt-6 gap-3 sm:gap-4">
+        <button
           id="resume"
+          type="button"
           className="flex items-center gap-2 rounded-xl border-2 border-dashed border-white/60
-         bg-gray-300/20 w-fit p-2 cursor-pointer hover:bg-gray-200/50   "
+         bg-gray-300/20 w-fit px-3 py-2 cursor-pointer hover:bg-gray-200/50"
           onClick={() => navigate("/resume")}
         >
           My Resume <IoDocumentLockSharp />
-        </div>
+        </button>
 
-        <div
+        <button
           id="contact"
+          type="button"
           onClick={() => navigate("/contact")}
-          className="flex items-center gap-2  rounded-xl border-2 border-dashed border-white/60 bg-gray-300/20 w-fit p-2 cursor-pointer hover:bg-gray-200/50"
+          className="flex items-center gap-2 rounded-xl border-2 border-dashed border-white/60 bg-gray-300/20 w-fit px-3 py-2 cursor-pointer hover:bg-gray-200/50"
         >
           Contact ME <FaRegPaperPlane />
-        </div>
+        </button>
       </div>
 
 
       
         
         
-      <div id="tech" className="mt-25 flex flex-col gap-10">
+      <div id="tech" className="mt-14 sm:mt-24 flex flex-col gap-8 sm:gap-10">
         <p className="text-xl font-bold hover:underline cursor-pointer underline-offset-8 transition-all duration-300">My Github Contributions :</p>
-        <div id="git" className="mx-auto overflow-x-hidden w-fit  ">
-          <GitHubCalendar username="suresurya" colorScheme="dark"/>
+        <div id="git" className="overflow-x-auto pb-2">
+          <div className="min-w-[680px] sm:min-w-0 w-fit mx-auto">
+            <GitHubCalendar username="suresurya" colorScheme="dark" />
+          </div>
         </div>
 
         <div id="stack">
           <p className="text-xl font-bold  underline-offset-8 hover:underline transition-all duration-300 cursor-pointer">My Tech Stack :</p>
 
-          <div id="icons" className="text-xl flex items-center m-10">
-            <div id="tech" className="flex flex-wrap gap-7  border-gray-300/40 border p-4 rounded-2xl text-white">
+          <div id="icons" className="mt-6 text-xl">
+            <div id="tech" className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 gap-5 border-gray-300/40 border p-4 sm:p-5 rounded-2xl text-white justify-items-center">
              {techStack.map(((item , index)=>(
                 <img src={item.icon} alt={item.name} key={index} height={38} width={38} />
              )))}

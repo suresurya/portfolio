@@ -1,46 +1,35 @@
-import { createContext, useContext, useEffect, useState, type ReactNode, type MouseEvent } from "react";
-
-type Theme = "light" | "dark";
-
-type ThemeContextValue = {
-  theme: Theme;
-  toggleThemeFromClick: (event: MouseEvent<HTMLElement>) => void;
-};
-
-const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
-
-export const useTheme = (): ThemeContextValue => {
-  const ctx = useContext(ThemeContext);
-  if (!ctx) {
-    throw new Error("useTheme must be used within ThemeProvider");
-  }
-  return ctx;
-};
+import { useEffect, useState, type ReactNode, type MouseEvent } from "react";
+import { ThemeContext, type Theme } from "./theme-context";
 
 interface ThemeProviderProps {
   children: ReactNode;
 }
 
+const getInitialTheme = (): Theme => {
+  if (typeof window === "undefined") return "dark";
+
+  const stored = window.localStorage.getItem("theme") as Theme | null;
+  if (stored === "dark" || stored === "light") {
+    return stored;
+  }
+
+  if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+    return "light";
+  }
+
+  return "dark";
+};
+
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>(getInitialTheme);
   const [waveTheme, setWaveTheme] = useState<Theme | null>(null);
   const [waveActive, setWaveActive] = useState(false);
 
-  // Initialise theme from localStorage / system preference
+  // Keep DOM theme and persisted theme in sync with state.
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    let initial: Theme = "dark";
-    const stored = window.localStorage.getItem("theme") as Theme | null;
-    if (stored === "dark" || stored === "light") {
-      initial = stored;
-    } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
-      initial = "light";
-    }
-
-    setTheme(initial);
-    document.documentElement.setAttribute("data-theme", initial);
-  }, []);
+    document.documentElement.setAttribute("data-theme", theme);
+    window.localStorage.setItem("theme", theme);
+  }, [theme]);
 
   const runWave = (next: Theme, x: number, y: number) => {
     const root = document.documentElement;
@@ -58,8 +47,6 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
 
     window.setTimeout(() => {
       setTheme(next);
-      root.setAttribute("data-theme", next);
-      window.localStorage.setItem("theme", next);
       setWaveActive(false);
 
       // small delay before clearing to avoid popping

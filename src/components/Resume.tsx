@@ -6,13 +6,13 @@ const Resume = () => {
   const navigate = useNavigate()
 
   return (
-    <section className="relative space-y-8 w-full border border-gray-300/20 rounded-2xl px-6 py-10 font-jetMono">
+    <section className="space-y-6 sm:space-y-8 w-full border border-gray-300/20 rounded-2xl px-4 sm:px-6 py-6 sm:py-10 font-jetMono">
 
       
       <button
         onClick={() => navigate("/")}
-        className="absolute top-6 left-6 flex items-center gap-2 text-sm  text-white transition
-        border-white border  p-3 rounded-2xl hover:text-black hover:bg-white duration-300 hover:rounded-3xl cursor-pointer
+        className="inline-flex items-center gap-2 text-sm text-white transition
+        border-white border px-3 py-2 rounded-2xl hover:text-black hover:bg-white duration-300 cursor-pointer
         "
       >
         <FaLongArrowAltLeft />
@@ -33,7 +33,7 @@ const Resume = () => {
       <div className="mx-auto w-full max-w-4xl">
         <iframe
           src={`${ResumeFile}#toolbar=0&navpanes=0&scrollbar=1&zoom=page-width`}
-          className="w-full h-[80vh] rounded-xl border border-gray-300/20"
+          className="w-full h-[68vh] sm:h-[80vh] rounded-xl border border-gray-300/20"
           title="Resume"
         />
       </div>

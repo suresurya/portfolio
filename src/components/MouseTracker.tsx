@@ -8,6 +8,11 @@ type MousePosition = {
 
 const MouseTracker: React.FC = () => {
   const [pos, setPos] = useState<MousePosition>({ x: 0, y: 0 })
+  const showCustomCursor = typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches
+
+  if (!showCustomCursor) {
+    return null
+  }
 
   useEffect(() => {
     const handleMove = (e: MouseEvent) => {
@@ -28,7 +33,7 @@ const MouseTracker: React.FC = () => {
     <img
       src={Dot}
       alt="cursor-dot"
-      className="fixed top-0 left-0 w-4 h-4 pointer-events-none z-9999 transition-transform duration-75"
+      className="fixed top-0 left-0 w-4 h-4 pointer-events-none z-[9999] transition-transform duration-75"
       style={{
         transform: `translate(${pos.x}px, ${pos.y}px) translate(-50%, -50%)`,
       }}

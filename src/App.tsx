@@ -7,6 +7,7 @@ import Contact from "./components/Contact"
 import Portfolio from "./components/projects/Portfolio"
 import SamuraiGame from "./components/projects/SamuraiGame"
 import RestaurantLanding from "./components/projects/RestaurantLanding"
+import DSA from "./components/projects/DSA"
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
           { path:"portfolio", element:<Portfolio/> },
           { path:"samurai-game", element:<SamuraiGame/> },
           { path:"restaurant-landing", element:<RestaurantLanding/> },
+          { path:"dsa", element:<DSA/> },
         ]
       },
       {

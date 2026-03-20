@@ -5,7 +5,7 @@ import GreenCursor from "./GreenCursor";
 
 const Main = () => {
   return (
-    <div className="max-w-3xl mx-auto font-jetMono min-h-screen p-1 relative cursor-none text-[color:var(--color-text-main)] bg-[color:var(--color-bg)] transition-colors duration-[var(--theme-transition-duration)]">
+    <div className="max-w-4xl mx-auto w-full font-jetMono min-h-screen px-4 sm:px-5 md:px-6 pb-6 relative cursor-none text-[color:var(--color-text-main)] bg-[color:var(--color-bg)] transition-colors duration-[var(--theme-transition-duration)] overflow-x-clip">
       <NavBar />
       <div className="page-transition">
         <Outlet />

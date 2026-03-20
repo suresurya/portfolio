@@ -5,7 +5,7 @@ import { FaLinkedin } from "react-icons/fa";
 import { IoSunnyOutline } from "react-icons/io5";   
 import { IoMoonOutline } from "react-icons/io5";
 import { cn } from "../cn";
-import { useTheme } from "./ThemeProvider";
+import { useTheme } from "./theme-context";
 
 const NavBar = () => {
 
@@ -27,13 +27,13 @@ const NavBar = () => {
 
     ]
   return (
-        <header className="p-2 sm:p-3 sticky top-0 backdrop-blur-sm z-100 rounded-2xl">
-            <nav className="flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap"> 
-                <div id="left" className="flex items-center justify-start gap-3 sm:gap-5">
+        <header className="py-3 sm:py-4 sticky top-0 backdrop-blur-sm z-100 rounded-2xl">
+            <nav className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4"> 
+                <div id="left" className="flex items-center justify-between sm:justify-start w-full sm:w-auto gap-3 sm:gap-5">
                     <div id="pfp"  className="rounded-xl hover:h-10 hover:w-10 cursor-pointer">
                         <img src={Profile} alt="text here" height={50} width={50} className="rounded-xl hover:h-10 hover:w-10" />
                     </div>
-                     <div id="links" className="flex gap-4 text-sm sm:text-base">
+                     <div id="links" className="flex flex-wrap gap-x-4 gap-y-2 text-sm sm:text-base">
                     {
                         nav_links.map((item,index)=>(
                             <NavLink
@@ -53,14 +53,14 @@ const NavBar = () => {
                 </div>
                 </div>
 
-                <div id="right" className="flex items-center justify-end gap-3 sm:gap-5 w-full sm:w-auto mt-2 sm:mt-0">
-                    <div id="icon-links" className="text-lg sm:text-xl flex justify-end items-center gap-3 sm:gap-5 w-full sm:w-auto">
+                <div id="right" className="flex items-center justify-end gap-3 sm:gap-5 w-full sm:w-auto">
+                    <div id="icon-links" className="text-lg sm:text-xl flex justify-end items-center gap-4 sm:gap-5 w-full sm:w-auto">
                        <div id="github" className="cursor-pointer transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110 hover:text-[color:var(--color-accent)]">
-                         <a href="https://github.com/luffynokaizoku" target="_blank"><FaGithub/>
+                                                 <a href="https://github.com/luffynokaizoku" target="_blank" rel="noopener noreferrer"><FaGithub/>
                         </a>
                        </div>
                        <div id="linkedin" className="cursor-pointer transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110 hover:text-[color:var(--color-accent)]">
-                        <a href="https://www.linkedin.com/in/sure-sri-veknat-rama-surya-b924a6332/" target="_blank"><FaLinkedin/>
+                                                <a href="https://www.linkedin.com/in/sure-sri-veknat-rama-surya-b924a6332/" target="_blank" rel="noopener noreferrer"><FaLinkedin/>
                         </a>
                        </div>
                        <button
