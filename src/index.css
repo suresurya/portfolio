@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=BBH+Bartle&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap');
+
+@theme {
+	--font-jetMono : "JetBrains Mono" ,  'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	--font-bbh : "BBH Bartle" , 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	--font-google : "Google Sans Code" , 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@import "tailwindcss";
+
+/* Global theme tokens */
+:root {
+	/* base palettes */
+	--color-bg-dark: #000000; /* pure black */
+	--color-bg-light: #f9fafb; /* gray-50 */
+
+	/* current theme-resolved tokens (overridden per theme below) */
+	--color-bg: var(--color-bg-dark);
+	--color-bg-elevated: #020617;
+	--color-bg-surface: rgba(15, 23, 42, 0.85);
+	--color-text-main: #e5e7eb;
+	--color-text-subtle: #9ca3af;
+	--color-border-subtle: rgba(148, 163, 184, 0.4);
+	--color-accent: #22c55e;
+	--color-accent-soft: rgba(34, 197, 94, 0.18);
+	--glass-bg: rgba(15, 23, 42, 0.75);
+	--glass-border: rgba(148, 163, 184, 0.45);
+	--shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.85);
+	--color-toggle-bg: rgba(15, 23, 42, 0.9);
+	--color-toggle-icon: #fde68a;
+	--theme-transition-duration: 700ms;
+}
+
+:root[data-theme="dark"] {
+	--color-bg: var(--color-bg-dark);
+	--color-bg-elevated: #020617;
+	--color-bg-surface: rgba(0, 0, 0, 0.9);
+	--color-text-main: #e5e7eb;
+	--color-text-subtle: #9ca3af;
+	--color-border-subtle: rgba(148, 163, 184, 0.45);
+	--color-accent: #22c55e;
+	--color-accent-soft: rgba(34, 197, 94, 0.18);
+	--glass-bg: rgba(10, 10, 10, 0.85);
+	--glass-border: rgba(148, 163, 184, 0.55);
+	--shadow-soft: 0 22px 55px rgba(0, 0, 0, 0.95);
+	--color-toggle-bg: rgba(10, 10, 10, 0.96);
+	--color-toggle-icon: #fde68a;
+}
+
+:root[data-theme="light"] {
+	--color-bg: var(--color-bg-light);
+	--color-bg-elevated: #ffffff;
+	--color-bg-surface: rgba(248, 250, 252, 0.96);
+	--color-text-main: #0f172a;
+	--color-text-subtle: #4b5563;
+	--color-border-subtle: rgba(148, 163, 184, 0.5);
+	--color-accent: #16a34a;
+	--color-accent-soft: rgba(22, 163, 74, 0.14);
+	--glass-bg: rgba(255, 255, 255, 0.78);
+	--glass-border: rgba(148, 163, 184, 0.4);
+	--shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.18);
+	--color-toggle-bg: rgba(255, 255, 255, 0.98);
+	--color-toggle-icon: #0f172a;
+}
+
+body {
+	background-color: var(--color-bg);
+	color: var(--color-text-main);
+	transition: background-color var(--theme-transition-duration) ease, color var(--theme-transition-duration) ease;
+}
+
+/* Surfaces & glassmorphism */
+.theme-surface {
+	background-color: var(--color-bg-surface);
+	border: 1px solid var(--color-border-subtle);
+	box-shadow: var(--shadow-soft);
+	color: var(--color-text-main);
+}
+
+.theme-card-glass {
+	background-color: var(--glass-bg);
+	border: 1px solid var(--glass-border);
+	box-shadow: var(--shadow-soft);
+	backdrop-filter: blur(18px);
+	-webkit-backdrop-filter: blur(18px);
+}
+
+.theme-border-subtle {
+	border-color: var(--color-border-subtle);
+}
+
+/* Page transition for route changes */
+@keyframes pageFadeIn {
+	0% {
+		opacity: 0;
+		transform: translateY(4px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.page-transition {
+	animation: pageFadeIn 320ms ease-out;
+}
+
+/* Theme wave overlay */
+.theme-wave {
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: 150;
+	clip-path: circle(0 at var(--wave-x, 50%) var(--wave-y, 50%));
+	transition: clip-path var(--theme-transition-duration) cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.theme-wave--animate {
+	clip-path: circle(150vmax at var(--wave-x, 50%) var(--wave-y, 50%));
+}
+
+/* GitHub calendar responsiveness */
+.react-activity-calendar__calendar {
+	width: 100%;
+	max-width: 100%;
+	height: auto;
+}

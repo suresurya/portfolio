@@ -1,0 +1,90 @@
+import Profile from "../assets/pfp.png"
+import { NavLink } from "react-router"
+import { FaGithub } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
+import { IoSunnyOutline } from "react-icons/io5";   
+import { IoMoonOutline } from "react-icons/io5";
+import { cn } from "../cn";
+import { useTheme } from "./ThemeProvider";
+
+const NavBar = () => {
+
+    const { theme, toggleThemeFromClick } = useTheme();
+
+    const nav_links = [
+        {
+            to:"/",
+            name:"Work"
+        },
+        {
+            to:"/projects",
+            name:"Projects"
+        },
+        {
+            to:"/resume",
+            name:"Resume"
+        }
+
+    ]
+  return (
+        <header className="p-2 sm:p-3 sticky top-0 backdrop-blur-sm z-100 rounded-2xl">
+            <nav className="flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap"> 
+                <div id="left" className="flex items-center justify-start gap-3 sm:gap-5">
+                    <div id="pfp"  className="rounded-xl hover:h-10 hover:w-10 cursor-pointer">
+                        <img src={Profile} alt="text here" height={50} width={50} className="rounded-xl hover:h-10 hover:w-10" />
+                    </div>
+                     <div id="links" className="flex gap-4 text-sm sm:text-base">
+                    {
+                        nav_links.map((item,index)=>(
+                            <NavLink
+                            to={item.to}
+                            key={index} 
+                            className={({isActive})=>
+                            cn(
+                                isActive && "text-gray-300",
+                                "hover:text-gray-400"
+                            )}
+                            
+                            >
+                                {item.name}
+                            </NavLink>
+                        ))
+                    }
+                </div>
+                </div>
+
+                <div id="right" className="flex items-center justify-end gap-3 sm:gap-5 w-full sm:w-auto mt-2 sm:mt-0">
+                    <div id="icon-links" className="text-lg sm:text-xl flex justify-end items-center gap-3 sm:gap-5 w-full sm:w-auto">
+                       <div id="github" className="cursor-pointer transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110 hover:text-[color:var(--color-accent)]">
+                         <a href="https://github.com/luffynokaizoku" target="_blank"><FaGithub/>
+                        </a>
+                       </div>
+                       <div id="linkedin" className="cursor-pointer transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110 hover:text-[color:var(--color-accent)]">
+                        <a href="https://www.linkedin.com/in/sure-sri-veknat-rama-surya-b924a6332/" target="_blank"><FaLinkedin/>
+                        </a>
+                       </div>
+                       <button
+                        id="mode"
+                        type="button"
+                        onClick={(e) => toggleThemeFromClick(e)}
+                        className={
+                            cn(
+                                "size-8 rounded-full flex items-center justify-center border theme-border-subtle",
+                                "bg-[color:var(--color-toggle-bg)] text-[color:var(--color-toggle-icon)]",
+                                "shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
+                            )
+                        }
+                        aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                       >
+                        {theme === "dark" ? <IoSunnyOutline/> : <IoMoonOutline/>}
+                       </button>
+                    </div>
+                </div>
+                
+               
+            </nav>
+        </header>
+  )
+}
+
+export default NavBar
