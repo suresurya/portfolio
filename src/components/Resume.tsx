@@ -11,8 +11,8 @@ const Resume = () => {
       
       <button
         onClick={() => navigate("/")}
-        className="inline-flex items-center gap-2 text-sm text-white transition
-        border-white border px-3 py-2 rounded-2xl hover:text-black hover:bg-white duration-300 cursor-pointer
+        className="inline-flex items-center gap-2 text-sm text-[color:var(--color-text-main)] transition
+        border theme-border-subtle px-3 py-2 rounded-2xl hover:bg-[color:var(--color-accent-soft)] duration-300 cursor-pointer
         "
       >
         <FaLongArrowAltLeft />
@@ -21,7 +21,7 @@ const Resume = () => {
 
      
       <div className="space-y-4 text-center">
-        <h1 className="mx-auto max-w-2xl text-xl text-white underline-offset-8 hover:underline cursor-pointer">
+        <h1 className="mx-auto max-w-2xl text-xl text-[color:var(--color-text-main)] underline-offset-8 hover:underline cursor-pointer">
           My resume.
         </h1>
       </div>

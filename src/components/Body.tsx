@@ -73,7 +73,7 @@ const Body = () => {
           </span>
         </h1>
         <span className="hidden sm:inline text-2xl font-medium"> -- </span>
-        <h3 className="text-gray-400 text-2xl sm:text-3xl">A Java Dev.</h3>
+        <h3 className="text-[color:var(--color-text-subtle)] text-2xl sm:text-3xl">A Java Dev.</h3>
       </div>
 
       <div id="desc" className="mt-6 text-sm sm:text-base leading-relaxed text-[color:var(--color-text-main)]">
@@ -85,7 +85,7 @@ I am Sure Sri Venak Rama Surya,a B.Tech CSE (3rd Year) student at Vignan Foundat
         <button
           id="resume"
           type="button"
-          className="flex items-center gap-2 rounded-xl border-2 border-dashed border-white/60
+          className="flex items-center gap-2 rounded-xl border-2 border-dashed theme-border-subtle
          bg-gray-300/20 w-fit px-3 py-2 cursor-pointer hover:bg-gray-200/50"
           onClick={() => navigate("/resume")}
         >
@@ -96,7 +96,7 @@ I am Sure Sri Venak Rama Surya,a B.Tech CSE (3rd Year) student at Vignan Foundat
           id="contact"
           type="button"
           onClick={() => navigate("/contact")}
-          className="flex items-center gap-2 rounded-xl border-2 border-dashed border-white/60 bg-gray-300/20 w-fit px-3 py-2 cursor-pointer hover:bg-gray-200/50"
+          className="flex items-center gap-2 rounded-xl border-2 border-dashed theme-border-subtle bg-gray-300/20 w-fit px-3 py-2 cursor-pointer hover:bg-gray-200/50"
         >
           Contact ME <FaRegPaperPlane />
         </button>
@@ -118,7 +118,7 @@ I am Sure Sri Venak Rama Surya,a B.Tech CSE (3rd Year) student at Vignan Foundat
           <p className="text-xl font-bold  underline-offset-8 hover:underline transition-all duration-300 cursor-pointer">My Tech Stack :</p>
 
           <div id="icons" className="mt-6 text-xl">
-            <div id="tech" className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 gap-5 border-gray-300/40 border p-4 sm:p-5 rounded-2xl text-white justify-items-center">
+            <div id="tech" className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 gap-5 border-gray-300/40 border p-4 sm:p-5 rounded-2xl text-[color:var(--color-text-main)] justify-items-center">
              {techStack.map(((item , index)=>(
                 <img src={item.icon} alt={item.name} key={index} height={38} width={38} />
              )))}

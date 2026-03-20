@@ -41,8 +41,8 @@ const NavBar = () => {
                             key={index} 
                             className={({isActive})=>
                             cn(
-                                isActive && "text-gray-300",
-                                "hover:text-gray-400"
+                                "text-[color:var(--color-text-subtle)] hover:text-[color:var(--color-accent)]",
+                                isActive && "text-[color:var(--color-accent)]"
                             )}
                             
                             >
