@@ -16,6 +16,11 @@ import PyCharm from  "../assets/icons/pycharm.svg"
 import React from  "../assets/icons/react.svg"
 import Spring from  "../assets/icons/spring.svg"
 import MySql from  "../assets/icons/sql.svg"
+import Ollama from  "../assets/icons/ollama.svg"
+import Python from  "../assets/icons/Python.svg"
+import PostgresSQL from  "../assets/icons/PostgresSQL.svg"
+import GitIcon from  "../assets/icons/Git.svg"
+import GradleIcon from  "../assets/icons/Gradle.svg"
 
 
 const Body = () => {
@@ -30,19 +35,46 @@ const Body = () => {
   }, []);
 
   const navigate = useNavigate();
-   const techStack = [
-  { name: "Java", icon: Java },
-  { name: "Spring", icon: Spring },
-  { name: "Hibernate", icon: Hibernate },
-  { name: "Maven", icon: Maven },
-  { name: "MySQL", icon: MySql },
-  { name: "MongoDB", icon: MongoDB },
-  { name: "Node.js", icon: Node },
-  { name: "Express.js", icon: Express },
-  { name: "React", icon: React },
-  { name: "IntelliJ IDEA", icon: Intellij },
-  { name: "PyCharm", icon: PyCharm },
-];
+
+  const techCategories = [
+    {
+      title: "Backend",
+      items: [
+        { name: "Java", icon: Java },
+        { name: "Spring", icon: Spring },
+        { name: "Hibernate", icon: Hibernate },
+        { name: "Maven", icon: Maven },
+        { name: "Node.js", icon: Node },
+        { name: "Express.js", icon: Express },
+        { name: "Python", icon: Python },
+        { name: "Gradle", icon: GradleIcon },
+      ],
+    },
+    {
+      title: "Frontend",
+      items: [{ name: "React", icon: React }],
+    },
+    {
+      title: "Databases",
+      items: [
+        { name: "MySQL", icon: MySql },
+        { name: "MongoDB", icon: MongoDB },
+        { name: "PostgreSQL", icon: PostgresSQL },
+      ],
+    },
+    {
+      title: "Tools",
+      items: [
+        { name: "IntelliJ IDEA", icon: Intellij },
+        { name: "PyCharm", icon: PyCharm },
+        { name: "Git", icon: GitIcon },
+      ],
+    },
+    {
+      title: "AI / LLM",
+      items: [{ name: "Ollama", icon: Ollama }],
+    },
+  ];
   return (
     <div className="font-jetMono mt-6 sm:mt-10">
       <div id="image" className="mb-5 w-fit relative p-0">
@@ -115,14 +147,27 @@ I am Sure Sri Venak Rama Surya,a B.Tech CSE (3rd Year) student at Vignan Foundat
         </div>
 
         <div id="stack">
-          <p className="text-xl font-bold  underline-offset-8 hover:underline transition-all duration-300 cursor-pointer">My Tech Stack :</p>
+          <p className="text-xl font-bold underline-offset-8 hover:underline transition-all duration-300 cursor-pointer">
+            My Tech Stack :
+          </p>
 
-          <div id="icons" className="mt-6 text-xl">
-            <div id="tech" className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 gap-5 border-gray-300/40 border p-4 sm:p-5 rounded-2xl text-[color:var(--color-text-main)] justify-items-center">
-             {techStack.map(((item , index)=>(
-                <img src={item.icon} alt={item.name} key={index} height={38} width={38} />
-             )))}
-              </div>
+          <div id="icons" className="mt-6 text-xl space-y-3">
+            <p className="text-xs text-[color:var(--color-text-subtle)]">
+              Backend • Frontend • Databases • Tools • AI / LLM
+            </p>
+            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 gap-5 border-gray-300/40 border p-4 sm:p-5 rounded-2xl text-[color:var(--color-text-main)] justify-items-center">
+              {techCategories
+                .flatMap((category) => category.items)
+                .map((item) => (
+                  <img
+                    src={item.icon}
+                    alt={item.name}
+                    key={item.name}
+                    height={38}
+                    width={38}
+                  />
+                ))}
+            </div>
           </div>
         </div>
       </div>

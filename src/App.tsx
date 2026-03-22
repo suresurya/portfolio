@@ -8,6 +8,7 @@ import Portfolio from "./components/projects/Portfolio"
 import SamuraiGame from "./components/projects/SamuraiGame"
 import RestaurantLanding from "./components/projects/RestaurantLanding"
 import DSA from "./components/projects/DSA"
+import IQAC from "./components/projects/IQAC"
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
           { path:"samurai-game", element:<SamuraiGame/> },
           { path:"restaurant-landing", element:<RestaurantLanding/> },
           { path:"dsa", element:<DSA/> },
+          { path:"iqac", element:<IQAC/> },
         ]
       },
       {

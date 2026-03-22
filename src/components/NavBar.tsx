@@ -2,6 +2,8 @@ import Profile from "../assets/pfp.png"
 import { NavLink } from "react-router"
 import { FaGithub } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
+import { FaDiscord } from "react-icons/fa";
+import { FaMedium } from "react-icons/fa";
 import { IoSunnyOutline } from "react-icons/io5";   
 import { IoMoonOutline } from "react-icons/io5";
 import { cn } from "../cn";
@@ -62,6 +64,20 @@ const NavBar = () => {
                        <div id="linkedin" className="cursor-pointer transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110 hover:text-[color:var(--color-accent)]">
                                                 <a href="https://www.linkedin.com/in/sure-sri-veknat-rama-surya-b924a6332/" target="_blank" rel="noopener noreferrer"><FaLinkedin/>
                         </a>
+                                             </div>
+                              <div id="medium" className="cursor-pointer transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110 hover:text-[color:var(--color-accent)]">
+                                                                <a href="https://medium.com/@suresrivenkatramasurya" target="_blank" rel="noopener noreferrer"><FaMedium/>
+                                </a>
+                              </div>
+                                             <div
+                                                id="discord"
+                                                className="flex items-center gap-1 cursor-default text-sm sm:text-base text-[color:var(--color-text-subtle)]"
+                                                title="Discord: sure_surya_007_"
+                                             >
+                                                <span className="text-lg sm:text-xl transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110 hover:text-[color:var(--color-accent)]">
+                                                    <FaDiscord />
+                                                </span>
+                                                <span className="hidden sm:inline"></span>
                        </div>
                        <button
                         id="mode"
