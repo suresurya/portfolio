@@ -4,6 +4,7 @@ import { FaGithub } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { FaDiscord } from "react-icons/fa";
 import { FaMedium } from "react-icons/fa";
+import { SiUdemy } from "react-icons/si";
 import { IoSunnyOutline } from "react-icons/io5";   
 import { IoMoonOutline } from "react-icons/io5";
 import { cn } from "../cn";
@@ -61,14 +62,18 @@ const NavBar = () => {
                                                  <a href="https://github.com/suresurya" target="_blank" rel="noopener noreferrer"><FaGithub/>
                         </a>
                        </div>
-                       <div id="linkedin" className="cursor-pointer transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110 hover:text-[color:var(--color-accent)]">
-                                                <a href="https://www.linkedin.com/in/sure-sri-veknat-rama-surya-b924a6332/" target="_blank" rel="noopener noreferrer"><FaLinkedin/>
-                        </a>
-                                             </div>
-                              <div id="medium" className="cursor-pointer transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110 hover:text-[color:var(--color-accent)]">
-                                                                <a href="https://medium.com/@suresrivenkatramasurya" target="_blank" rel="noopener noreferrer"><FaMedium/>
-                                </a>
-                              </div>
+                                             <div id="linkedin" className="cursor-pointer transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110 hover:text-[color:var(--color-accent)]">
+                                                                                                <a href="https://www.linkedin.com/in/sure-sri-veknat-rama-surya-b924a6332/" target="_blank" rel="noopener noreferrer"><FaLinkedin/>
+                                                </a>
+                                                                                         </div>
+                                                            <div id="medium" className="cursor-pointer transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110 hover:text-[color:var(--color-accent)]">
+                                                                                                                                <a href="https://medium.com/@suresrivenkatramasurya" target="_blank" rel="noopener noreferrer"><FaMedium/>
+                                                                </a>
+                                                            </div>
+                                                            <div id="udemy" className="cursor-pointer transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110 hover:text-[color:var(--color-accent)]">
+                                                                                                                                <a href="https://www.udemy.com/user/sure-sri-venkat-rama-surya/" target="_blank" rel="noopener noreferrer"><SiUdemy/>
+                                                                </a>
+                                                            </div>
                                              <div
                                                 id="discord"
                                                 className="flex items-center gap-1 cursor-default text-sm sm:text-base text-[color:var(--color-text-subtle)]"
