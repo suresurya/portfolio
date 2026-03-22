@@ -24,6 +24,7 @@ import Python from  "../assets/icons/Python.svg"
 import PostgresSQL from  "../assets/icons/PostgresSQL.svg"
 import GitIcon from  "../assets/icons/Git.svg"
 import GradleIcon from  "../assets/icons/Gradle.svg"
+import GitHubIcon from "../assets/icons/github-icon.svg"
 
 
 const Body = () => {
@@ -48,7 +49,7 @@ const Body = () => {
         { name: "Hibernate", icon: Hibernate },
         { name: "Maven", icon: Maven },
         { name: "Node.js", icon: Node },
-        { name: "Express.js", icon: Express },
+        { name: "Express.js", icon: Express, className: "tech-icon-invert-light" },
         { name: "Python", icon: Python },
         { name: "Gradle", icon: GradleIcon },
       ],
@@ -75,6 +76,7 @@ const Body = () => {
         { name: "IntelliJ IDEA", icon: Intellij },
         { name: "PyCharm", icon: PyCharm },
         { name: "Git", icon: GitIcon },
+        { name: "GitHub", icon: GitHubIcon, className: "tech-icon-invert-dark" },
       ],
     },
     {
@@ -83,7 +85,7 @@ const Body = () => {
     },
     {
       title: "AI / LLM",
-      items: [{ name: "Ollama", icon: Ollama }],
+      items: [{ name: "Ollama", icon: Ollama, className: "tech-icon-invert-dark" }],
     },
   ];
   return (
@@ -121,7 +123,15 @@ const Body = () => {
 
       <div id="desc" className="mt-6 text-sm sm:text-base leading-relaxed text-[color:var(--color-text-main)]">
         <p>
-I am Sure Sri Venak Rama Surya,a B.Tech CSE (3rd Year) student at Vignan Foundation for Science & Technology. I am a JAVA DEVELOPER(Fresher) with strong fundamentals in Core JAVA and hands-on experience in SPRING BOOT,REST API's,Mysql,JDBC,and Hibernate. I have build multiple Database-driven Java applicatoins and am seeking internship oppotrunities to gain real-world industry experience.        </p>
+I am Sure Sri Venkat Rama Surya, a 3rd-year B.Tech CSE student at Vignan Foundation for Science and Technology. I am a Java developer with strong fundamentals in Core Java and hands-on experience in Spring Boot, REST APIs, MySQL, JDBC, and Hibernate. I have built multiple database-driven Java applications and am currently seeking internship opportunities to gain real-world industry experience.
+        </p>
+      </div>
+
+      <div id="additional-info" className="mt-4 sm:mt-6 text-xs sm:text-sm text-[color:var(--color-text-subtle)]">
+        <p className="font-semibold text-[color:var(--color-text-main)]">Additional Information</p>
+        <p className="mt-1">
+          Hobbies: Fitness, anime, learning new technologies, and building automation systems.
+        </p>
       </div>
 
       <div id="res-contact" className="text-sm flex flex-wrap items-center mt-6 gap-3 sm:gap-4">
@@ -174,6 +184,7 @@ I am Sure Sri Venak Rama Surya,a B.Tech CSE (3rd Year) student at Vignan Foundat
                     src={item.icon}
                     alt={item.name}
                     key={item.name}
+                    className={"h-[38px] w-[38px] object-contain " + (item.className ?? "")}
                     height={38}
                     width={38}
                   />

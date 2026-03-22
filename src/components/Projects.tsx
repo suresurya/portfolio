@@ -2,8 +2,8 @@ import { Link, Outlet } from "react-router";
 
 const Projects = () => {
   const projects = [
-    { title: "PORTIFILO", path: "/projects/portfolio" },
-    { title: "SAMUURAI GAME", path: "/projects/samurai-game" },
+    { title: "Portfolio Website", path: "/projects/portfolio" },
+    { title: "Samurai Duel Saga", path: "/projects/samurai-game" },
     { title: "RESTAURANT LANDING PAGE", path: "/projects/restaurant-landing" },
     { title: "DSA", path: "/projects/dsa" },
     { title: "IQAC Academic Intelligence System", path: "/projects/iqac" },

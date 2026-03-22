@@ -3,9 +3,9 @@ const DSA = () => {
     <div className="mt-10 space-y-4">
       <h1 className="text-2xl font-bold tracking-tight">DSA</h1>
       <p className="text-[color:var(--color-text-subtle)] max-w-xl">
-        A collection of Data Structures and Algorithms implementations written in Java.
-        Explore the code, patterns, and problem-solving approaches used in this
-        repository.
+        A collection of data structures and algorithms implemented in Java.
+        This repository focuses on clean, well-structured solutions and patterns
+        that are useful for interviews and competitive programming.
       </p>
 
       <div className="mt-6 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-elevated)]/70 px-5 py-4 shadow-sm backdrop-blur-sm">

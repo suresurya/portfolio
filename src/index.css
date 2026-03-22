@@ -145,6 +145,15 @@ body {
 	height: auto;
 }
 
+/* Theme-aware tech stack icon visibility tweaks */
+:root[data-theme="dark"] .tech-icon-invert-dark {
+	filter: invert(1) brightness(1.1);
+}
+
+:root[data-theme="light"] .tech-icon-invert-light {
+	filter: invert(1) brightness(1.05);
+}
+
 @media (max-width: 640px) {
 	.theme-card-glass {
 		backdrop-filter: blur(12px);
