@@ -108,6 +108,22 @@ body {
 	animation: pageFadeIn 320ms ease-out;
 }
 
+/* Tech stack pop-up animation */
+.tech-pop {
+	animation: tech-pop-up 260ms ease-out;
+}
+
+@keyframes tech-pop-up {
+	0% {
+		opacity: 0;
+		transform: translateY(12px) scale(0.97);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
 /* Theme wave overlay */
 .theme-wave {
 	position: fixed;

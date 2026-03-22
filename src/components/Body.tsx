@@ -16,6 +16,9 @@ import PyCharm from  "../assets/icons/pycharm.svg"
 import React from  "../assets/icons/react.svg"
 import Spring from  "../assets/icons/spring.svg"
 import MySql from  "../assets/icons/sql.svg"
+import HTML5 from  "../assets/icons/HTML5.svg"
+import CSS3 from  "../assets/icons/CSS3.svg"
+import ApacheTomcat from  "../assets/icons/Apache Tomcat.svg"
 import Ollama from  "../assets/icons/ollama.svg"
 import Python from  "../assets/icons/Python.svg"
 import PostgresSQL from  "../assets/icons/PostgresSQL.svg"
@@ -52,7 +55,11 @@ const Body = () => {
     },
     {
       title: "Frontend",
-      items: [{ name: "React", icon: React }],
+      items: [
+        { name: "HTML5", icon: HTML5 },
+        { name: "CSS3", icon: CSS3 },
+        { name: "React", icon: React },
+      ],
     },
     {
       title: "Databases",
@@ -69,6 +76,10 @@ const Body = () => {
         { name: "PyCharm", icon: PyCharm },
         { name: "Git", icon: GitIcon },
       ],
+    },
+    {
+      title: "Servers",
+      items: [{ name: "Apache Tomcat", icon: ApacheTomcat }],
     },
     {
       title: "AI / LLM",
@@ -100,7 +111,7 @@ const Body = () => {
         <h1 className="text-2xl sm:text-3xl leading-tight">
           Hi, I am{' '}
           <span className="hover:underline cursor-pointer underline-offset-8 transition-all duration-300">
-            <span className="hidden sm:inline">S.S V R SURYA</span>
+            <span className="hidden sm:inline">S.Sri Venkat Rama Surya</span>
             <span className="sm:hidden">S. Surya</span>
           </span>
         </h1>
@@ -153,7 +164,7 @@ I am Sure Sri Venak Rama Surya,a B.Tech CSE (3rd Year) student at Vignan Foundat
 
           <div id="icons" className="mt-6 text-xl space-y-3">
             <p className="text-xs text-[color:var(--color-text-subtle)]">
-              Backend • Frontend • Databases • Tools • AI / LLM
+              Backend • Frontend • Databases • Tools • Servers • AI / LLM
             </p>
             <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 gap-5 border-gray-300/40 border p-4 sm:p-5 rounded-2xl text-[color:var(--color-text-main)] justify-items-center">
               {techCategories
