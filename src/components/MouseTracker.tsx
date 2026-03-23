@@ -1,45 +1,167 @@
-import { useEffect, useState } from "react"
-import Dot from "../assets/icons/pointer.svg"
+import { useEffect, useRef, useCallback, useState } from "react"
 
-type MousePosition = {
-  x: number
-  y: number
+type CursorState = {
+  label: string
+  isHovering: boolean
+  isClicking: boolean
+  isHidden: boolean
 }
 
 const MouseTracker: React.FC = () => {
-  const [pos, setPos] = useState<MousePosition>({ x: 0, y: 0 })
-  const showCustomCursor = typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches
+  const cursorRef = useRef<HTMLDivElement>(null)
+  const mouse = useRef({ x: -100, y: -100 })
+  const rafId = useRef<number>(0)
+
+  const [state, setState] = useState<CursorState>({
+    label: "",
+    isHovering: false,
+    isClicking: false,
+    isHidden: false,
+  })
+
+  const showCustomCursor =
+    typeof window !== "undefined" &&
+    window.matchMedia("(pointer: fine)").matches
+
+  const animate = useCallback(() => {
+    if (cursorRef.current) {
+      cursorRef.current.style.transform = `translate(${mouse.current.x}px, ${mouse.current.y}px) translate(-50%, -50%)`
+    }
+    rafId.current = requestAnimationFrame(animate)
+  }, [])
+
+  const getLabelForElement = (el: HTMLElement): string => {
+    const target = el.closest("a, button, [role='button'], [data-cursor-label]") as HTMLElement | null
+    if (!target) return ""
+
+    // Custom override via data attribute
+    if (target.dataset.cursorLabel) return target.dataset.cursorLabel
+
+    // GitHub repo links
+    const href = (target as HTMLAnchorElement).href || ""
+    if (href.includes("github.com")) return "GITHUB"
+
+    // External links
+    if (target.tagName === "A") {
+      const isExternal = href.startsWith("http") && !href.includes(window.location.hostname)
+      if (isExternal) return "OPEN"
+      return "VIEW"
+    }
+
+    if (target.tagName === "BUTTON" || target.getAttribute("role") === "button") {
+      return target.textContent?.trim().slice(0, 8).toUpperCase() || "CLICK"
+    }
+
+    return "VIEW"
+  }
 
   useEffect(() => {
     if (!showCustomCursor) return
 
-    const handleMove = (e: MouseEvent) => {
-      setPos({
-        x: e.clientX,
-        y: e.clientY,
-      })
+    const previousCursor = document.body.style.cursor
+    document.body.style.cursor = "none"
+
+    const onMove = (e: MouseEvent) => {
+      mouse.current = { x: e.clientX, y: e.clientY }
     }
 
-    window.addEventListener("mousemove", handleMove)
+    const onMouseOver = (e: MouseEvent) => {
+      const label = getLabelForElement(e.target as HTMLElement)
+      if (label) {
+        setState(s => ({ ...s, isHovering: true, label }))
+      }
+    }
+
+    const onMouseOut = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      if (target.closest("a, button, [role='button'], [data-cursor-label]")) {
+        setState(s => ({ ...s, isHovering: false, label: "" }))
+      }
+    }
+
+    const onMouseDown = () => setState(s => ({ ...s, isClicking: true }))
+    const onMouseUp   = () => setState(s => ({ ...s, isClicking: false }))
+
+    const onMouseLeave = () => setState(s => ({ ...s, isHidden: true }))
+    const onMouseEnter = () => setState(s => ({ ...s, isHidden: false }))
+
+    window.addEventListener("mousemove", onMove)
+    window.addEventListener("mousedown", onMouseDown)
+    window.addEventListener("mouseup", onMouseUp)
+    document.addEventListener("mouseover", onMouseOver)
+    document.addEventListener("mouseout", onMouseOut)
+    document.addEventListener("mouseleave", onMouseLeave)
+    document.addEventListener("mouseenter", onMouseEnter)
+    rafId.current = requestAnimationFrame(animate)
 
     return () => {
-      window.removeEventListener("mousemove", handleMove)
+      window.removeEventListener("mousemove", onMove)
+      window.removeEventListener("mousedown", onMouseDown)
+      window.removeEventListener("mouseup", onMouseUp)
+      document.removeEventListener("mouseover", onMouseOver)
+      document.removeEventListener("mouseout", onMouseOut)
+      document.removeEventListener("mouseleave", onMouseLeave)
+      document.removeEventListener("mouseenter", onMouseEnter)
+      cancelAnimationFrame(rafId.current)
+      document.body.style.cursor = previousCursor
     }
-  }, [showCustomCursor])
+  }, [showCustomCursor, animate])
 
-  if (!showCustomCursor) {
-    return null
-  }
+  if (!showCustomCursor) return null
+
+  const { label, isHovering, isClicking, isHidden } = state
+
+  // Pill size: expands horizontally when hovering
+  const width  = isHovering ? (label.length > 4 ? "90px" : "72px") : isClicking ? "16px" : "20px"
+  const height = isHovering ? "32px" : isClicking ? "16px" : "20px"
 
   return (
-    <img
-      src={Dot}
-      alt="cursor-dot"
-      className="fixed top-0 left-0 w-4 h-4 pointer-events-none z-[9999] transition-transform duration-75"
+    <div
+      ref={cursorRef}
       style={{
-        transform: `translate(${pos.x}px, ${pos.y}px) translate(-50%, -50%)`,
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width,
+        height,
+        borderRadius: "999px",
+        backgroundColor: "#ffffff",
+        mixBlendMode: "difference",
+        pointerEvents: "none",
+        zIndex: 9999,
+        willChange: "transform",
+        opacity: isHidden ? 0 : 1,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+        transition: [
+          "width 350ms cubic-bezier(0.34,1.56,0.64,1)",
+          "height 350ms cubic-bezier(0.34,1.56,0.64,1)",
+          "opacity 300ms ease",
+        ].join(", "),
       }}
-    />
+    >
+      {isHovering && label && (
+        <span
+          style={{
+            fontSize: "9px",
+            fontWeight: 700,
+            letterSpacing: "0.12em",
+            color: "#000000",
+            textTransform: "uppercase",
+            whiteSpace: "nowrap",
+            userSelect: "none",
+            mixBlendMode: "normal",
+            fontFamily: "monospace",
+            opacity: isHovering ? 1 : 0,
+            transition: "opacity 200ms ease 100ms",
+          }}
+        >
+          {label}
+        </span>
+      )}
+    </div>
   )
 }
 
