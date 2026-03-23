@@ -39,8 +39,8 @@ The site is optimized for desktop and mobile, includes a theme toggle (light/dar
 ### Installation
 
 ```bash
-git clone https://github.com/<your-username>/suryaportfolio.git
-cd suryaPortfolio
+git clone https://github.com/suresurya/portfolio.git
+cd portfolio
 npm install
 ```
 
