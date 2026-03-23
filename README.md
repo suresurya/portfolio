@@ -4,6 +4,12 @@ This repository contains **Surya's personal developer portfolio** – a single-p
 
 The site is optimized for desktop and mobile, includes a theme toggle (light/dark), smooth transitions, and integrates a GitHub contribution calendar.
 
+### Live Demo
+
+Hosted on GitHub Pages:
+
+https://suresurya.github.io/portfolio/
+
 ---
 
 ## Features
