@@ -27,6 +27,13 @@ https://suresurya.github.io/portfolio/
 - GitHub activity calendar using `react-github-calendar`
 - Resume and contact sections so people can reach out easily
 
+### Sections Overview
+
+- **Hero / Intro:** brief introduction and highlight of who I am
+- **Projects:** curated list of my favorite personal and academic projects
+- **Resume:** quick view of experience, education, and skills
+- **Contact:** ways to reach me for opportunities or collaboration
+
 ---
 
 ## Tech Stack
