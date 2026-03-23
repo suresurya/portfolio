@@ -139,7 +139,7 @@ I am Sure Sri Venkat Rama Surya, a 3rd-year B.Tech CSE student at Vignan Foundat
       <div id="additional-info" className="mt-4 sm:mt-6 text-xs sm:text-sm text-[color:var(--color-text-subtle)]">
         <p className="font-semibold text-[color:var(--color-text-main)]">Additional Information</p>
         <p className="mt-1">
-          Hobbies: fitness, anime, learning new technologies, and building automation systems.
+          Hobbies: Anime, learning new technologies, and building automation systems.
         </p>
         <p className="mt-1">
           Outside of tech, I enjoy 60+ WPM touch typing practice, swimming, drawing, Taekwondo (up to yellow belt), and solving various Rubik&apos;s cubes (3×3, 2×2, mirror cube, Pyraminx, Megaminx).

@@ -1,73 +1,125 @@
-# React + TypeScript + Vite
+## Surya Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains **Surya's personal developer portfolio** – a single-page React application built with **TypeScript**, **Vite**, and **Tailwind CSS**. It showcases projects, skills, and experience with a modern, animated UI.
 
-Currently, two official plugins are available:
+The site is optimized for desktop and mobile, includes a theme toggle (light/dark), smooth transitions, and integrates a GitHub contribution calendar.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Clean, responsive layout focused on readability
+- Dark and light themes with smooth animated transitions
+- Custom mouse tracking and subtle motion effects
+- Projects section highlighting multiple real-world projects
+- GitHub activity calendar using `react-github-calendar`
+- Resume and contact sections so people can reach out easily
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Framework:** React 19 + React DOM
+- **Language:** TypeScript
+- **Bundler/Dev Server:** Vite
+- **Styling:** Tailwind CSS 4, custom CSS variables, Google Fonts
+- **Routing:** React Router
+- **UI Helpers:** `react-icons`, `clsx`, `tailwind-merge`
+- **Tooling:** ESLint, TypeScript
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Getting Started
+
+### Prerequisites
+
+- Node.js (recommended: 18 or later)
+- npm (comes with Node)
+
+### Installation
+
+```bash
+git clone https://github.com/<your-username>/suryaportfolio.git
+cd suryaPortfolio
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Run in development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+The app will start on the URL shown in the terminal (by default `http://localhost:5173`).
+
+### Build for production
+
+```bash
+npm run build
+```
+
+### Preview production build
+
+```bash
+npm run preview
+```
+
+### Lint
+
+```bash
+npm run lint
+```
+
+---
+
+## Project Structure
+
+```text
+suryaPortfolio/
+├─ public/              # Static assets
+├─ src/
+│  ├─ components/       # Page sections (Body, NavBar, Projects, Contact, etc.)
+│  ├─ components/projects/  # Individual project components
+│  ├─ assets/           # Images and icons used across the site
+│  ├─ utils/            # Shared helpers
+│  ├─ App.tsx           # Root application component
+│  └─ main.tsx          # React/Vite entry point
+├─ index.html
+├─ package.json
+└─ vite.config.ts
+```
+
+---
+
+## Deployment
+
+This app is configured to use **Vite** and includes the `gh-pages` package so it can be deployed to **GitHub Pages**.
+
+Typical deployment flow:
+
+1. Build the site: `npm run build`
+2. Deploy the contents of `dist/` to GitHub Pages (for example using a `deploy` script with `gh-pages`)
+
+> If you host this portfolio somewhere else (Vercel, Netlify, etc.), you can deploy the contents of `dist/` using that platform's instructions.
+
+---
+
+## Customization
+
+- Update the content in `src/components` (intro text, skills, resume details, etc.)
+- Add or edit project cards in `src/components/projects`
+- Tweak global styles in `src/index.css`
+- Replace or add images in `src/assets`
+
+---
+
+## Contact
+
+You can customize this section in the UI, but typically it will include:
+
+- Email address
+- LinkedIn / GitHub profile links
+- Any other social/contact options
+
+This portfolio is maintained by **Surya (vathsav)**.
+
