@@ -209,7 +209,6 @@ I am Sure Sri Venkat Rama Surya, a 3rd-year B.Tech CSE student at Vignan Foundat
                   <img
                     src={item.icon}
                     alt={item.name}
-                    title={item.name}
                     className={"h-[38px] w-[38px] object-contain transition-transform duration-200 group-hover:scale-105 " + (item.className ?? "")}
                     height={38}
                     width={38}
