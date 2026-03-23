@@ -29,6 +29,7 @@ import GitHubIcon from "../assets/icons/github-icon.svg"
 
 const Body = () => {
   const [online, setOnline] = useState<boolean>(true);
+  const [activeCategory, setActiveCategory] = useState<string>("All");
 
   useEffect(() => {
     const inter = setInterval(() => {
@@ -88,6 +89,14 @@ const Body = () => {
       items: [{ name: "Ollama", icon: Ollama, className: "tech-icon-invert-dark" }],
     },
   ];
+
+  const allTechItems = techCategories.flatMap((category) => category.items);
+  const visibleTechItems =
+    activeCategory === "All"
+      ? allTechItems
+      : techCategories.find((category) => category.title === activeCategory)?.items ?? [];
+
+  const categoryLabels = ["All", ...techCategories.map((category) => category.title)];
   return (
     <div className="font-jetMono mt-6 sm:mt-10">
       <div id="image" className="mb-5 w-fit relative p-0">
@@ -176,22 +185,40 @@ I am Sure Sri Venkat Rama Surya, a 3rd-year B.Tech CSE student at Vignan Foundat
           </p>
 
           <div id="icons" className="mt-6 text-xl space-y-3">
-            <p className="text-xs text-[color:var(--color-text-subtle)]">
-              Backend • Frontend • Databases • Tools • Servers • AI / LLM
-            </p>
+            <div className="text-xs text-[color:var(--color-text-subtle)] flex flex-wrap items-center gap-x-2 gap-y-1">
+              {categoryLabels.map((label, index) => (
+                <span key={label} className="inline-flex items-center gap-2">
+                  <span
+                    onClick={() => setActiveCategory(label)}
+                    className={
+                      "cursor-pointer transition-colors duration-200 " +
+                      (activeCategory === label
+                        ? "text-[color:var(--color-text-main)] font-semibold underline underline-offset-4"
+                        : "hover:text-[color:var(--color-text-main)]")
+                    }
+                  >
+                    {label}
+                  </span>
+                  {index < categoryLabels.length - 1 && <span aria-hidden="true">•</span>}
+                </span>
+              ))}
+            </div>
             <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 gap-5 border-gray-300/40 border p-4 sm:p-5 rounded-2xl text-[color:var(--color-text-main)] justify-items-center">
-              {techCategories
-                .flatMap((category) => category.items)
-                .map((item) => (
+              {visibleTechItems.map((item) => (
+                <div key={item.name} className="group relative flex items-center justify-center">
                   <img
                     src={item.icon}
                     alt={item.name}
-                    key={item.name}
-                    className={"h-[38px] w-[38px] object-contain " + (item.className ?? "")}
+                    title={item.name}
+                    className={"h-[38px] w-[38px] object-contain transition-transform duration-200 group-hover:scale-105 " + (item.className ?? "")}
                     height={38}
                     width={38}
                   />
-                ))}
+                  <span className="pointer-events-none absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md border border-gray-300/40 bg-[color:var(--color-bg-surface)] px-2 py-0.5 text-[10px] text-[color:var(--color-text-main)] opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100">
+                    {item.name}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
