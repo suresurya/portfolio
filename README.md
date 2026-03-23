@@ -115,6 +115,12 @@ suryaPortfolio/
 └─ vite.config.ts
 ```
 
+You can explore more detailed UI behavior in:
+
+- `src/components/Body.tsx` – main layout and sections
+- `src/components/NavBar.tsx` – navigation bar and theme toggle entry
+- `src/components/projects/*` – individual project cards and details
+
 ---
 
 ## Deployment
