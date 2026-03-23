@@ -1,9 +1,11 @@
 {
   "name": "suryaportfolio",
-  "author":"vathsav",
+  "author": "vathsav",
+  "description": "Personal developer portfolio for Surya (vathsav) built with React, TypeScript, Vite, and Tailwind CSS.",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://suresurya.github.io/portfolio/",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
