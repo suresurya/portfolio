@@ -70,6 +70,13 @@ npm run preview
 npm run lint
 ```
 
+### Available Scripts
+
+- `npm run dev` – start the Vite development server
+- `npm run build` – type-check and build the app for production
+- `npm run preview` – preview the built app locally
+- `npm run lint` – run ESLint on the project
+
 ---
 
 ## Project Structure
