@@ -13,10 +13,7 @@ const getInitialTheme = (): Theme => {
     return stored;
   }
 
-  if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
-    return "light";
-  }
-
+  // Default theme should be dark unless the user explicitly chose otherwise.
   return "dark";
 };
 
@@ -65,14 +62,19 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     runWave(next, x, y);
   };
 
-  const overlayClass =
-    `theme-wave ${waveActive ? "theme-wave--animate" : ""} ` +
-    (waveTheme === "dark" ? "bg-[#000000]" : waveTheme === "light" ? "bg-[#f9fafb]" : "");
+  const overlayClass = `theme-wave ${waveActive ? "theme-wave--animate" : ""}`;
+
+  const overlayStyle =
+    waveTheme === "dark"
+      ? { backgroundColor: "var(--color-bg-dark)" }
+      : waveTheme === "light"
+        ? { backgroundColor: "var(--color-bg-light)" }
+        : undefined;
 
   return (
     <ThemeContext.Provider value={{ theme, toggleThemeFromClick }}>
       {children}
-      {waveTheme && <div className={overlayClass} />}
+      {waveTheme && <div className={overlayClass} style={overlayStyle} />}
     </ThemeContext.Provider>
   );
 };

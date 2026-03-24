@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Surya Portfolio</title>
+		<meta name="theme-color" content="#000000" />
+		<meta
+			name="description"
+			content="Surya's personal developer portfolio built with React, TypeScript, Vite, and Tailwind CSS."
+		/>
+		<meta property="og:title" content="Surya Portfolio" />
+		<meta
+			property="og:description"
+			content="Personal developer portfolio for Surya (Java/Full-stack) built with React, TypeScript, Vite, and Tailwind CSS."
+		/>
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://suresurya.github.io/portfolio/" />
+		<meta name="twitter:card" content="summary" />
+		<script>
+			(() => {
+				try {
+					const stored = localStorage.getItem('theme');
+					const theme = stored === 'light' || stored === 'dark' ? stored : 'dark';
+					document.documentElement.setAttribute('data-theme', theme);
+				} catch {
+					document.documentElement.setAttribute('data-theme', 'dark');
+				}
+			})();
+		</script>
+	</head>
+	<body>
+		<div id="root"></div>
+		<script type="module" src="/src/main.tsx"></script>
+	</body>
+  
+</html>
+

@@ -5,14 +5,10 @@ import { FaLinkedin } from "react-icons/fa";
 import { FaDiscord } from "react-icons/fa";
 import { FaMedium } from "react-icons/fa";
 import { SiUdemy } from "react-icons/si";
-import { IoSunnyOutline } from "react-icons/io5";   
-import { IoMoonOutline } from "react-icons/io5";
 import { cn } from "../cn";
-import { useTheme } from "./theme-context";
+import { ThemeToggle } from "./ThemeToggle";
 
 const NavBar = () => {
-
-    const { theme, toggleThemeFromClick } = useTheme();
 
     const nav_links = [
         {
@@ -82,23 +78,9 @@ const NavBar = () => {
                                                 <span className="text-lg sm:text-xl transition-transform duration-300 hover:-translate-y-0.5 hover:scale-110 hover:text-[color:var(--color-accent)]">
                                                     <FaDiscord />
                                                 </span>
-                                                <span className="hidden sm:inline"></span>
+                                                                        <span className="hidden sm:inline">sure_surya_007_</span>
                        </div>
-                       <button
-                        id="mode"
-                        type="button"
-                        onClick={(e) => toggleThemeFromClick(e)}
-                        className={
-                            cn(
-                                "size-8 rounded-full flex items-center justify-center border theme-border-subtle",
-                                "bg-[color:var(--color-toggle-bg)] text-[color:var(--color-toggle-icon)]",
-                                "shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
-                            )
-                        }
-                        aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-                       >
-                        {theme === "dark" ? <IoSunnyOutline/> : <IoMoonOutline/>}
-                       </button>
+                                               <ThemeToggle />
                     </div>
                 </div>
                 

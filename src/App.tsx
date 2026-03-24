@@ -9,11 +9,13 @@ import SamuraiGame from "./components/projects/SamuraiGame"
 import RestaurantLanding from "./components/projects/RestaurantLanding"
 import DSA from "./components/projects/DSA"
 import IQAC from "./components/projects/IQAC"
+import ErrorPage from "./components/Error"
 
 const router = createBrowserRouter([
   {
     path:"/",
     element:<Main/>,
+    errorElement: <ErrorPage />,
     children:[
       {
         index:true,
@@ -37,6 +39,10 @@ const router = createBrowserRouter([
       {
         path:"contact",
         element:<Contact/>
+      },
+      {
+        path: "*",
+        element: <ErrorPage />
       }
     ]
   },

@@ -1,40 +1,22 @@
-import { useState, useEffect } from 'react';
-import { FiSun, FiMoon } from 'react-icons/fi';
-
-const getInitialDarkMode = () => {
-  if (typeof window === 'undefined') return false;
-
-  const storedTheme = window.localStorage.getItem('theme');
-  return storedTheme === 'dark' ||
-    (!storedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
-};
+import { IoMoonOutline, IoSunnyOutline } from "react-icons/io5";
+import { cn } from "../cn";
+import { useTheme } from "./theme-context";
 
 export const ThemeToggle = () => {
-  const [darkMode, setDarkMode] = useState(getInitialDarkMode);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', darkMode);
-    window.localStorage.setItem('theme', darkMode ? 'dark' : 'light');
-  }, [darkMode]);
-
-  const toggleTheme = () => {
-    const newDarkMode = !darkMode;
-    setDarkMode(newDarkMode);
-    document.documentElement.classList.toggle('dark', newDarkMode);
-    window.localStorage.setItem('theme', newDarkMode ? 'dark' : 'light');
-  };
+  const { theme, toggleThemeFromClick } = useTheme();
 
   return (
     <button
-      onClick={toggleTheme}
-      className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
-      aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-    >
-      {darkMode ? (
-        <FiSun className="w-5 h-5 text-yellow-400" />
-      ) : (
-        <FiMoon className="w-5 h-5 text-gray-600" />
+      type="button"
+      onClick={(e) => toggleThemeFromClick(e)}
+      className={cn(
+        "size-8 rounded-full flex items-center justify-center border theme-border-subtle",
+        "bg-[color:var(--color-toggle-bg)] text-[color:var(--color-toggle-icon)]",
+        "shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
       )}
+      aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+    >
+      {theme === "dark" ? <IoSunnyOutline /> : <IoMoonOutline />}
     </button>
   );
 };

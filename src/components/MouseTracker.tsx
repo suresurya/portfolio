@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 type CursorState = {
   label: string
@@ -21,13 +21,8 @@ const MouseTracker: React.FC = () => {
 
   const showCustomCursor =
     typeof window !== "undefined" &&
-    window.matchMedia("(pointer: fine)").matches
-
-  const animate = useCallback(() => {
-    if (cursorRef.current) {
-      cursorRef.current.style.transform = `translate(${mouse.current.x}px, ${mouse.current.y}px) translate(-50%, -50%)`
-    }
-  }, [])
+    window.matchMedia("(pointer: fine)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
 
   const getLabelForElement = (el: HTMLElement): string => {
     const target = el.closest("a, button, [role='button'], [data-cursor-label]") as HTMLElement | null
@@ -88,12 +83,19 @@ const MouseTracker: React.FC = () => {
     document.addEventListener("mouseleave", onMouseLeave)
     document.addEventListener("mouseenter", onMouseEnter)
 
-    const loop = () => {
-      animate()
-      rafId.current = requestAnimationFrame(loop)
+    let running = true
+
+    const tick = () => {
+      if (!running) return
+
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate(${mouse.current.x}px, ${mouse.current.y}px) translate(-50%, -50%)`
+      }
+
+      rafId.current = requestAnimationFrame(tick)
     }
 
-    rafId.current = requestAnimationFrame(loop)
+    rafId.current = requestAnimationFrame(tick)
 
     return () => {
       window.removeEventListener("mousemove", onMove)
@@ -103,10 +105,12 @@ const MouseTracker: React.FC = () => {
       document.removeEventListener("mouseout", onMouseOut)
       document.removeEventListener("mouseleave", onMouseLeave)
       document.removeEventListener("mouseenter", onMouseEnter)
+
+      running = false
       cancelAnimationFrame(rafId.current)
       document.body.style.cursor = previousCursor
     }
-  }, [showCustomCursor, animate])
+  }, [showCustomCursor])
 
   if (!showCustomCursor) return null
 
@@ -117,11 +121,21 @@ const MouseTracker: React.FC = () => {
 
   return (
     <>
-      {/* Kills the browser hand/pointer cursor on every element */}
-      <style>{`*, *::before, *::after { cursor: none !important; }`}</style>
+      {/* Hide the system cursor only when the custom cursor is enabled */}
+      <style>{`
+        html, body { cursor: none !important; }
+        a, button, [role='button'], [data-cursor-label] { cursor: none !important; }
+        @media (pointer: coarse) {
+          html, body, a, button, [role='button'], [data-cursor-label] { cursor: auto !important; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          html, body, a, button, [role='button'], [data-cursor-label] { cursor: auto !important; }
+        }
+      `}</style>
 
       <div
         ref={cursorRef}
+        aria-hidden="true"
         style={{
           position: "fixed",
           top: 0,

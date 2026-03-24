@@ -41,7 +41,7 @@ const Contact = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <a
-          href="https://github.com/luffynokaizoku"
+          href="https://github.com/suresurya"
           target="_blank"
           rel="noopener noreferrer"
           className="theme-card-glass rounded-2xl p-5 border theme-border-subtle hover:-translate-y-0.5 transition-transform"
