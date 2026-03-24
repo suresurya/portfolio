@@ -18,6 +18,7 @@ import Spring from  "../assets/icons/spring.svg"
 import MySql from  "../assets/icons/sql.svg"
 import HTML5 from  "../assets/icons/HTML5.svg"
 import CSS3 from  "../assets/icons/CSS3.svg"
+import JavaScriptIcon from "../assets/icons/JavaScript.svg";
 import ApacheTomcat from  "../assets/icons/Apache Tomcat.svg"
 import Ollama from  "../assets/icons/ollama.svg"
 import Python from  "../assets/icons/Python.svg"
@@ -60,6 +61,7 @@ const Body = () => {
       items: [
         { name: "HTML5", icon: HTML5 },
         { name: "CSS3", icon: CSS3 },
+        { name: "JavaScript", icon: JavaScriptIcon },
         { name: "React", icon: React },
       ],
     },
