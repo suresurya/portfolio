@@ -34,14 +34,11 @@ const MouseTracker: React.FC = () => {
     const target = el.closest("a, button, [role='button'], [data-cursor-label]") as HTMLElement | null
     if (!target) return ""
 
-    // Custom override via data attribute
     if (target.dataset.cursorLabel) return target.dataset.cursorLabel
 
-    // GitHub repo links
     const href = (target as HTMLAnchorElement).href || ""
     if (href.includes("github.com")) return "GITHUB"
 
-    // External links
     if (target.tagName === "A") {
       const isExternal = href.startsWith("http") && !href.includes(window.location.hostname)
       if (isExternal) return "OPEN"
@@ -80,8 +77,7 @@ const MouseTracker: React.FC = () => {
     }
 
     const onMouseDown = () => setState(s => ({ ...s, isClicking: true }))
-    const onMouseUp   = () => setState(s => ({ ...s, isClicking: false }))
-
+    const onMouseUp = () => setState(s => ({ ...s, isClicking: false }))
     const onMouseLeave = () => setState(s => ({ ...s, isHidden: true }))
     const onMouseEnter = () => setState(s => ({ ...s, isHidden: false }))
 
@@ -111,57 +107,61 @@ const MouseTracker: React.FC = () => {
 
   const { label, isHovering, isClicking, isHidden } = state
 
-  // Pill size: expands horizontally when hovering
   const width  = isHovering ? (label.length > 4 ? "90px" : "72px") : isClicking ? "16px" : "20px"
   const height = isHovering ? "32px" : isClicking ? "16px" : "20px"
 
   return (
-    <div
-      ref={cursorRef}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width,
-        height,
-        borderRadius: "999px",
-        backgroundColor: "#ffffff",
-        mixBlendMode: "difference",
-        pointerEvents: "none",
-        zIndex: 9999,
-        willChange: "transform",
-        opacity: isHidden ? 0 : 1,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        overflow: "hidden",
-        transition: [
-          "width 350ms cubic-bezier(0.34,1.56,0.64,1)",
-          "height 350ms cubic-bezier(0.34,1.56,0.64,1)",
-          "opacity 300ms ease",
-        ].join(", "),
-      }}
-    >
-      {isHovering && label && (
-        <span
-          style={{
-            fontSize: "9px",
-            fontWeight: 700,
-            letterSpacing: "0.12em",
-            color: "#000000",
-            textTransform: "uppercase",
-            whiteSpace: "nowrap",
-            userSelect: "none",
-            mixBlendMode: "normal",
-            fontFamily: "monospace",
-            opacity: isHovering ? 1 : 0,
-            transition: "opacity 200ms ease 100ms",
-          }}
-        >
-          {label}
-        </span>
-      )}
-    </div>
+    <>
+      {/* Kills the browser hand/pointer cursor on every element */}
+      <style>{`*, *::before, *::after { cursor: none !important; }`}</style>
+
+      <div
+        ref={cursorRef}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width,
+          height,
+          borderRadius: "999px",
+          backgroundColor: "#ffffff",
+          mixBlendMode: "difference",
+          pointerEvents: "none",
+          zIndex: 9999,
+          willChange: "transform",
+          opacity: isHidden ? 0 : 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          overflow: "hidden",
+          transition: [
+            "width 350ms cubic-bezier(0.34,1.56,0.64,1)",
+            "height 350ms cubic-bezier(0.34,1.56,0.64,1)",
+            "opacity 300ms ease",
+          ].join(", "),
+        }}
+      >
+        {isHovering && label && (
+          <span
+            style={{
+              fontSize: "9px",
+              fontWeight: 700,
+              letterSpacing: "0.12em",
+              color: "#000000",
+              textTransform: "uppercase",
+              whiteSpace: "nowrap",
+              userSelect: "none",
+              mixBlendMode: "normal",
+              fontFamily: "monospace",
+              opacity: isHovering ? 1 : 0,
+              transition: "opacity 200ms ease 100ms",
+            }}
+          >
+            {label}
+          </span>
+        )}
+      </div>
+    </>
   )
 }
 
