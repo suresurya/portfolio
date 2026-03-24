@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 type CursorState = {
   label: string
@@ -27,7 +27,6 @@ const MouseTracker: React.FC = () => {
     if (cursorRef.current) {
       cursorRef.current.style.transform = `translate(${mouse.current.x}px, ${mouse.current.y}px) translate(-50%, -50%)`
     }
-    rafId.current = requestAnimationFrame(animate)
   }, [])
 
   const getLabelForElement = (el: HTMLElement): string => {
@@ -88,7 +87,13 @@ const MouseTracker: React.FC = () => {
     document.addEventListener("mouseout", onMouseOut)
     document.addEventListener("mouseleave", onMouseLeave)
     document.addEventListener("mouseenter", onMouseEnter)
-    rafId.current = requestAnimationFrame(animate)
+
+    const loop = () => {
+      animate()
+      rafId.current = requestAnimationFrame(loop)
+    }
+
+    rafId.current = requestAnimationFrame(loop)
 
     return () => {
       window.removeEventListener("mousemove", onMove)
