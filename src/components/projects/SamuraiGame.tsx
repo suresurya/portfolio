@@ -1,4 +1,4 @@
-import { MoreProjects, ProjectBackLink } from "./ProjectPageExtras";
+import { ProjectBackLink } from "./ProjectPageExtras";
 
 const SamuraiGame = () => {
   return (
@@ -61,8 +61,6 @@ const SamuraiGame = () => {
           </a>
         </div>
       </div>
-
-      <MoreProjects currentKey="samurai-game" />
     </div>
   );
 };

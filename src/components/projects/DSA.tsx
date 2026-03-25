@@ -1,4 +1,4 @@
-import { MoreProjects, ProjectBackLink } from "./ProjectPageExtras";
+import { ProjectBackLink } from "./ProjectPageExtras";
 
 const DSA = () => {
   return (
@@ -34,8 +34,6 @@ const DSA = () => {
           </div>
         </div>
       </div>
-
-      <MoreProjects currentKey="dsa" />
     </div>
   );
 };

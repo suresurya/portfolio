@@ -1,4 +1,4 @@
-import { MoreProjects, ProjectBackLink } from "./ProjectPageExtras";
+import { ProjectBackLink } from "./ProjectPageExtras";
 
 const RestaurantLanding = () => {
   return (
@@ -35,8 +35,6 @@ const RestaurantLanding = () => {
           </ul>
         </div>
       </div>
-
-      <MoreProjects currentKey="restaurant-landing" />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { MoreProjects, ProjectBackLink } from "./ProjectPageExtras";
+import { ProjectBackLink } from "./ProjectPageExtras";
 
 const IQAC = () => {
   return (
@@ -63,8 +63,6 @@ const IQAC = () => {
           </a>
         </div>
       </div>
-
-      <MoreProjects currentKey="iqac" />
     </div>
   );
 };

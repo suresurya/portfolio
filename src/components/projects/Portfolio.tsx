@@ -1,4 +1,4 @@
-import { MoreProjects, ProjectBackLink } from "./ProjectPageExtras";
+import { ProjectBackLink } from "./ProjectPageExtras";
 
 const Portfolio = () => {
   return (
@@ -58,8 +58,6 @@ const Portfolio = () => {
           </a>
         </div>
       </div>
-
-      <MoreProjects currentKey="portfolio" />
     </div>
   );
 };
