@@ -1,6 +1,9 @@
+import { MoreProjects, ProjectBackLink } from "./ProjectPageExtras";
+
 const IQAC = () => {
   return (
     <div className="mt-10 space-y-5">
+      <ProjectBackLink />
       <h1 className="text-2xl font-bold tracking-tight">
         AI-Powered IQAC Academic Intelligence System
       </h1>
@@ -60,6 +63,8 @@ const IQAC = () => {
           </a>
         </div>
       </div>
+
+      <MoreProjects currentKey="iqac" />
     </div>
   );
 };

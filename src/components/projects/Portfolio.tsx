@@ -1,6 +1,9 @@
+import { MoreProjects, ProjectBackLink } from "./ProjectPageExtras";
+
 const Portfolio = () => {
   return (
     <div className="mt-10 space-y-5">
+      <ProjectBackLink />
       <h1 className="text-2xl font-bold tracking-tight">Portfolio Website</h1>
 
       <p className="text-[color:var(--color-text-subtle)] max-w-2xl">
@@ -55,6 +58,8 @@ const Portfolio = () => {
           </a>
         </div>
       </div>
+
+      <MoreProjects currentKey="portfolio" />
     </div>
   );
 };

@@ -1,6 +1,9 @@
+import { MoreProjects, ProjectBackLink } from "./ProjectPageExtras";
+
 const RestaurantLanding = () => {
   return (
     <div className="mt-10 space-y-5">
+      <ProjectBackLink />
       <h1 className="text-2xl font-bold tracking-tight">Restaurant Landing Page</h1>
 
       <p className="text-[color:var(--color-text-subtle)] max-w-2xl">
@@ -32,6 +35,8 @@ const RestaurantLanding = () => {
           </ul>
         </div>
       </div>
+
+      <MoreProjects currentKey="restaurant-landing" />
     </div>
   );
 };

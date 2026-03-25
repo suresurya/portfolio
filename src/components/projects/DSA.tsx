@@ -1,6 +1,9 @@
+import { MoreProjects, ProjectBackLink } from "./ProjectPageExtras";
+
 const DSA = () => {
   return (
     <div className="mt-10 space-y-4">
+      <ProjectBackLink />
       <h1 className="text-2xl font-bold tracking-tight">DSA</h1>
       <p className="text-[color:var(--color-text-subtle)] max-w-xl">
         A collection of data structures and algorithms implemented in Java.
@@ -31,6 +34,8 @@ const DSA = () => {
           </div>
         </div>
       </div>
+
+      <MoreProjects currentKey="dsa" />
     </div>
   );
 };

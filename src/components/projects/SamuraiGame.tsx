@@ -1,6 +1,9 @@
+import { MoreProjects, ProjectBackLink } from "./ProjectPageExtras";
+
 const SamuraiGame = () => {
   return (
     <div className="mt-10 space-y-5">
+      <ProjectBackLink />
       <h1 className="text-2xl font-bold tracking-tight">Samurai Duel Saga</h1>
 
       <p className="text-[color:var(--color-text-subtle)] max-w-2xl">
@@ -58,6 +61,8 @@ const SamuraiGame = () => {
           </a>
         </div>
       </div>
+
+      <MoreProjects currentKey="samurai-game" />
     </div>
   );
 };
