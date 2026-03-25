@@ -9,7 +9,8 @@ type CursorState = {
 
 const MouseTracker: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null)
-  const mouse = useRef({ x: -100, y: -100 })
+  const target = useRef({ x: -100, y: -100 })
+  const current = useRef({ x: -100, y: -100 })
   const rafId = useRef<number>(0)
 
   const [state, setState] = useState<CursorState>({
@@ -25,22 +26,32 @@ const MouseTracker: React.FC = () => {
     !window.matchMedia("(prefers-reduced-motion: reduce)").matches
 
   const getLabelForElement = (el: HTMLElement): string => {
-    const target = el.closest("a, button, [role='button'], [data-cursor-label]") as HTMLElement | null
-    if (!target) return ""
+    const interactive = el.closest(
+      "a, button, input, textarea, select, label, [role='button'], [data-cursor-label]"
+    ) as HTMLElement | null
+    if (!interactive) return ""
 
-    if (target.dataset.cursorLabel) return target.dataset.cursorLabel
+    if (interactive.dataset.cursorLabel) return interactive.dataset.cursorLabel
 
-    const href = (target as HTMLAnchorElement).href || ""
-    if (href.includes("github.com")) return "GITHUB"
-
-    if (target.tagName === "A") {
-      const isExternal = href.startsWith("http") && !href.includes(window.location.hostname)
-      if (isExternal) return "OPEN"
-      return "VIEW"
+    if (interactive instanceof HTMLInputElement || interactive instanceof HTMLTextAreaElement) {
+      return "TYPE"
     }
 
-    if (target.tagName === "BUTTON" || target.getAttribute("role") === "button") {
-      return target.textContent?.trim().slice(0, 8).toUpperCase() || "CLICK"
+    if (interactive instanceof HTMLSelectElement) {
+      return "SELECT"
+    }
+
+    if (interactive instanceof HTMLAnchorElement) {
+      const href = interactive.href || ""
+      if (href.includes("github.com")) return "GITHUB"
+
+      const isExternal = href.startsWith("http") && !href.includes(window.location.hostname)
+      return isExternal ? "OPEN" : "VIEW"
+    }
+
+    if (interactive instanceof HTMLButtonElement || interactive.getAttribute("role") === "button") {
+      const text = interactive.textContent?.trim() || ""
+      return text ? text.slice(0, 10).toUpperCase() : "CLICK"
     }
 
     return "VIEW"
@@ -53,27 +64,40 @@ const MouseTracker: React.FC = () => {
     document.body.style.cursor = "none"
 
     const onMove = (e: MouseEvent) => {
-      mouse.current = { x: e.clientX, y: e.clientY }
+      target.current = { x: e.clientX, y: e.clientY }
     }
 
     const onMouseOver = (e: MouseEvent) => {
       const label = getLabelForElement(e.target as HTMLElement)
       if (label) {
-        setState(s => ({ ...s, isHovering: true, label }))
+        setState(prevState => ({ ...prevState, isHovering: true, label }))
       }
     }
 
     const onMouseOut = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      if (target.closest("a, button, [role='button'], [data-cursor-label]")) {
-        setState(s => ({ ...s, isHovering: false, label: "" }))
+      const element = e.target as HTMLElement
+      if (element.closest("a, button, input, textarea, select, label, [role='button'], [data-cursor-label]")) {
+        setState(prevState => ({ ...prevState, isHovering: false, label: "" }))
       }
     }
 
-    const onMouseDown = () => setState(s => ({ ...s, isClicking: true }))
-    const onMouseUp = () => setState(s => ({ ...s, isClicking: false }))
-    const onMouseLeave = () => setState(s => ({ ...s, isHidden: true }))
-    const onMouseEnter = () => setState(s => ({ ...s, isHidden: false }))
+    const onMouseDown = () => setState(prevState => ({ ...prevState, isClicking: true }))
+    const onMouseUp = () => setState(prevState => ({ ...prevState, isClicking: false }))
+    const onMouseLeave = () => setState(prevState => ({ ...prevState, isHidden: true }))
+    const onMouseEnter = () => setState(prevState => ({ ...prevState, isHidden: false }))
+
+    const onFocusIn = (e: FocusEvent) => {
+      const focused = e.target as HTMLElement | null
+      if (!focused) return
+
+      const label = getLabelForElement(focused)
+      if (!label) return
+      setState(prevState => ({ ...prevState, isHovering: true, label }))
+    }
+
+    const onFocusOut = () => {
+      setState(prevState => ({ ...prevState, isHovering: false, label: "" }))
+    }
 
     window.addEventListener("mousemove", onMove)
     window.addEventListener("mousedown", onMouseDown)
@@ -82,14 +106,22 @@ const MouseTracker: React.FC = () => {
     document.addEventListener("mouseout", onMouseOut)
     document.addEventListener("mouseleave", onMouseLeave)
     document.addEventListener("mouseenter", onMouseEnter)
+    document.addEventListener("focusin", onFocusIn)
+    document.addEventListener("focusout", onFocusOut)
 
     let running = true
+    const follow = 0.18
 
     const tick = () => {
       if (!running) return
 
+      const dx = target.current.x - current.current.x
+      const dy = target.current.y - current.current.y
+      current.current.x += dx * follow
+      current.current.y += dy * follow
+
       if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate(${mouse.current.x}px, ${mouse.current.y}px) translate(-50%, -50%)`
+        cursorRef.current.style.transform = `translate3d(${current.current.x}px, ${current.current.y}px, 0) translate(-50%, -50%)`
       }
 
       rafId.current = requestAnimationFrame(tick)
@@ -105,6 +137,8 @@ const MouseTracker: React.FC = () => {
       document.removeEventListener("mouseout", onMouseOut)
       document.removeEventListener("mouseleave", onMouseLeave)
       document.removeEventListener("mouseenter", onMouseEnter)
+      document.removeEventListener("focusin", onFocusIn)
+      document.removeEventListener("focusout", onFocusOut)
 
       running = false
       cancelAnimationFrame(rafId.current)
@@ -116,20 +150,22 @@ const MouseTracker: React.FC = () => {
 
   const { label, isHovering, isClicking, isHidden } = state
 
-  const width  = isHovering ? (label.length > 4 ? "90px" : "72px") : isClicking ? "16px" : "20px"
-  const height = isHovering ? "32px" : isClicking ? "16px" : "20px"
+  const width = isHovering ? (label.length > 6 ? "104px" : "84px") : isClicking ? "16px" : "22px"
+  const height = isHovering ? "34px" : isClicking ? "16px" : "22px"
+  const ringSize = isHovering ? "52px" : isClicking ? "26px" : "38px"
+  const ringOpacity = isHovering ? 1 : 0.72
 
   return (
     <>
       {/* Hide the system cursor only when the custom cursor is enabled */}
       <style>{`
         html, body { cursor: none !important; }
-        a, button, [role='button'], [data-cursor-label] { cursor: none !important; }
+        a, button, input, textarea, select, label, [role='button'], [data-cursor-label] { cursor: none !important; }
         @media (pointer: coarse) {
-          html, body, a, button, [role='button'], [data-cursor-label] { cursor: auto !important; }
+          html, body, a, button, input, textarea, select, label, [role='button'], [data-cursor-label] { cursor: auto !important; }
         }
         @media (prefers-reduced-motion: reduce) {
-          html, body, a, button, [role='button'], [data-cursor-label] { cursor: auto !important; }
+          html, body, a, button, input, textarea, select, label, [role='button'], [data-cursor-label] { cursor: auto !important; }
         }
       `}</style>
 
@@ -143,8 +179,7 @@ const MouseTracker: React.FC = () => {
           width,
           height,
           borderRadius: "999px",
-          backgroundColor: "#ffffff",
-          mixBlendMode: "difference",
+          backgroundColor: "var(--color-accent)",
           pointerEvents: "none",
           zIndex: 9999,
           willChange: "transform",
@@ -157,23 +192,48 @@ const MouseTracker: React.FC = () => {
             "width 350ms cubic-bezier(0.34,1.56,0.64,1)",
             "height 350ms cubic-bezier(0.34,1.56,0.64,1)",
             "opacity 300ms ease",
+            "background-color 250ms ease",
           ].join(", "),
         }}
       >
+        {/* Outer ring */}
+        <div
+          style={{
+            position: "absolute",
+            inset: "50% auto auto 50%",
+            width: ringSize,
+            height: ringSize,
+            borderRadius: "999px",
+            border: "1px solid var(--color-accent)",
+            opacity: isHidden ? 0 : ringOpacity,
+            transform: "translate(-50%, -50%)",
+            transition: [
+              "width 380ms cubic-bezier(0.34,1.56,0.64,1)",
+              "height 380ms cubic-bezier(0.34,1.56,0.64,1)",
+              "opacity 250ms ease",
+            ].join(", "),
+          }}
+        />
+
+        {/* Label pill */}
         {isHovering && label && (
           <span
             style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
               fontSize: "9px",
-              fontWeight: 700,
-              letterSpacing: "0.12em",
-              color: "#000000",
+              fontWeight: 800,
+              letterSpacing: "0.14em",
+              color: "var(--color-bg)",
               textTransform: "uppercase",
               whiteSpace: "nowrap",
               userSelect: "none",
-              mixBlendMode: "normal",
               fontFamily: "monospace",
-              opacity: isHovering ? 1 : 0,
-              transition: "opacity 200ms ease 100ms",
+              opacity: isHidden ? 0 : 1,
+              transition: "opacity 200ms ease 90ms",
+              padding: "0 2px",
             }}
           >
             {label}
