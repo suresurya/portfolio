@@ -26,6 +26,9 @@ import PostgresSQL from  "../assets/icons/PostgresSQL.svg"
 import GitIcon from  "../assets/icons/Git.svg"
 import GradleIcon from  "../assets/icons/Gradle.svg"
 import GitHubIcon from "../assets/icons/github-icon.svg"
+import DockerIcon from "../assets/icons/Docker.svg"
+import PodmanIcon from "../assets/icons/Podman.svg"
+import SpringAiIcon from "../assets/icons/spring-ai.svg"
 
 
 const Body = () => {
@@ -54,6 +57,7 @@ const Body = () => {
         { name: "Express.js", icon: Express, className: "tech-icon-invert-light" },
         { name: "Python", icon: Python },
         { name: "Gradle", icon: GradleIcon },
+        { name: "Spring AI", icon: SpringAiIcon },
       ],
     },
     {
@@ -80,6 +84,8 @@ const Body = () => {
         { name: "PyCharm", icon: PyCharm },
         { name: "Git", icon: GitIcon },
         { name: "GitHub", icon: GitHubIcon, className: "tech-icon-invert-dark" },
+        { name: "Docker", icon: DockerIcon },
+        { name: "Podman", icon: PodmanIcon },
       ],
     },
     {
