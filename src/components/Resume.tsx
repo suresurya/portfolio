@@ -1,5 +1,6 @@
 import ResumeFile from "../assets/resume.pdf"
 import { FaLongArrowAltLeft } from "react-icons/fa"
+import { FiDownload } from "react-icons/fi"
 import { useNavigate } from "react-router"
 
 const Resume = () => {
@@ -9,15 +10,24 @@ const Resume = () => {
     <section className="space-y-6 sm:space-y-8 w-full border border-gray-300/20 rounded-2xl px-4 sm:px-6 py-6 sm:py-10 font-jetMono">
 
       
-      <button
-        onClick={() => navigate("/")}
-        className="inline-flex items-center gap-2 text-sm text-[color:var(--color-text-main)] transition
-        border theme-border-subtle px-3 py-2 rounded-2xl hover:bg-[color:var(--color-accent-soft)] duration-300 cursor-pointer
-        "
-      >
-        <FaLongArrowAltLeft />
-        Go Back
-      </button>
+      <div className="flex flex-wrap items-center gap-3">
+        <button
+          onClick={() => navigate("/")}
+          className="inline-flex items-center gap-2 text-sm text-[color:var(--color-text-main)] transition border theme-border-subtle px-3 py-2 rounded-2xl hover:bg-[color:var(--color-accent-soft)] duration-300 cursor-pointer"
+        >
+          <FaLongArrowAltLeft />
+          Go Back
+        </button>
+
+        <a
+          href={ResumeFile}
+          download="Sure-Surya-Resume.pdf"
+          className="inline-flex items-center gap-2 text-sm text-[color:var(--color-text-main)] transition border theme-border-subtle px-3 py-2 rounded-2xl hover:bg-[color:var(--color-accent-soft)] duration-300"
+        >
+          <FiDownload />
+          Download PDF
+        </a>
+      </div>
 
      
       <div className="space-y-4 text-center">

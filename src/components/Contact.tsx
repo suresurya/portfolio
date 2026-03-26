@@ -1,10 +1,23 @@
 
 import { useNavigate } from "react-router";
+import { useState } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { FiMail, FiSend } from "react-icons/fi";
+import { FiCopy, FiMail, FiSend } from "react-icons/fi";
 
 const Contact = () => {
   const navigate = useNavigate();
+  const [isCopied, setIsCopied] = useState(false);
+
+  const copyEmail = async () => {
+    const email = "contact.surya.dev@gmail.com";
+    try {
+      await navigator.clipboard.writeText(email);
+      setIsCopied(true);
+      window.setTimeout(() => setIsCopied(false), 1800);
+    } catch {
+      setIsCopied(false);
+    }
+  };
 
   return (
     <section className="mt-6 sm:mt-10 space-y-6 sm:space-y-8 font-jetMono text-[color:var(--color-text-main)]">
@@ -35,6 +48,14 @@ const Contact = () => {
           >
             <FiSend />
             View Resume
+          </button>
+          <button
+            type="button"
+            onClick={copyEmail}
+            className="inline-flex items-center justify-center gap-2 rounded-xl border theme-border-subtle px-4 py-2 hover:bg-[color:var(--color-accent-soft)] transition-colors cursor-pointer"
+          >
+            <FiCopy />
+            {isCopied ? "Email Copied" : "Copy Email"}
           </button>
         </div>
       </div>

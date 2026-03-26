@@ -43,6 +43,24 @@ const IQAC = () => {
         </div>
       </div>
 
+      <section className="mt-2 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-elevated)]/70 p-5 shadow-sm backdrop-blur-sm">
+        <h2 className="text-sm font-semibold text-[color:var(--color-text-main)]">Case Study</h2>
+        <div className="mt-3 grid gap-3 sm:grid-cols-3">
+          <div className="rounded-lg border border-[color:var(--color-border-subtle)] p-3 bg-[color:var(--color-surface-muted)]/70">
+            <p className="text-xs uppercase tracking-wider text-[color:var(--color-text-subtle)]">Problem</p>
+            <p className="mt-1 text-xs text-[color:var(--color-text-main)]">Institutions need continuous visibility into academic outcomes and accreditation readiness.</p>
+          </div>
+          <div className="rounded-lg border border-[color:var(--color-border-subtle)] p-3 bg-[color:var(--color-surface-muted)]/70">
+            <p className="text-xs uppercase tracking-wider text-[color:var(--color-text-subtle)]">Approach</p>
+            <p className="mt-1 text-xs text-[color:var(--color-text-main)]">Built a MERN platform with role-based dashboards, analytics workflows, and AI-assisted insights.</p>
+          </div>
+          <div className="rounded-lg border border-[color:var(--color-border-subtle)] p-3 bg-[color:var(--color-surface-muted)]/70">
+            <p className="text-xs uppercase tracking-wider text-[color:var(--color-text-subtle)]">Outcome</p>
+            <p className="mt-1 text-xs text-[color:var(--color-text-main)]">Enabled faster evidence tracking, clearer reporting, and better decision support for stakeholders.</p>
+          </div>
+        </div>
+      </section>
+
       <div className="mt-4 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-muted)] px-5 py-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-sm font-semibold text-[color:var(--color-text-main)]">

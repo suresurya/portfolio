@@ -1,4 +1,4 @@
-import Profile from "../assets/pfp.png";
+import Profile from "../assets/pfp.webp";
 import { GoDotFill, GoDot } from "react-icons/go";
 import { IoDocumentLockSharp } from "react-icons/io5";
 import { useState, useEffect } from "react";
@@ -108,6 +108,8 @@ const Body = () => {
           className="rounded-full size-20 sm:size-24 object-cover"
           height={96}
           width={96}
+          loading="lazy"
+          decoding="async"
         />
         {online ? (
           <span className="text-2xl text-green-500 absolute bottom-0 right-0">
@@ -214,6 +216,8 @@ I am Sure Sri Venkat Rama Surya, a 3rd-year B.Tech CSE student at Vignan Foundat
                     className={"h-[38px] w-[38px] object-contain transition-transform duration-200 group-hover:scale-105 " + (item.className ?? "")}
                     height={38}
                     width={38}
+                    loading="lazy"
+                    decoding="async"
                   />
                   <span className="pointer-events-none absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md border border-gray-300/40 bg-[color:var(--color-bg-surface)] px-2 py-0.5 text-[10px] text-[color:var(--color-text-main)] opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100">
                     {item.name}

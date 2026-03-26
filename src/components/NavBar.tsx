@@ -1,4 +1,4 @@
-import Profile from "../assets/pfp.png"
+import Profile from "../assets/pfp.webp"
 import { NavLink } from "react-router"
 import { FaGithub } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
@@ -30,7 +30,7 @@ const NavBar = () => {
             <nav className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4"> 
                 <div id="left" className="flex items-center justify-between sm:justify-start w-full sm:w-auto gap-3 sm:gap-5">
                     <div id="pfp"  className="rounded-xl hover:h-10 hover:w-10 cursor-pointer">
-                        <img src={Profile} alt="text here" height={50} width={50} className="rounded-xl hover:h-10 hover:w-10" />
+                        <img src={Profile} alt="text here" height={50} width={50} loading="lazy" decoding="async" className="rounded-xl hover:h-10 hover:w-10" />
                     </div>
                      <div id="links" className="flex flex-wrap gap-x-4 gap-y-2 text-sm sm:text-base">
                     {

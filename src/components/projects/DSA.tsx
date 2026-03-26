@@ -11,6 +11,24 @@ const DSA = () => {
         that are useful for interviews and competitive programming.
       </p>
 
+      <section className="mt-2 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-elevated)]/70 p-5 shadow-sm backdrop-blur-sm">
+        <h2 className="text-sm font-semibold text-[color:var(--color-text-main)]">Case Study</h2>
+        <div className="mt-3 grid gap-3 sm:grid-cols-3">
+          <div className="rounded-lg border border-[color:var(--color-border-subtle)] p-3 bg-[color:var(--color-surface-muted)]/70">
+            <p className="text-xs uppercase tracking-wider text-[color:var(--color-text-subtle)]">Problem</p>
+            <p className="mt-1 text-xs text-[color:var(--color-text-main)]">Build a reliable practice repository for interview-oriented DSA preparation.</p>
+          </div>
+          <div className="rounded-lg border border-[color:var(--color-border-subtle)] p-3 bg-[color:var(--color-surface-muted)]/70">
+            <p className="text-xs uppercase tracking-wider text-[color:var(--color-text-subtle)]">Approach</p>
+            <p className="mt-1 text-xs text-[color:var(--color-text-main)]">Organized Java implementations by concept and focused on readable code and repeatable patterns.</p>
+          </div>
+          <div className="rounded-lg border border-[color:var(--color-border-subtle)] p-3 bg-[color:var(--color-surface-muted)]/70">
+            <p className="text-xs uppercase tracking-wider text-[color:var(--color-text-subtle)]">Outcome</p>
+            <p className="mt-1 text-xs text-[color:var(--color-text-main)]">Created a practical reference set that improves speed and confidence in coding rounds.</p>
+          </div>
+        </div>
+      </section>
+
       <div className="mt-6 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-elevated)]/70 px-5 py-4 shadow-sm backdrop-blur-sm">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>

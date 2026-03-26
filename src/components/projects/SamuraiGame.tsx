@@ -41,6 +41,24 @@ const SamuraiGame = () => {
         </div>
       </div>
 
+      <section className="mt-2 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-elevated)]/70 p-5 shadow-sm backdrop-blur-sm">
+        <h2 className="text-sm font-semibold text-[color:var(--color-text-main)]">Case Study</h2>
+        <div className="mt-3 grid gap-3 sm:grid-cols-3">
+          <div className="rounded-lg border border-[color:var(--color-border-subtle)] p-3 bg-[color:var(--color-surface-muted)]/70">
+            <p className="text-xs uppercase tracking-wider text-[color:var(--color-text-subtle)]">Problem</p>
+            <p className="mt-1 text-xs text-[color:var(--color-text-main)]">Create an engaging 2D fighting game with multiple play modes and responsive controls.</p>
+          </div>
+          <div className="rounded-lg border border-[color:var(--color-border-subtle)] p-3 bg-[color:var(--color-surface-muted)]/70">
+            <p className="text-xs uppercase tracking-wider text-[color:var(--color-text-subtle)]">Approach</p>
+            <p className="mt-1 text-xs text-[color:var(--color-text-main)]">Implemented character state logic, map variation, and game mechanics using Python and Pygame.</p>
+          </div>
+          <div className="rounded-lg border border-[color:var(--color-border-subtle)] p-3 bg-[color:var(--color-surface-muted)]/70">
+            <p className="text-xs uppercase tracking-wider text-[color:var(--color-text-subtle)]">Outcome</p>
+            <p className="mt-1 text-xs text-[color:var(--color-text-main)]">Delivered a playable pixel-art combat experience with replay value and feature depth.</p>
+          </div>
+        </div>
+      </section>
+
       <div className="mt-4 flex flex-col gap-3 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-muted)] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-sm font-semibold text-[color:var(--color-text-main)]">
