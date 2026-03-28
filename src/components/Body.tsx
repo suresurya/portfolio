@@ -62,7 +62,7 @@ const Body = () => {
         {
           name: "Thymeleaf",
           icon: ThymeleafIcon,
-          className: "rounded-md bg-white p-1 ring-1 ring-white/70",
+          className: "rounded-md bg-white p-1",
         },
       ],
     },
