@@ -11,7 +11,7 @@ import Intellij from  "../assets/icons/intellin.svg"
 import Java from  "../assets/icons/java.svg"
 import Maven from  "../assets/icons/maven.svg"
 import MongoDB from  "../assets/icons/mongodb.svg"
-import Node from  "../assets/icons/node.svg"
+import Node from  "../assets/icons/Node.js.svg"
 import PyCharm from  "../assets/icons/pycharm.svg"
 import React from  "../assets/icons/react.svg"
 import Spring from  "../assets/icons/spring.svg"
@@ -29,6 +29,7 @@ import GitHubIcon from "../assets/icons/github-icon.svg"
 import DockerIcon from "../assets/icons/Docker.svg"
 import PodmanIcon from "../assets/icons/Podman.svg"
 import SpringAiIcon from "../assets/icons/spring-ai.svg"
+import ThymeleafIcon from "../assets/icons/thymeleaf_logo_icon_249398.svg"
 
 
 const Body = () => {
@@ -58,6 +59,7 @@ const Body = () => {
         { name: "Python", icon: Python },
         { name: "Gradle", icon: GradleIcon },
         { name: "Spring AI", icon: SpringAiIcon },
+        { name: "Thymeleaf", icon: ThymeleafIcon },
       ],
     },
     {
