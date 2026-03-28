@@ -221,17 +221,17 @@ I am Sure Sri Venkat Rama Surya, a 3rd-year B.Tech CSE student at Vignan Foundat
             </div>
             <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-7 gap-5 border-gray-300/40 border p-4 sm:p-5 rounded-2xl text-[color:var(--color-text-main)] justify-items-center">
               {visibleTechItems.map((item) => (
-                <div key={item.name} className="group relative flex items-center justify-center">
+                <div key={item.name} className="group relative flex items-center justify-center tech-icon-shell">
                   <img
                     src={item.icon}
                     alt={item.name}
-                    className={"h-[38px] w-[38px] object-contain transition-transform duration-200 group-hover:scale-105 " + (item.className ?? "")}
+                    className={"h-[38px] w-[38px] object-contain tech-icon-image " + (item.className ?? "")}
                     height={38}
                     width={38}
                     loading="lazy"
                     decoding="async"
                   />
-                  <span className="pointer-events-none absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md border border-gray-300/40 bg-[color:var(--color-bg-surface)] px-2 py-0.5 text-[10px] text-[color:var(--color-text-main)] opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100">
+                  <span className="tech-icon-tooltip pointer-events-none absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md border border-gray-300/40 bg-[color:var(--color-bg-surface)] px-2 py-0.5 text-[10px] text-[color:var(--color-text-main)] opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100">
                     {item.name}
                   </span>
                 </div>
