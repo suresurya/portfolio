@@ -59,7 +59,11 @@ const Body = () => {
         { name: "Python", icon: Python },
         { name: "Gradle", icon: GradleIcon },
         { name: "Spring AI", icon: SpringAiIcon },
-        { name: "Thymeleaf", icon: ThymeleafIcon },
+        {
+          name: "Thymeleaf",
+          icon: ThymeleafIcon,
+          className: "rounded-md bg-white p-1 ring-1 ring-white/70",
+        },
       ],
     },
     {
