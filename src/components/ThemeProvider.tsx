@@ -62,6 +62,14 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     runWave(next, x, y);
   };
 
+  const toggleThemeFromShortcut = () => {
+    const x = window.innerWidth / 2;
+    const y = window.innerHeight / 2;
+    const next: Theme = theme === "dark" ? "light" : "dark";
+
+    runWave(next, x, y);
+  };
+
   const overlayClass = `theme-wave ${waveActive ? "theme-wave--animate" : ""}`;
 
   const overlayStyle =
@@ -72,7 +80,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
         : undefined;
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleThemeFromClick }}>
+    <ThemeContext.Provider value={{ theme, toggleThemeFromClick, toggleThemeFromShortcut }}>
       {children}
       {waveTheme && <div className={overlayClass} style={overlayStyle} />}
     </ThemeContext.Provider>
