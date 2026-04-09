@@ -3,6 +3,12 @@ import { CiAt } from "react-icons/ci"
 import { SOCIAL } from "../data/constants"
 
 const Footer = () => {
+  const year = new Date().getFullYear()
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
   return (
     <footer className="relative w-full rounded-2xl px-4 sm:px-6 py-8 sm:py-10 border theme-border-subtle bg-[color:var(--color-bg)] mt-10">
 
@@ -32,8 +38,17 @@ const Footer = () => {
 
         <p className="flex items-center gap-1 text-center">
           <FaCopyright />
-          2025 All Rights Reserved
+          {year} All Rights Reserved
         </p>
+
+        <button
+          type="button"
+          onClick={scrollToTop}
+          className="mt-2 rounded-full border theme-border-subtle px-3 py-1 text-xs hover:bg-[color:var(--color-accent-soft)] transition-colors cursor-pointer"
+          aria-label="Scroll back to top"
+        >
+          Back to top
+        </button>
       </div>
 
     </footer>
