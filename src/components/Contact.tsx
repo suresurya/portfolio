@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { FiCopy, FiMail, FiSend } from "react-icons/fi";
 import { SOCIAL } from "../data/constants";
+import EmailContactForm from "./contact/EmailContactForm";
 
 const Contact = () => {
   const navigate = useNavigate();
@@ -93,6 +94,14 @@ const Contact = () => {
             Could not copy automatically. Email: {SOCIAL.email}
           </p>
         )}
+      </div>
+
+      <div className="theme-card-glass rounded-2xl p-6 sm:p-8 space-y-4">
+        <h2 className="text-xl sm:text-2xl font-semibold">Send a direct message</h2>
+        <p className="text-sm text-[color:var(--color-text-subtle)] leading-relaxed">
+          Your message goes to my inbox and you also receive an automatic confirmation email.
+        </p>
+        <EmailContactForm />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
