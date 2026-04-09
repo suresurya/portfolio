@@ -17,12 +17,21 @@ export type ProjectRepository = {
   actionLabel?: string;
 };
 
+export type ProjectActionLink = {
+  label: string;
+  href: string;
+  ariaLabel?: string;
+};
+
 type ProjectPageTemplateProps = {
   title: string;
   summary: string;
   summaryClassName?: string;
   infoCards?: ProjectInfoCard[];
   caseStudy: ProjectCaseStudyPoint[];
+  impact?: string[];
+  engineeringNotes?: string[];
+  actions?: ProjectActionLink[];
   repository?: ProjectRepository;
 };
 
@@ -35,6 +44,9 @@ const ProjectPageTemplate = ({
   summaryClassName,
   infoCards,
   caseStudy,
+  impact,
+  engineeringNotes,
+  actions,
   repository,
 }: ProjectPageTemplateProps) => {
   return (
@@ -87,6 +99,32 @@ const ProjectPageTemplate = ({
         </div>
       </section>
 
+      {(impact && impact.length > 0) || (engineeringNotes && engineeringNotes.length > 0) ? (
+        <section className="grid gap-4 sm:grid-cols-2">
+          {impact && impact.length > 0 && (
+            <div className="rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-elevated)]/70 p-4 shadow-sm backdrop-blur-sm">
+              <h2 className="text-sm font-semibold text-[color:var(--color-text-main)]">Measurable Impact</h2>
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-[color:var(--color-text-subtle)]">
+                {impact.map((point) => (
+                  <li key={`${title}-impact-${point}`}>{point}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {engineeringNotes && engineeringNotes.length > 0 && (
+            <div className="rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-elevated)]/70 p-4 shadow-sm backdrop-blur-sm">
+              <h2 className="text-sm font-semibold text-[color:var(--color-text-main)]">Engineering Decisions</h2>
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-[color:var(--color-text-subtle)]">
+                {engineeringNotes.map((point) => (
+                  <li key={`${title}-eng-${point}`}>{point}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
+      ) : null}
+
       {repository && (
         <div className="mt-4 flex flex-col gap-3 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-muted)] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -104,7 +142,36 @@ const ProjectPageTemplate = ({
             >
               {repository.actionLabel ?? "View on GitHub"}
             </a>
+            {actions?.map((action) => (
+              <a
+                key={`${title}-action-${action.label}`}
+                href={action.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={action.ariaLabel ?? `${action.label} for ${title}`}
+                className="inline-flex items-center justify-center rounded-full border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-elevated)] px-4 py-1.5 text-sm font-medium text-[color:var(--color-text-main)] transition-colors hover:bg-[color:var(--color-accent-soft)] hover:text-[color:var(--color-accent-strong)]"
+              >
+                {action.label}
+              </a>
+            ))}
           </div>
+        </div>
+      )}
+
+      {!repository && actions && actions.length > 0 && (
+        <div className="mt-4 flex flex-wrap gap-2">
+          {actions.map((action) => (
+            <a
+              key={`${title}-only-action-${action.label}`}
+              href={action.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={action.ariaLabel ?? `${action.label} for ${title}`}
+              className="inline-flex items-center justify-center rounded-full border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-elevated)] px-4 py-1.5 text-sm font-medium text-[color:var(--color-text-main)] transition-colors hover:bg-[color:var(--color-accent-soft)] hover:text-[color:var(--color-accent-strong)]"
+            >
+              {action.label}
+            </a>
+          ))}
         </div>
       )}
     </div>
