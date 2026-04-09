@@ -1,44 +1,56 @@
-import Main from "./components/Main"
-import Resume from "./components/Resume"
-import Projects from "./components/Projects"
+import { Suspense, lazy, type ReactNode } from "react"
 import { createBrowserRouter , RouterProvider } from "react-router"
-import Body from "./components/Body"
-import Contact from "./components/Contact"
-import Portfolio from "./components/projects/Portfolio"
-import SamuraiGame from "./components/projects/SamuraiGame"
-import RestaurantLanding from "./components/projects/RestaurantLanding"
-import DSA from "./components/projects/DSA"
-import IQAC from "./components/projects/IQAC"
 import ErrorPage from "./components/Error"
+
+const Main = lazy(() => import("./components/Main"))
+const Resume = lazy(() => import("./components/Resume"))
+const Projects = lazy(() => import("./components/Projects"))
+const Body = lazy(() => import("./components/Body"))
+const Contact = lazy(() => import("./components/Contact"))
+const Portfolio = lazy(() => import("./components/projects/Portfolio"))
+const SamuraiGame = lazy(() => import("./components/projects/SamuraiGame"))
+const RestaurantLanding = lazy(() => import("./components/projects/RestaurantLanding"))
+const DSA = lazy(() => import("./components/projects/DSA"))
+const IQAC = lazy(() => import("./components/projects/IQAC"))
+
+const routeLoadingFallback = (
+  <div className="min-h-[40vh] grid place-items-center text-sm text-[color:var(--color-text-subtle)]">
+    Loading page...
+  </div>
+)
+
+const withSuspense = (element: ReactNode) => (
+  <Suspense fallback={routeLoadingFallback}>{element}</Suspense>
+)
 
 const router = createBrowserRouter([
   {
     path:"/",
-    element:<Main/>,
+    element: withSuspense(<Main/>),
     errorElement: <ErrorPage />,
     children:[
       {
         index:true,
-        element:<Body/>
+        element: withSuspense(<Body/>)
       },
       {
         path:"projects",
-        element:<Projects/>,
+        element: withSuspense(<Projects/>),
         children:[
-          { path:"portfolio", element:<Portfolio/> },
-          { path:"samurai-game", element:<SamuraiGame/> },
-          { path:"restaurant-landing", element:<RestaurantLanding/> },
-          { path:"dsa", element:<DSA/> },
-          { path:"iqac", element:<IQAC/> },
+          { path:"portfolio", element: withSuspense(<Portfolio/>) },
+          { path:"samurai-game", element: withSuspense(<SamuraiGame/>) },
+          { path:"restaurant-landing", element: withSuspense(<RestaurantLanding/>) },
+          { path:"dsa", element: withSuspense(<DSA/>) },
+          { path:"iqac", element: withSuspense(<IQAC/>) },
         ]
       },
       {
         path:"resume",
-        element:<Resume/>
+        element: withSuspense(<Resume/>)
       },
       {
         path:"contact",
-        element:<Contact/>
+        element: withSuspense(<Contact/>)
       },
       {
         path: "*",
