@@ -4,10 +4,20 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Sure Surya | Java Developer Portfolio</title>
-		<meta name="theme-color" content="#000000" />
+		<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
+		<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f9fafb" />
+		<meta name="color-scheme" content="dark light" />
+		<link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+		<link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link rel="canonical" href="https://suresurya.github.io/portfolio/" />
 		<meta name="robots" content="index, follow" />
 		<meta name="author" content="Sure Sri Venkat Rama Surya" />
+		<meta
+			name="keywords"
+			content="Sure Surya, Java Developer, Spring Boot, REST API, Backend Developer, Portfolio"
+		/>
 		<meta
 			name="description"
 			content="Professional portfolio of Sure Sri Venkat Rama Surya, a Java developer focused on Spring Boot, REST APIs, and full-stack projects."
@@ -22,7 +32,8 @@
 		<meta property="og:url" content="https://suresurya.github.io/portfolio/" />
 		<meta property="og:image" content="https://avatars.githubusercontent.com/suresurya" />
 		<meta property="og:image:alt" content="Sure Surya profile image" />
-		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:creator" content="@suresurya" />
 		<meta name="twitter:title" content="Sure Surya | Java Developer Portfolio" />
 		<meta
 			name="twitter:description"
@@ -57,11 +68,11 @@
 		<script>
 			(() => {
 				try {
-					const stored = localStorage.getItem('theme');
-					const theme = stored === 'light' || stored === 'dark' ? stored : 'dark';
-					document.documentElement.setAttribute('data-theme', theme);
+					const stored = localStorage.getItem("theme");
+					const theme = stored === "light" || stored === "dark" ? stored : "dark";
+					document.documentElement.setAttribute("data-theme", theme);
 				} catch {
-					document.documentElement.setAttribute('data-theme', 'dark');
+					document.documentElement.setAttribute("data-theme", "dark");
 				}
 			})();
 		</script>
@@ -70,6 +81,5 @@
 		<div id="root"></div>
 		<script type="module" src="/src/main.tsx"></script>
 	</body>
-  
 </html>
 
