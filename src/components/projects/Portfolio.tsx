@@ -50,12 +50,27 @@ const Portfolio = () => {
       }
     : undefined;
 
+  const actions = portfolioProject?.demoUrl
+    ? [{ label: "Live Demo", href: portfolioProject.demoUrl, ariaLabel: "Open live portfolio demo" }]
+    : undefined;
+
+  const engineeringNotes = [
+    "Used a reusable project template to keep detail pages consistent and maintainable.",
+    "Applied centralized constants for social and project metadata to avoid data drift.",
+  ];
+
   return (
     <ProjectPageTemplate
       title={portfolioProject?.title ?? "Portfolio Website"}
-      summary="A personal portfolio built with React, TypeScript, and Vite to showcase projects, skills, and contact details in a clean, recruiter-friendly layout. It includes theme support and smooth UI interactions."
+      summary={
+        portfolioProject?.summary ??
+        "A personal portfolio built with React, TypeScript, and Vite to showcase projects, skills, and contact details in a clean, recruiter-friendly layout."
+      }
       infoCards={infoCards}
       caseStudy={caseStudy}
+      impact={portfolioProject?.impact}
+      engineeringNotes={engineeringNotes}
+      actions={actions}
       repository={repository}
     />
   );

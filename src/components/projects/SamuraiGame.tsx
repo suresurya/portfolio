@@ -50,12 +50,22 @@ const SamuraiGame = () => {
       }
     : undefined;
 
+  const engineeringNotes = [
+    "Implemented game-state transitions for PvP and PvC while keeping input handling predictable.",
+    "Designed modular combat mechanics so power-ups and specials can be extended easily.",
+  ];
+
   return (
     <ProjectPageTemplate
       title={samuraiProject?.title ?? "Samurai Duel Saga"}
-      summary="Samurai Duel Saga is a 2D pixel-art fighting game built in Python with Pygame. Two samurai battle across dynamic platforms with swords, projectiles, special attacks, and power-ups in both local PvP and PvC modes."
+      summary={
+        samuraiProject?.summary ??
+        "Samurai Duel Saga is a 2D pixel-art fighting game built in Python with Pygame."
+      }
       infoCards={infoCards}
       caseStudy={caseStudy}
+      impact={samuraiProject?.impact}
+      engineeringNotes={engineeringNotes}
       repository={repository}
     />
   );

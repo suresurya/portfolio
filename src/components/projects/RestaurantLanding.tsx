@@ -1,6 +1,9 @@
 import ProjectPageTemplate from "./ProjectPageTemplate";
+import { getProjectByKey } from "../../data/constants";
 
 const RestaurantLanding = () => {
+  const restaurantProject = getProjectByKey("restaurant-landing");
+
   const infoCards = [
     {
       title: "Tech Stack",
@@ -38,12 +41,22 @@ const RestaurantLanding = () => {
     },
   ];
 
+  const engineeringNotes = [
+    "Prioritized semantic section structure and responsive spacing for readability.",
+    "Kept implementation lightweight with static assets and minimal dependencies.",
+  ];
+
   return (
     <ProjectPageTemplate
-      title="Restaurant Landing Page"
-      summary="A modern, responsive single-page landing page for a restaurant. The focus is on clean sections, strong visuals, and clear calls-to-action for menu, reservations, and contact."
+      title={restaurantProject?.title ?? "Restaurant Landing Page"}
+      summary={
+        restaurantProject?.summary ??
+        "A modern, responsive single-page landing page for a restaurant."
+      }
       infoCards={infoCards}
       caseStudy={caseStudy}
+      impact={restaurantProject?.impact}
+      engineeringNotes={engineeringNotes}
     />
   );
 };

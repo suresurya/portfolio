@@ -50,12 +50,22 @@ const IQAC = () => {
       }
     : undefined;
 
+  const engineeringNotes = [
+    "Applied role-based architecture so each stakeholder receives context-appropriate dashboards.",
+    "Designed analytics workflows for report generation and insight-first decision support.",
+  ];
+
   return (
     <ProjectPageTemplate
       title={iqacProject?.title ?? "AI-Powered IQAC Academic Intelligence System"}
-      summary="A full-stack MERN application designed for institutional quality assurance. It helps IQAC, HODs, faculty, and students monitor academic performance, accreditation readiness, and department-level analytics with AI-assisted insights."
+      summary={
+        iqacProject?.summary ??
+        "A full-stack MERN application for institutional quality assurance and analytics."
+      }
       infoCards={infoCards}
       caseStudy={caseStudy}
+      impact={iqacProject?.impact}
+      engineeringNotes={engineeringNotes}
       repository={repository}
     />
   );

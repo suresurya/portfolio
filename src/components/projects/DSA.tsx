@@ -30,12 +30,22 @@ const DSA = () => {
       }
     : undefined;
 
+  const engineeringNotes = [
+    "Organized implementation modules by topic to accelerate revision and pattern recall.",
+    "Used clear naming and consistent complexity-focused comments for interview prep speed.",
+  ];
+
   return (
     <ProjectPageTemplate
       title={dsaProject?.title ?? "DSA"}
-      summary="A collection of data structures and algorithms implemented in Java. This repository focuses on clean, well-structured solutions and patterns that are useful for interviews and competitive programming."
+      summary={
+        dsaProject?.summary ??
+        "A collection of data structures and algorithms implemented in Java."
+      }
       summaryClassName="max-w-xl"
       caseStudy={caseStudy}
+      impact={dsaProject?.impact}
+      engineeringNotes={engineeringNotes}
       repository={repository}
     />
   );
