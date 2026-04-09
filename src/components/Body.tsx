@@ -22,6 +22,7 @@ const Body = () => {
     <div className="font-jetMono mt-6 sm:mt-10">
       <ProfileIntro
         online={online}
+        onProjectsClick={() => navigate("/projects")}
         onResumeClick={() => navigate("/resume")}
         onContactClick={() => navigate("/contact")}
       />

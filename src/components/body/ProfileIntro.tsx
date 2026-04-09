@@ -2,14 +2,16 @@ import Profile from "../../assets/pfp.webp";
 import { GoDotFill, GoDot } from "react-icons/go";
 import { IoDocumentLockSharp } from "react-icons/io5";
 import { FaRegPaperPlane } from "react-icons/fa";
+import { FiBriefcase } from "react-icons/fi";
 
 type ProfileIntroProps = {
   online: boolean;
   onResumeClick: () => void;
   onContactClick: () => void;
+  onProjectsClick: () => void;
 };
 
-const ProfileIntro = ({ online, onResumeClick, onContactClick }: ProfileIntroProps) => {
+const ProfileIntro = ({ online, onResumeClick, onContactClick, onProjectsClick }: ProfileIntroProps) => {
   return (
     <section>
       <div className="mb-5 w-fit relative p-0">
@@ -42,13 +44,22 @@ const ProfileIntro = ({ online, onResumeClick, onContactClick }: ProfileIntroPro
           </span>
         </h1>
         <span className="hidden sm:inline text-2xl font-medium"> -- </span>
-        <h3 className="text-[color:var(--color-text-subtle)] text-2xl sm:text-3xl">A Java Dev.</h3>
+        <h3 className="text-[color:var(--color-text-subtle)] text-xl sm:text-2xl">Java Backend Developer</h3>
       </div>
+
+      <p className="mt-3 inline-flex items-center gap-2 rounded-full border theme-border-subtle px-3 py-1 text-xs sm:text-sm text-[color:var(--color-text-subtle)]">
+        <FiBriefcase aria-hidden="true" />
+        Open to internships and entry-level backend roles
+      </p>
 
       <div className="mt-6 text-sm sm:text-base leading-relaxed text-[color:var(--color-text-main)]">
         <p>
-          I am Sure Sri Venkat Rama Surya, a 3rd-year B.Tech CSE student at Vignan Foundation for Science and Technology. I am a Java developer with strong fundamentals in Core Java and hands-on experience in Spring Boot, REST APIs, MySQL, JDBC, and Hibernate. I have built multiple database-driven Java applications and am currently seeking internship opportunities to gain real-world industry experience.
+          I build reliable Java backend applications with Spring Boot, REST APIs, and SQL-backed services. My focus is writing maintainable code, designing clean APIs, and shipping projects that solve real workflow problems for users and teams.
         </p>
+      </div>
+
+      <div className="mt-3 text-sm text-[color:var(--color-text-subtle)]">
+        Core stack: Java, Spring Boot, Hibernate, MySQL, and REST API architecture.
       </div>
 
       <div className="mt-4 sm:mt-6 text-xs sm:text-sm text-[color:var(--color-text-subtle)]">
@@ -64,11 +75,20 @@ const ProfileIntro = ({ online, onResumeClick, onContactClick }: ProfileIntroPro
       <div className="text-sm flex flex-wrap items-center mt-6 gap-3 sm:gap-4">
         <button
           type="button"
+          aria-label="Navigate to projects page"
+          className="flex items-center gap-2 rounded-xl border-2 border-dashed theme-border-subtle bg-gray-300/20 w-fit px-3 py-2 cursor-pointer hover:bg-gray-200/50"
+          onClick={onProjectsClick}
+        >
+          View Projects
+        </button>
+
+        <button
+          type="button"
           aria-label="Navigate to resume page"
           className="flex items-center gap-2 rounded-xl border-2 border-dashed theme-border-subtle bg-gray-300/20 w-fit px-3 py-2 cursor-pointer hover:bg-gray-200/50"
           onClick={onResumeClick}
         >
-          My Resume <IoDocumentLockSharp />
+          Download Resume <IoDocumentLockSharp />
         </button>
 
         <button
@@ -77,7 +97,7 @@ const ProfileIntro = ({ online, onResumeClick, onContactClick }: ProfileIntroPro
           onClick={onContactClick}
           className="flex items-center gap-2 rounded-xl border-2 border-dashed theme-border-subtle bg-gray-300/20 w-fit px-3 py-2 cursor-pointer hover:bg-gray-200/50"
         >
-          Contact ME <FaRegPaperPlane />
+          Contact Me <FaRegPaperPlane />
         </button>
       </div>
     </section>
