@@ -7,6 +7,45 @@ export const SOCIAL = {
 	discord: "sure_surya_007_",
 } as const;
 
+export type SocialPlatform = "github" | "linkedin" | "medium" | "udemy";
+
+export type SocialLinkMeta = {
+	key: SocialPlatform;
+	label: string;
+	href: string;
+	ariaLabel: string;
+	description?: string;
+};
+
+export const SOCIAL_LINKS: SocialLinkMeta[] = [
+	{
+		key: "github",
+		label: "GitHub",
+		href: SOCIAL.github,
+		ariaLabel: "Visit Sure Surya on GitHub (opens in new tab)",
+		description: "Explore my source code, projects, and ongoing experiments.",
+	},
+	{
+		key: "linkedin",
+		label: "LinkedIn",
+		href: SOCIAL.linkedin,
+		ariaLabel: "Visit Sure Surya on LinkedIn (opens in new tab)",
+		description: "Connect with me professionally for opportunities and networking.",
+	},
+	{
+		key: "medium",
+		label: "Medium",
+		href: SOCIAL.medium,
+		ariaLabel: "Read Sure Surya's Medium articles (opens in new tab)",
+	},
+	{
+		key: "udemy",
+		label: "Udemy",
+		href: SOCIAL.udemy,
+		ariaLabel: "View Sure Surya's Udemy profile (opens in new tab)",
+	},
+];
+
 export type ProjectKey =
 	| "portfolio"
 	| "samurai-game"
@@ -69,3 +108,6 @@ export const PROJECTS: ProjectMeta[] = [
 		repoUrl: "https://github.com/suresurya/IQAC",
 	},
 ];
+
+export const getProjectByKey = (key: ProjectKey) =>
+	PROJECTS.find((project) => project.key === key);

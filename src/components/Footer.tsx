@@ -1,5 +1,6 @@
 import { FaCopyright } from "react-icons/fa"
 import { CiAt } from "react-icons/ci"
+import { SOCIAL } from "../data/constants"
 
 const Footer = () => {
   return (
@@ -18,9 +19,10 @@ const Footer = () => {
         <p className="flex items-center gap-1 text-center flex-wrap justify-center">
           Designed & Developed By
           <a
-            href="https://github.com/suresurya"
+            href={SOCIAL.github}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Visit Sure Surya on GitHub (opens in new tab)"
             className="flex items-center gap-1 hover:underline underline-offset-4 transition"
           >
             <CiAt />

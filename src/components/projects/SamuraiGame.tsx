@@ -1,85 +1,63 @@
-import { ProjectBackLink } from "./ProjectPageExtras";
+import ProjectPageTemplate from "./ProjectPageTemplate";
+import { getProjectByKey } from "../../data/constants";
 
 const SamuraiGame = () => {
+  const samuraiProject = getProjectByKey("samurai-game");
+
+  const infoCards = [
+    {
+      title: "Tech & Gameplay",
+      items: [
+        "Python 3 + Pygame engine",
+        "Custom pixel art animations for both samurai",
+        "PvP and PvC modes with AI difficulty levels",
+        "Platform types: ice, lava, and stone terrain",
+      ],
+    },
+    {
+      title: "Core Features",
+      items: [
+        "Combo-based combat with projectiles and specials",
+        "Health, shield, speed, and special power-ups",
+        "Background music and sound effects with CLI toggles",
+        "Local multiplayer-ready control scheme",
+      ],
+    },
+  ];
+
+  const caseStudy = [
+    {
+      label: "Problem",
+      description:
+        "Create an engaging 2D fighting game with multiple play modes and responsive controls.",
+    },
+    {
+      label: "Approach",
+      description:
+        "Implemented character state logic, map variation, and game mechanics using Python and Pygame.",
+    },
+    {
+      label: "Outcome",
+      description:
+        "Delivered a playable pixel-art combat experience with replay value and feature depth.",
+    },
+  ];
+
+  const repository = samuraiProject?.repoUrl
+    ? {
+        text: samuraiProject.repoUrl.replace(/^https?:\/\//, ""),
+        href: samuraiProject.repoUrl,
+      }
+    : undefined;
+
   return (
-    <div className="mt-10 space-y-5">
-      <ProjectBackLink />
-      <h1 className="text-2xl font-bold tracking-tight">Samurai Duel Saga</h1>
-
-      <p className="text-[color:var(--color-text-subtle)] max-w-2xl">
-        Samurai Duel Saga is a 2D pixel-art fighting game built in Python
-        with Pygame. Two samurai battle across dynamic platforms with
-        swords, projectiles, special attacks, and power-ups in both local
-        PvP and PvC modes.
-      </p>
-
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-elevated)]/70 p-4 shadow-sm backdrop-blur-sm">
-          <h2 className="mb-2 text-sm font-semibold text-[color:var(--color-text-main)]">
-            Tech & Gameplay
-          </h2>
-          <ul className="list-disc space-y-1 pl-5 text-xs text-[color:var(--color-text-subtle)]">
-            <li>Python 3 + Pygame engine</li>
-            <li>Custom pixel art animations for both samurai</li>
-            <li>PvP and PvC modes with AI difficulty levels</li>
-            <li>Platform types: ice, lava, and stone terrain</li>
-          </ul>
-        </div>
-
-        <div className="rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-elevated)]/70 p-4 shadow-sm backdrop-blur-sm flex flex-col justify-between">
-          <div>
-            <h2 className="mb-2 text-sm font-semibold text-[color:var(--color-text-main)]">
-              Core Features
-            </h2>
-            <ul className="list-disc space-y-1 pl-5 text-xs text-[color:var(--color-text-subtle)]">
-              <li>Combo-based combat with projectiles and specials</li>
-              <li>Health, shield, speed, and special power-ups</li>
-              <li>Background music and sound effects with CLI toggles</li>
-              <li>Local multiplayer-ready control scheme</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <section className="mt-2 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-elevated)]/70 p-5 shadow-sm backdrop-blur-sm">
-        <h2 className="text-sm font-semibold text-[color:var(--color-text-main)]">Case Study</h2>
-        <div className="mt-3 grid gap-3 sm:grid-cols-3">
-          <div className="rounded-lg border border-[color:var(--color-border-subtle)] p-3 bg-[color:var(--color-surface-muted)]/70">
-            <p className="text-xs uppercase tracking-wider text-[color:var(--color-text-subtle)]">Problem</p>
-            <p className="mt-1 text-xs text-[color:var(--color-text-main)]">Create an engaging 2D fighting game with multiple play modes and responsive controls.</p>
-          </div>
-          <div className="rounded-lg border border-[color:var(--color-border-subtle)] p-3 bg-[color:var(--color-surface-muted)]/70">
-            <p className="text-xs uppercase tracking-wider text-[color:var(--color-text-subtle)]">Approach</p>
-            <p className="mt-1 text-xs text-[color:var(--color-text-main)]">Implemented character state logic, map variation, and game mechanics using Python and Pygame.</p>
-          </div>
-          <div className="rounded-lg border border-[color:var(--color-border-subtle)] p-3 bg-[color:var(--color-surface-muted)]/70">
-            <p className="text-xs uppercase tracking-wider text-[color:var(--color-text-subtle)]">Outcome</p>
-            <p className="mt-1 text-xs text-[color:var(--color-text-main)]">Delivered a playable pixel-art combat experience with replay value and feature depth.</p>
-          </div>
-        </div>
-      </section>
-
-      <div className="mt-4 flex flex-col gap-3 rounded-xl border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-muted)] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h2 className="text-sm font-semibold text-[color:var(--color-text-main)]">
-            GitHub Repository
-          </h2>
-          <p className="text-xs text-[color:var(--color-text-subtle)]">
-            github.com/luffynokaizoku/pixel-samurai
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <a
-            href="https://github.com/luffynokaizoku/pixel-samurai"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full border border-[color:var(--color-border-subtle)] bg-[color:var(--color-surface-elevated)] px-4 py-1.5 text-sm font-medium text-[color:var(--color-text-main)] transition-colors hover:bg-[color:var(--color-accent-soft)] hover:text-[color:var(--color-accent-strong)]"
-          >
-            View on GitHub
-          </a>
-        </div>
-      </div>
-    </div>
+    <ProjectPageTemplate
+      title={samuraiProject?.title ?? "Samurai Duel Saga"}
+      summary="Samurai Duel Saga is a 2D pixel-art fighting game built in Python with Pygame. Two samurai battle across dynamic platforms with swords, projectiles, special attacks, and power-ups in both local PvP and PvC modes."
+      infoCards={infoCards}
+      caseStudy={caseStudy}
+      repository={repository}
+    />
   );
 };
 
