@@ -254,13 +254,16 @@ body {
 .font-signature {
   font-family: 'Great Vibes', cursive;
   font-size: 5rem;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
   font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (min-width: 768px) {
   .font-signature {
-    font-size: 7.5rem;
+    font-size: 8rem;
   }
 }
 
@@ -295,5 +298,52 @@ body {
   }
   100% {
     background-position: 0 0;
+  }
+}
+
+/* Sun Drawing Animation */
+.animate-draw-sun path, .animate-draw-sun line {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: drawSun 1.2s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+  animation-delay: 1.2s; /* Start drawing after text starts filling */
+}
+
+@keyframes drawSun {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Exact Signature Reveal Animation */
+.signature-reveal {
+  width: 100%;
+  max-width: 400px; /* Adjust based on your preference */
+  height: auto;
+  object-fit: contain;
+  /* Angled gradient to simulate slanted cursive writing motion */
+  -webkit-mask-image: linear-gradient(110deg, #000 40%, transparent 60%);
+  -webkit-mask-size: 250% 100%;
+  -webkit-mask-position: 100% 0;
+  animation: writingMask 2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@media (min-width: 768px) {
+  .signature-reveal {
+    max-width: 600px;
+  }
+}
+
+@keyframes writingMask {
+  0% {
+    -webkit-mask-position: 100% 0;
+    opacity: 0.8;
+  }
+  100% {
+    -webkit-mask-position: 0% 0;
+    opacity: 1;
   }
 }
