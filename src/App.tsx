@@ -1,6 +1,7 @@
-import { Suspense, lazy, type ReactNode } from "react"
+import { Suspense, lazy, useState, type ReactNode } from "react"
 import { createBrowserRouter , RouterProvider } from "react-router"
 import ErrorPage from "./components/Error"
+import LoadingScreen from "./components/LoadingScreen"
 
 const Main = lazy(() => import("./components/Main"))
 const Resume = lazy(() => import("./components/Resume"))
@@ -62,10 +63,13 @@ const router = createBrowserRouter([
 
 
 const App = () => {
+  const [showLoading, setShowLoading] = useState(true);
 
   return (
-   
-   < RouterProvider  router={router}/>
+   <>
+    {showLoading && <LoadingScreen onComplete={() => setShowLoading(false)} />}
+    <RouterProvider router={router} />
+   </>
   )
 }
 

@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=BBH+Bartle&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
 @theme {
 	--font-jetMono : "JetBrains Mono" ,  'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -248,4 +249,51 @@ body {
 	.cursor-none {
 		cursor: auto;
 	}
+}
+/* Premium Liquid Fill effect / Signature Font */
+.font-signature {
+  font-family: 'Great Vibes', cursive;
+  font-size: 5rem;
+  letter-spacing: 0.1em;
+  font-weight: 400;
+}
+
+@media (min-width: 768px) {
+  .font-signature {
+    font-size: 7.5rem;
+  }
+}
+
+.liquid-fill-text {
+  /* Using webkit text fill to mask the background clip over the text */
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  background-repeat: no-repeat;
+  
+  /* background size needs to be larger than 100% to sweep across */
+  background-size: 200% 100%;
+  animation: liquidSweep 2.2s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+}
+
+.dark-theme {
+  /* Write in white over a very faint ghost text */
+  background-image: linear-gradient(to right, #ffffff 50%, rgba(255,255,255,0.08) 50%);
+  background-position: 100% 0%;
+}
+
+.light-theme {
+  /* Write in black over a very faint ghost text */
+  background-image: linear-gradient(to right, #1a1a1a 50%, rgba(0,0,0,0.08) 50%);
+  background-position: 100% 0%;
+}
+
+@keyframes liquidSweep {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
 }
