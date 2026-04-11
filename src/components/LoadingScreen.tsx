@@ -272,7 +272,7 @@ export default function SureSuryaLoader({ onComplete }: Props) {
     const tRayStart = tSunStart + sunArcDur + 40;
     const rayDur = T_SUN_DRW * 0.45;
 
-    const sunTiming = sunGroups.map((g, i) => {
+    const sunTiming = sunGroups.map((_, i) => {
       if (i === 0) return { start: tSunStart, dur: sunArcDur };
       // Rays 1–5 stagger by 20ms each for burst effect
       return { start: tRayStart + (i - 1) * 22, dur: rayDur };
