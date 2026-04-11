@@ -1,4 +1,4 @@
-import { Suspense, lazy, useState, type ReactNode } from "react"
+import { Suspense, lazy, useCallback, useState, type ReactNode } from "react"
 import { createBrowserRouter , RouterProvider } from "react-router"
 import ErrorPage from "./components/Error"
 import LoadingScreen from "./components/LoadingScreen"
@@ -64,10 +64,13 @@ const router = createBrowserRouter([
 
 const App = () => {
   const [showLoading, setShowLoading] = useState(true);
+  const handleLoadingComplete = useCallback(() => {
+    setShowLoading(false);
+  }, []);
 
   return (
    <>
-    {showLoading && <LoadingScreen onComplete={() => setShowLoading(false)} />}
+    {showLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
     <RouterProvider router={router} />
    </>
   )
