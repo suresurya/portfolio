@@ -104,6 +104,11 @@ const Projects = () => {
                   {project.category}
                 </span>
               </div>
+              {project.duration && (
+                <p className="text-[11px] font-medium text-[color:var(--color-accent)]/80 mb-1">
+                  {project.duration}
+                </p>
+              )}
               <p className="text-sm text-[color:var(--color-text-subtle)] leading-relaxed">{project.highlight}</p>
               <p className="text-xs text-[color:var(--color-text-subtle)] leading-relaxed">{project.summary}</p>
             </div>

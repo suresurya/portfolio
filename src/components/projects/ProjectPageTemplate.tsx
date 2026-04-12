@@ -28,6 +28,7 @@ type ProjectPageTemplateProps = {
   summary: string;
   category?: string;
   status?: string;
+  duration?: string;
   summaryClassName?: string;
   infoCards?: ProjectInfoCard[];
   caseStudy: ProjectCaseStudyPoint[];
@@ -45,6 +46,7 @@ const ProjectPageTemplate = ({
   summary,
   category,
   status,
+  duration,
   summaryClassName,
   infoCards,
   caseStudy,
@@ -67,6 +69,11 @@ const ProjectPageTemplate = ({
           {category && (
             <span className="text-[11px] uppercase tracking-[0.12em] text-[color:var(--color-text-subtle)]">
               {category}
+            </span>
+          )}
+          {duration && (
+            <span className="text-[11px] font-medium text-[color:var(--color-accent)] border-l theme-border-subtle pl-3 ml-1">
+              {duration}
             </span>
           )}
         </div>

@@ -78,6 +78,7 @@ export type ProjectMeta = {
 	repoUrl?: string;
 	demoUrl?: string;
 	status?: "Completed" | "Active" | "Archived" | "Early Access";
+	duration?: string;
 };
 
 export const PROJECTS: ProjectMeta[] = [
@@ -98,6 +99,7 @@ export const PROJECTS: ProjectMeta[] = [
 		repoUrl: "https://github.com/suresurya/portfolio",
 		demoUrl: "https://suresurya.github.io/portfolio/",
 		status: "Active",
+		duration: "Apr 2026 - Present",
 	},
 	{
 		key: "samurai-game",
@@ -115,6 +117,7 @@ export const PROJECTS: ProjectMeta[] = [
 		],
 		repoUrl: "https://github.com/luffynokaizoku/pixel-samurai",
 		status: "Completed",
+		duration: "Jan 2024 - Mar 2024",
 	},
 	{
 		key: "restaurant-landing",
@@ -131,6 +134,7 @@ export const PROJECTS: ProjectMeta[] = [
 			"Maintained visual hierarchy with lightweight static stack",
 		],
 		status: "Completed",
+		duration: "Oct 2023",
 	},
 	{
 		key: "dsa",
@@ -148,6 +152,7 @@ export const PROJECTS: ProjectMeta[] = [
 		],
 		repoUrl: "https://github.com/suresurya/DSA",
 		status: "Active",
+		duration: "Jun 2023 - Present",
 	},
 	{
 		key: "iqac",
@@ -165,6 +170,7 @@ export const PROJECTS: ProjectMeta[] = [
 		],
 		repoUrl: "https://github.com/suresurya/IQAC",
 		status: "Active",
+		duration: "Aug 2025 - Present",
 	},
 	{
 		key: "sure-prompt",
@@ -181,6 +187,7 @@ export const PROJECTS: ProjectMeta[] = [
 			"Designed a responsive MD3 interface using Material Web 3 components",
 		],
 		status: "Active",
+		duration: "Mar 2026 - Present",
 	},
 	{
 		key: "heatmap-view",
@@ -197,6 +204,7 @@ export const PROJECTS: ProjectMeta[] = [
 			"Achieved 100% visual parity with top-tier platform contribution graphs",
 		],
 		status: "Completed",
+		duration: "Apr 2026",
 	},
 	{
 		key: "checkstyle",
@@ -213,6 +221,7 @@ export const PROJECTS: ProjectMeta[] = [
 			"Participated in rigorous open-source code reviews and technical audits",
 		],
 		status: "Completed",
+		duration: "Feb 2026 - Mar 2026",
 	},
 	{
 		key: "registrar",
@@ -229,6 +238,7 @@ export const PROJECTS: ProjectMeta[] = [
 			"Integrated payroll and stock approval modules into a centralized backend dashboard",
 		],
 		status: "Completed",
+		duration: "Sep 2024 - Dec 2024",
 	},
 	{
 		key: "weather-flow",
@@ -245,6 +255,7 @@ export const PROJECTS: ProjectMeta[] = [
 			"Implemented a geolocation-aware UI that auto-adjusts to the user's local timezone",
 		],
 		status: "Completed",
+		duration: "Nov 2025",
 	},
 ];
 

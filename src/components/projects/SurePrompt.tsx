@@ -60,6 +60,7 @@ const SurePrompt = () => {
       impact={project?.impact}
       engineeringNotes={engineeringNotes}
       status={project?.status}
+      duration={project?.duration}
     />
   );
 };
