@@ -1,14 +1,12 @@
 import Profile from "../assets/pfp.webp";
 import { NavLink } from "react-router";
-import { FaGithub } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa";
-import { FaDiscord } from "react-icons/fa";
-import { FaMedium } from "react-icons/fa";
+import { FaDiscord, FaGithub, FaLinkedin, FaMedium, FaRegCopy } from "react-icons/fa";
 import { SiUdemy } from "react-icons/si";
 import { cn } from "../cn";
 import { ThemeToggle } from "./ThemeToggle";
 import { SOCIAL, SOCIAL_LINKS, type SocialPlatform } from "../data/constants";
 import type { IconType } from "react-icons";
+import { toast } from "sonner";
 
 const NavBar = () => {
     const socialIconMap: Record<SocialPlatform, IconType> = {
@@ -88,6 +86,17 @@ const NavBar = () => {
                                                     <FaDiscord aria-hidden="true" />
                                                 </span>
                                                 <span className="hidden sm:inline">{SOCIAL.discord}</span>
+                                                <button
+                                                    onClick={() => {
+                                                        navigator.clipboard.writeText(SOCIAL.discord);
+                                                        toast.success("Discord handle copied!");
+                                                    }}
+                                                    className="ml-1 p-1 hover:text-[color:var(--color-accent)] transition-colors cursor-pointer rounded-md hover:bg-[color:var(--color-accent-soft)]"
+                                                    title="Copy handle"
+                                                    aria-label="Copy Discord handle"
+                                                >
+                                                    <FaRegCopy size={12} />
+                                                </button>
                        </div>
                                                <ThemeToggle />
                     </div>
