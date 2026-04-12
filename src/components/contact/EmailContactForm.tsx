@@ -1,5 +1,6 @@
 import { getContactSendErrorMessage, sendContactMessage } from "../../utils/emailjsClient";
 import { toast } from "sonner";
+import confetti from "canvas-confetti";
 
 type EmailContactFormProps = {
   compact?: boolean;
@@ -127,6 +128,12 @@ const EmailContactForm = ({ compact = false }: EmailContactFormProps) => {
         setStatusType("success");
         setStatusMessage("Message sent successfully!");
         toast.success("Message sent successfully!");
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ["#ffffff", "#cccccc", "#999999"]
+        });
       } else {
         setStatusType("info");
         const msg = "Message sent successfully! Auto-reply could not be delivered, but your message reached me.";
