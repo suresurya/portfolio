@@ -1,5 +1,8 @@
 import { GitHubCalendar } from "react-github-calendar";
 import ErrorBoundary from "../ErrorBoundary";
+import { Tooltip as ReactTooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
+import React from "react";
 
 type GithubActivityProps = {
   username: string;
@@ -20,7 +23,17 @@ const GithubActivity = ({ username }: GithubActivityProps) => {
               </div>
             }
           >
-            <GitHubCalendar username={username} colorScheme="dark" />
+            <GitHubCalendar 
+              username={username} 
+              colorScheme="dark" 
+              renderBlock={(block, activity) => (
+                React.cloneElement(block, {
+                  'data-tooltip-id': 'react-gh-tooltip',
+                  'data-tooltip-content': `${activity.count} contributions on ${activity.date}`,
+                })
+              )}
+            />
+            <ReactTooltip id="react-gh-tooltip" />
           </ErrorBoundary>
         </div>
       </div>
