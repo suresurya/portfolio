@@ -62,6 +62,10 @@ const Footer = () => {
           {year} All Rights Reserved
         </p>
 
+        <p className="text-[10px] text-[color:var(--color-text-subtle)]/70 uppercase tracking-[0.2em] mt-1">
+          Building with ❤️ and Code
+        </p>
+
         <div className="flex items-center gap-2 px-2.5 py-1 rounded-full border theme-border-subtle bg-[color:var(--color-surface-muted)] text-[10px] uppercase tracking-widest font-bold">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
