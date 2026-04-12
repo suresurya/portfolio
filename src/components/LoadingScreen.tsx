@@ -199,7 +199,7 @@ export default function SureSuryaLoader({ onComplete }: Props) {
     // ── Scale factors ────────────────────────────────────────────────────────
     const sx = W / VB_W;
     const sy = H / VB_H;
-    const avgScale = Math.sqrt(sx * sy);
+    const avgScale = Math.min(sx, sy);
     const LW = Math.max(2.2, W * 0.0052);
 
     // ── Colours ──────────────────────────────────────────────────────────────
