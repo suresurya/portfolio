@@ -52,7 +52,8 @@ export type ProjectKey =
 	| "restaurant-landing"
 	| "dsa"
 	| "iqac"
-	| "sure-prompt";
+	| "sure-prompt"
+	| "heatmap-view";
 
 export type ProjectCategory =
 	| "frontend"
@@ -177,6 +178,22 @@ export const PROJECTS: ProjectMeta[] = [
 			"Designed a responsive MD3 interface using Material Web 3 components",
 		],
 		status: "Active",
+	},
+	{
+		key: "heatmap-view",
+		title: "Heatmap React Library",
+		route: "/projects/heatmap-view",
+		summary: "A high-performance LeetCode-style contribution graph for React with customizable themes and tooltip support.",
+		tech: "React, SVG, CSS Grid, Vitest",
+		category: "frontend",
+		tags: ["React", "SVG", "Custom Hooks", "OSS"],
+		highlight: "Pixel-perfect contribution graph with sub-pixel alignment and dynamic month labeling.",
+		impact: [
+			"Optimized SVG coordinate calculations for seamless 4x2 widget rendering",
+			"Implemented automated streak retrieval and widget state updates",
+			"Achieved 100% visual parity with top-tier platform contribution graphs",
+		],
+		status: "Completed",
 	},
 ];
 
