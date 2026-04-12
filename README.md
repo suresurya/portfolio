@@ -162,5 +162,25 @@ You can customize this section in the UI, but typically it will include:
 - LinkedIn / GitHub profile links
 - Any other social/contact options
 
-This portfolio is maintained by **Surya (vathsav)**.
+This portfolio is maintained by **Sure Surya (vathsav)**.
+
+---
+
+## Technical Log (Apr 2026 Sprint)
+
+### Sprint 1: Foundation & Interactions
+- Integrated `react-helmet-async` for global SEO.
+- Implemented `sonner` toasts and `canvas-confetti` rewards.
+- Added viewport scroll progress and floating "Back to Top" controls.
+
+### Sprint 2: Content Expansion
+- Added 5 new deep-dive case studies (SurePrompt, Heatmap-React, etc.).
+- Implemented staggered scroll reveal animations for all content blocks.
+- Added project sharing utility and detailed timeline metadata.
+
+### Sprint 3: Micro-Motion & Polish
+- Added dynamic browser title logic (tab blur effects).
+- Integrated "System Status: Online" live indicator.
+- Added email & discord one-tap copy utilities across the UI.
+- Improved draft persistence transparency in the contact section.
 
