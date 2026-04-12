@@ -3,6 +3,7 @@ import { Outlet } from "react-router";
 import Footer from "./Footer";
 import { Helmet } from "react-helmet-async";
 import ScrollProgress from "./ScrollProgress";
+import BackToTop from "./BackToTop";
 
 const Main = () => {
   return (
@@ -22,6 +23,7 @@ const Main = () => {
       <main id="main-content" tabIndex={-1} className="page-transition">
         <Outlet />
       </main>
+      <BackToTop />
       <Footer />
     </div>
   );
