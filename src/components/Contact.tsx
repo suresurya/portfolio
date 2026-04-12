@@ -117,9 +117,14 @@ const Contact = () => {
 
       <div className="theme-card-glass rounded-2xl p-6 sm:p-8 space-y-4">
         <h2 className="text-xl sm:text-2xl font-semibold">Send a direct message</h2>
-        <p className="text-sm text-[color:var(--color-text-subtle)] leading-relaxed">
-          Your message goes to my inbox and you also receive an automatic confirmation email.
-        </p>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <p className="text-sm text-[color:var(--color-text-subtle)] leading-relaxed">
+            Your message goes to my inbox and you also receive an automatic confirmation email.
+          </p>
+          <span className="inline-flex items-center rounded-md bg-[color:var(--color-accent)]/10 px-2 py-1 text-[10px] font-bold text-[color:var(--color-accent)] ring-1 ring-inset ring-[color:var(--color-accent)]/20 uppercase tracking-wider">
+            Drafts Auto-Saved
+          </span>
+        </div>
         <EmailContactForm />
       </div>
 
