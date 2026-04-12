@@ -2,6 +2,7 @@ import { Suspense, lazy, useCallback, useState, type ReactNode } from "react"
 import { createBrowserRouter , RouterProvider } from "react-router"
 import ErrorPage from "./components/Error"
 import LoadingScreen from "./components/LoadingScreen"
+import PageSkeleton from "./components/PageSkeleton"
 
 const Main = lazy(() => import("./components/Main"))
 const Resume = lazy(() => import("./components/Resume"))
@@ -14,11 +15,7 @@ const RestaurantLanding = lazy(() => import("./components/projects/RestaurantLan
 const DSA = lazy(() => import("./components/projects/DSA"))
 const IQAC = lazy(() => import("./components/projects/IQAC"))
 
-const routeLoadingFallback = (
-  <div className="min-h-[40vh] grid place-items-center text-sm text-[color:var(--color-text-subtle)]">
-    Loading page...
-  </div>
-)
+const routeLoadingFallback = <PageSkeleton />
 
 const withSuspense = (element: ReactNode) => (
   <Suspense fallback={routeLoadingFallback}>{element}</Suspense>
