@@ -85,6 +85,7 @@ const MouseTracker: React.FC = () => {
     const onMouseUp = () => setState(prevState => ({ ...prevState, isClicking: false }))
     const onMouseLeave = () => setState(prevState => ({ ...prevState, isHidden: true }))
     const onMouseEnter = () => setState(prevState => ({ ...prevState, isHidden: false }))
+    const onTouchStart = () => setState(prevState => ({ ...prevState, isHidden: true }))
 
     const onFocusIn = (e: FocusEvent) => {
       const focused = e.target as HTMLElement | null
@@ -101,6 +102,7 @@ const MouseTracker: React.FC = () => {
     window.addEventListener("mousemove", onMove)
     window.addEventListener("mousedown", onMouseDown)
     window.addEventListener("mouseup", onMouseUp)
+    window.addEventListener("touchstart", onTouchStart, { passive: true })
     document.addEventListener("mouseover", onMouseOver)
     document.addEventListener("mouseout", onMouseOut)
     document.addEventListener("mouseleave", onMouseLeave)
@@ -109,16 +111,22 @@ const MouseTracker: React.FC = () => {
     document.addEventListener("focusout", onFocusOut)
 
     let running = true
-    const follow = 0.18
+    let lastTime = performance.now()
 
-    const tick = () => {
+    const tick = (now: number) => {
       if (!running) return
+
+      const dt = now - lastTime
+      lastTime = now
+
+      // Smooth step derived from fixed follow=0.18 at 60fps (~16.6ms per frame)
+      const lerpFactor = 1 - Math.exp(-dt * 0.012)
 
       if (cursorRef.current) {
         const dx = target.current.x - current.current.x
         const dy = target.current.y - current.current.y
-        current.current.x += dx * follow
-        current.current.y += dy * follow
+        current.current.x += dx * lerpFactor
+        current.current.y += dy * lerpFactor
 
         cursorRef.current.style.transform = `translate3d(${current.current.x}px, ${current.current.y}px, 0)`
       }
@@ -132,6 +140,7 @@ const MouseTracker: React.FC = () => {
       window.removeEventListener("mousemove", onMove)
       window.removeEventListener("mousedown", onMouseDown)
       window.removeEventListener("mouseup", onMouseUp)
+      window.removeEventListener("touchstart", onTouchStart)
       document.removeEventListener("mouseover", onMouseOver)
       document.removeEventListener("mouseout", onMouseOut)
       document.removeEventListener("mouseleave", onMouseLeave)
