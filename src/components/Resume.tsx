@@ -3,6 +3,7 @@ import { FaLongArrowAltLeft, FaRegFilePdf } from "react-icons/fa"
 import { FiDownload, FiMaximize, FiMinimize } from "react-icons/fi"
 import { useNavigate } from "react-router"
 import { useState, useEffect } from "react"
+import { Helmet } from "react-helmet-async"
 
 const Resume = () => {
   const navigate = useNavigate()
@@ -22,6 +23,10 @@ const Resume = () => {
 
   return (
     <section className="relative w-full px-4 py-8 sm:px-8 sm:py-12 border border-gray-300/20 rounded-3xl font-jetMono overflow-hidden group transition-all duration-700 hover:border-gray-300/40 hover:shadow-[0_0_40px_rgba(255,255,255,0.03)] bg-gradient-to-b from-transparent to-[color:var(--color-accent-soft)]">
+      <Helmet>
+        <title>Resume | Sure Surya</title>
+        <meta name="description" content="View the curriculum vitae of Sure Surya, highlighting technical expertise in Spring Boot, Hibernate, MySQL, and backend systems engineering." />
+      </Helmet>
 
       {/* Decorative ambient glow */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[color:var(--color-text-main)] rounded-full blur-[120px] opacity-[0.03] pointer-events-none group-hover:opacity-[0.06] transition-opacity duration-1000 transform translate-x-1/3 -translate-y-1/3" />

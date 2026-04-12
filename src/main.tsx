@@ -4,6 +4,7 @@ import App from "./App.tsx"
 import MouseTracker from "./components/MouseTracker.tsx"
 import { ThemeProvider } from "./components/ThemeProvider"
 import ErrorBoundary from "./components/ErrorBoundary.tsx"
+import { HelmetProvider } from "react-helmet-async"
 
 createRoot(document.getElementById("root")!).render(
   <ErrorBoundary
@@ -21,9 +22,11 @@ createRoot(document.getElementById("root")!).render(
       console.error("App root error", error)
     }}
   >
-    <ThemeProvider>
-      <MouseTracker />
-      <App />
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider>
+        <MouseTracker />
+        <App />
+      </ThemeProvider>
+    </HelmetProvider>
   </ErrorBoundary>
 )

@@ -5,6 +5,7 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { FiCopy, FiMail, FiSend } from "react-icons/fi";
 import { SOCIAL } from "../data/constants";
 import EmailContactForm from "./contact/EmailContactForm";
+import { Helmet } from "react-helmet-async";
 
 const Contact = () => {
   const navigate = useNavigate();
@@ -49,6 +50,10 @@ const Contact = () => {
 
   return (
     <section className="mt-6 sm:mt-10 space-y-6 sm:space-y-8 font-jetMono text-[color:var(--color-text-main)]">
+      <Helmet>
+        <title>Contact | Sure Surya Portfolio</title>
+        <meta name="description" content="Get in touch with Sure Surya for collaborations, internships, or Java backend engineering opportunities." />
+      </Helmet>
       <div className="theme-card-glass rounded-2xl p-6 sm:p-8 space-y-4">
         <p className="text-sm uppercase tracking-[0.2em] text-[color:var(--color-text-subtle)]">
           Contact

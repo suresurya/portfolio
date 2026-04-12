@@ -2,6 +2,7 @@ import { Link, useOutlet } from "react-router";
 import { PROJECTS } from "../data/constants";
 import { useMemo, useState } from "react";
 import { FiExternalLink, FiGithub } from "react-icons/fi";
+import { Helmet } from "react-helmet-async";
 
 const Projects = () => {
   const outlet = useOutlet();
@@ -31,6 +32,10 @@ const Projects = () => {
 
   return (
     <div className="mt-6 sm:mt-10 space-y-6">
+      <Helmet>
+        <title>Projects | Sure Surya Portfolio</title>
+        <meta name="description" content="Explore a collection of backend and full-stack projects built with Java, React, and Python, featuring case studies on API design and algorithmic challenges." />
+      </Helmet>
       <div className="space-y-2">
         <h1 className="text-2xl sm:text-3xl font-bold">Projects</h1>
         <p className="text-sm text-[color:var(--color-text-subtle)]">
