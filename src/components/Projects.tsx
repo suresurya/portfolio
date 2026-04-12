@@ -1,13 +1,21 @@
 import { Link, useOutlet } from "react-router";
 import { PROJECTS } from "../data/constants";
 import { useMemo, useState } from "react";
-import { FiExternalLink, FiGithub } from "react-icons/fi";
+import { FiExternalLink, FiGithub, FiShare2 } from "react-icons/fi";
 import { Helmet } from "react-helmet-async";
+import { toast } from "sonner";
 
 const Projects = () => {
   const outlet = useOutlet();
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<"all" | (typeof PROJECTS)[number]["category"]>("all");
+
+  const handleShare = (route: string, title: string) => {
+    const url = `${window.location.origin}${window.location.pathname.replace(/\/$/, "")}${route}`;
+    navigator.clipboard.writeText(url).then(() => {
+      toast.success(`Link to "${title}" copied to clipboard!`);
+    });
+  };
 
   const categories = useMemo(
     () => ["all", ...Array.from(new Set(PROJECTS.map((project) => project.category)))],
@@ -157,6 +165,16 @@ const Projects = () => {
                   Live Demo
                 </a>
               )}
+
+              <button
+                type="button"
+                onClick={() => handleShare(project.route, project.title)}
+                title="Share case study"
+                className="inline-flex items-center justify-center gap-1 rounded-full border theme-border-subtle px-3 py-1.5 text-sm text-[color:var(--color-text-main)] transition-colors hover:bg-[color:var(--color-accent-soft)]"
+              >
+                <FiShare2 aria-hidden="true" className="w-3.5 h-3.5" />
+                Share
+              </button>
             </div>
           </article>
         ))}
