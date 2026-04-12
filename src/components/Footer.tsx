@@ -2,6 +2,7 @@ import { FaCopyright } from "react-icons/fa"
 import { CiAt } from "react-icons/ci"
 import { SOCIAL } from "../data/constants"
 import { useEffect, useState } from "react"
+import { toast } from "sonner"
 
 const QUOTES = [
   { text: "I will become the king of the pirates", author: "Monkey D. Luffy" },
@@ -19,6 +20,12 @@ const Footer = () => {
     const randomQuote = QUOTES[Math.floor(Math.random() * QUOTES.length)]
     setQuote(randomQuote)
   }, [])
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(SOCIAL.email).then(() => {
+      toast.success("Email copied to clipboard!")
+    })
+  }
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" })
@@ -39,16 +46,15 @@ const Footer = () => {
       <div className="mt-10 sm:mt-12 flex flex-col items-center gap-2 text-xs sm:text-sm text-[color:var(--color-text-subtle)]">
         <p className="flex items-center gap-1 text-center flex-wrap justify-center">
           Designed & Developed By
-          <a
-            href={SOCIAL.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Visit Sure Surya on GitHub (opens in new tab)"
-            className="flex items-center gap-1 hover:underline underline-offset-4 transition"
+          <button
+            type="button"
+            onClick={handleCopyEmail}
+            title={`Copy ${SOCIAL.email}`}
+            className="flex items-center gap-1 hover:underline underline-offset-4 transition text-[color:var(--color-accent)] font-medium"
           >
             <CiAt />
             Sure Surya 
-          </a>
+          </button>
         </p>
 
         <p className="flex items-center gap-1 text-center">
