@@ -2,6 +2,7 @@
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { SiDiscord } from "react-icons/si";
 import { FiCopy, FiMail, FiSend } from "react-icons/fi";
 import { SOCIAL } from "../data/constants";
 import EmailContactForm from "./contact/EmailContactForm";
@@ -11,6 +12,15 @@ import { toast } from "sonner";
 const Contact = () => {
   const navigate = useNavigate();
   const [copyState, setCopyState] = useState<"idle" | "success" | "error">("idle");
+
+  const copyDiscord = async () => {
+    try {
+      await navigator.clipboard.writeText(SOCIAL.discord);
+      toast.success("Discord handle copied!");
+    } catch {
+      toast.error("Failed to copy Discord handle.");
+    }
+  };
 
   const copyWithExecCommand = (value: string) => {
     const helper = document.createElement("textarea");
@@ -113,7 +123,7 @@ const Contact = () => {
         <EmailContactForm />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <a
           href={SOCIAL.github}
           target="_blank"
@@ -145,6 +155,20 @@ const Contact = () => {
             Connect with me professionally for opportunities and networking.
           </p>
         </a>
+
+        <button
+          onClick={copyDiscord}
+          className="theme-card-glass rounded-2xl p-5 border theme-border-subtle hover:-translate-y-0.5 transition-transform text-left cursor-pointer"
+          aria-label="Copy Sure Surya Discord handle"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-lg font-medium">Discord</span>
+            <SiDiscord className="text-2xl" />
+          </div>
+          <p className="mt-2 text-sm text-[color:var(--color-text-subtle)]">
+            Grab my Discord handle: {SOCIAL.discord}
+          </p>
+        </button>
       </div>
 
       <div className="rounded-2xl border theme-border-subtle p-5 sm:p-6 bg-[color:var(--color-bg-surface)]">
