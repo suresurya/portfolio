@@ -21,7 +21,21 @@ const initialFormFields: ContactFormFields = {
 };
 
 const EmailContactForm = ({ compact = false }: EmailContactFormProps) => {
-  const [fields, setFields] = useState<ContactFormFields>(initialFormFields);
+  const [fields, setFields] = useState<ContactFormFields>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("contactFormDraft");
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) { /* ignore */ }
+      }
+    }
+    return initialFormFields;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("contactFormDraft", JSON.stringify(fields));
+  }, [fields]);
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormFields, string>>>({});
   const [statusMessage, setStatusMessage] = useState<string>("");
   const [statusType, setStatusType] = useState<"idle" | "success" | "error" | "info">("idle");
@@ -108,6 +122,7 @@ const EmailContactForm = ({ compact = false }: EmailContactFormProps) => {
       });
 
       setFields(initialFormFields);
+      localStorage.removeItem("contactFormDraft");
       if (result.autoReplySent) {
         setStatusType("success");
         setStatusMessage("Message sent successfully!");
