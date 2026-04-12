@@ -33,14 +33,14 @@ export class ContactSendError extends Error {
 
 const env = import.meta.env as Record<string, string | undefined>;
 
-const EMAILJS_SERVICE_ID = env.VITE_EMAILJS_SERVICE_ID ?? "service_7gct18b";
-const EMAILJS_PUBLIC_KEY = env.VITE_EMAILJS_PUBLIC_KEY ?? "iDq5jKriUSMZOkx1X";
+const EMAILJS_SERVICE_ID = env.VITE_EMAILJS_SERVICE_ID || "";
+const EMAILJS_PUBLIC_KEY = env.VITE_EMAILJS_PUBLIC_KEY || "";
 const EMAILJS_OWNER_TEMPLATE_ID =
-  env.VITE_EMAILJS_OWNER_TEMPLATE_ID ?? "template_fbhe33w";
+  env.VITE_EMAILJS_OWNER_TEMPLATE_ID || "";
 const EMAILJS_AUTO_REPLY_TEMPLATE_ID =
-  env.VITE_EMAILJS_AUTO_REPLY_TEMPLATE_ID ?? "template_2t9c67t";
+  env.VITE_EMAILJS_AUTO_REPLY_TEMPLATE_ID || "";
 const OWNER_RECEIVE_EMAIL =
-  env.VITE_OWNER_RECEIVE_EMAIL ?? "suresrivenkatramasurya@gmail.com";
+  env.VITE_OWNER_RECEIVE_EMAIL || "suresrivenkatramasurya@gmail.com";
 
 let isEmailJsInitialized = false;
 
