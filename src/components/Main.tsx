@@ -2,6 +2,7 @@ import NavBar from "./NavBar";
 import { Outlet } from "react-router";
 import Footer from "./Footer";
 import { Helmet } from "react-helmet-async";
+import ScrollProgress from "./ScrollProgress";
 
 const Main = () => {
   return (
@@ -10,6 +11,7 @@ const Main = () => {
         <title>Sure Surya | Java Backend Developer</title>
         <meta name="description" content="Portfolio of Sure Surya, a Java Backend Developer specializing in Spring Boot, REST APIs, and scalable backend architecture." />
       </Helmet>
+      <ScrollProgress />
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[120] rounded-lg border theme-border-subtle bg-[color:var(--color-bg-elevated)] px-3 py-2 text-sm text-[color:var(--color-text-main)]"
