@@ -13,6 +13,12 @@ const getInitialTheme = (): Theme => {
     return stored;
   }
 
+  if (typeof window !== "undefined" && window.matchMedia) {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      return "dark";
+    }
+  }
+
   // Default theme should be dark unless the user explicitly chose otherwise.
   return "dark";
 };
@@ -27,6 +33,22 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     document.documentElement.setAttribute("data-theme", theme);
     window.localStorage.setItem("theme", theme);
   }, [theme]);
+
+  // Sync with OS preferences if no local override
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      // If we wish to strictly sync, we override theme. 
+      // But typically we only want to sync if they haven't manually swapped.
+      // But since we persist every swap in local storage, we just sync immediately if it flips while app is open.
+      setTheme(e.matches ? "dark" : "light");
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   const runWave = (next: Theme, x: number, y: number) => {
     const root = document.documentElement;
