@@ -15,6 +15,7 @@ const SamuraiGame = lazy(() => import("./components/projects/SamuraiGame"))
 const RestaurantLanding = lazy(() => import("./components/projects/RestaurantLanding"))
 const DSA = lazy(() => import("./components/projects/DSA"))
 const IQAC = lazy(() => import("./components/projects/IQAC"))
+const SurePrompt = lazy(() => import("./components/projects/SurePrompt"))
 
 const routeLoadingFallback = <PageSkeleton />
 
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
           { path:"restaurant-landing", element: withSuspense(<RestaurantLanding/>) },
           { path:"dsa", element: withSuspense(<DSA/>) },
           { path:"iqac", element: withSuspense(<IQAC/>) },
+          { path:"sure-prompt", element: withSuspense(<SurePrompt />) },
         ]
       },
       {

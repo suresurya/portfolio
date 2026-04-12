@@ -51,7 +51,8 @@ export type ProjectKey =
 	| "samurai-game"
 	| "restaurant-landing"
 	| "dsa"
-	| "iqac";
+	| "iqac"
+	| "sure-prompt";
 
 export type ProjectCategory =
 	| "frontend"
@@ -159,6 +160,22 @@ export const PROJECTS: ProjectMeta[] = [
 			"Automated insight workflows for performance and accreditation tracking",
 		],
 		repoUrl: "https://github.com/suresurya/IQAC",
+		status: "Active",
+	},
+	{
+		key: "sure-prompt",
+		title: "SurePrompt Platform",
+		route: "/projects/sure-prompt",
+		summary: "A professional prompt-sharing platform for high-quality LLM prompts with versioning and community features.",
+		tech: "Spring Boot, Java 21, React, Flyway, PostgreSQL",
+		category: "full-stack",
+		tags: ["Spring Boot", "React", "Flyway", "PostgreSQL", "Java"],
+		highlight: "Enterprise-ready full-stack platform with secure authentication and database migrations.",
+		impact: [
+			"Implemented clean migrations using Flyway to eliminate schema drift",
+			"Reduced startup friction by decoupling security and core services",
+			"Designed a responsive MD3 interface using Material Web 3 components",
+		],
 		status: "Active",
 	},
 ];
