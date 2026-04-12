@@ -55,7 +55,8 @@ export type ProjectKey =
 	| "sure-prompt"
 	| "heatmap-view"
 	| "checkstyle"
-	| "registrar";
+	| "registrar"
+	| "weather-flow";
 
 export type ProjectCategory =
 	| "frontend"
@@ -226,6 +227,22 @@ export const PROJECTS: ProjectMeta[] = [
 			"Automated multi-step approval workflow for letter chains and institutional leaves",
 			"Designed a robust RDBMS schema to ensure perfect data integrity for registrar workflows",
 			"Integrated payroll and stock approval modules into a centralized backend dashboard",
+		],
+		status: "Completed",
+	},
+	{
+		key: "weather-flow",
+		title: "WeatherFlow Dashboard",
+		route: "/projects/weather-flow",
+		summary: "A personal weather monitoring dashboard that tracks local and global conditions with historical data visualization.",
+		tech: "React, OpenWeather API, Chart.js, Tailwind",
+		category: "frontend",
+		tags: ["API Integration", "Data Vis", "React", "Dashboard"],
+		highlight: "Real-time weather monitoring with dynamic chart overlays and historical tracking.",
+		impact: [
+			"Integrated multiple weather APIs to ensure redundant and accurate data streams",
+			"Designed a custom Chart.js visualization layer for multi-day temperature trends",
+			"Implemented a geolocation-aware UI that auto-adjusts to the user's local timezone",
 		],
 		status: "Completed",
 	},
