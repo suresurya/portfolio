@@ -25,10 +25,12 @@ https://suresurya.github.io/portfolio/
 - Viewport scroll progress bar for visual reading depth
 - Floating "Back to Top" animated button
 - Custom mouse tracking and subtle motion effects (Delta-time corrected)
-- Projects section with dedicated project pages and real-time status badges
+- **Staggered Scroll Reveal**: Smooth coordinate-based entrance effects for all content blocks
+- **10 Featured Projects**: Comprehensive gallery with real-time status and duration badges
+- **One-Tap Sharing**: Instant project link sharing to clipboard from the gallery
 - GitHub activity calendar with interactive hover tooltips
 - Resume section with integrated Fullscreen Preview mode
-- Modern toast notifications for user interactions (Email, Copy logic)
+- Modern toast notifications for user interactions (Email, Copy, Share logic)
 - Delightful "Celebration Confetti" on successful form submissions
 - Contact sections with persistent draft caching for better UX
 
