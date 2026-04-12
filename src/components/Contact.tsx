@@ -6,6 +6,7 @@ import { FiCopy, FiMail, FiSend } from "react-icons/fi";
 import { SOCIAL } from "../data/constants";
 import EmailContactForm from "./contact/EmailContactForm";
 import { Helmet } from "react-helmet-async";
+import { toast } from "sonner";
 
 const Contact = () => {
   const navigate = useNavigate();
@@ -29,10 +30,13 @@ const Contact = () => {
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(SOCIAL.email);
         setCopyState("success");
+        toast.success("Email copied to clipboard!");
       } else if (copyWithExecCommand(SOCIAL.email)) {
         setCopyState("success");
+        toast.success("Email copied to clipboard!");
       } else {
         setCopyState("error");
+        toast.error("Failed to copy email.");
       }
     } catch {
       setCopyState("error");

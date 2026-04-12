@@ -3,6 +3,7 @@ import { createBrowserRouter , RouterProvider } from "react-router"
 import ErrorPage from "./components/Error"
 import LoadingScreen from "./components/LoadingScreen"
 import PageSkeleton from "./components/PageSkeleton"
+import { Toaster } from "sonner"
 
 const Main = lazy(() => import("./components/Main"))
 const Resume = lazy(() => import("./components/Resume"))
@@ -67,6 +68,7 @@ const App = () => {
 
   return (
    <>
+    <Toaster position="top-right" richColors />
     {showLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
     <RouterProvider router={router} />
    </>

@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
 import { getContactSendErrorMessage, sendContactMessage } from "../../utils/emailjsClient";
+import { toast } from "sonner";
 
 type EmailContactFormProps = {
   compact?: boolean;
@@ -126,16 +126,19 @@ const EmailContactForm = ({ compact = false }: EmailContactFormProps) => {
       if (result.autoReplySent) {
         setStatusType("success");
         setStatusMessage("Message sent successfully!");
+        toast.success("Message sent successfully!");
       } else {
         setStatusType("info");
-        setStatusMessage(
-          "Message sent successfully! Auto-reply could not be delivered, but your message reached me."
-        );
+        const msg = "Message sent successfully! Auto-reply could not be delivered, but your message reached me.";
+        setStatusMessage(msg);
+        toast.info(msg);
       }
       setCooldownUntil(Date.now() + SUBMIT_COOLDOWN_MS);
     } catch (error) {
       setStatusType("error");
-      setStatusMessage(getContactSendErrorMessage(error));
+      const errorMsg = getContactSendErrorMessage(error);
+      setStatusMessage(errorMsg);
+      toast.error(errorMsg);
     } finally {
       setIsSending(false);
     }
