@@ -91,7 +91,14 @@ const Projects = () => {
           >
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-3">
-                <h2 className="text-base sm:text-lg pr-2 font-semibold">{project.title}</h2>
+                <div className="flex flex-col gap-1 pr-2">
+                  <h2 className="text-base sm:text-lg font-semibold">{project.title}</h2>
+                  {project.status && (
+                    <span className="w-fit rounded-md bg-[color:var(--color-accent)]/10 px-1.5 py-0.5 text-[10px] font-medium text-[color:var(--color-accent)] ring-1 ring-inset ring-[color:var(--color-accent)]/20">
+                      {project.status}
+                    </span>
+                  )}
+                </div>
                 <span className="text-[11px] uppercase tracking-[0.12em] text-[color:var(--color-text-subtle)]">
                   {project.category}
                 </span>

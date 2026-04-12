@@ -72,6 +72,7 @@ export type ProjectMeta = {
 	impact: string[];
 	repoUrl?: string;
 	demoUrl?: string;
+	status?: "Completed" | "Active" | "Archived" | "Early Access";
 };
 
 export const PROJECTS: ProjectMeta[] = [
@@ -91,6 +92,7 @@ export const PROJECTS: ProjectMeta[] = [
 		],
 		repoUrl: "https://github.com/suresurya/portfolio",
 		demoUrl: "https://suresurya.github.io/portfolio/",
+		status: "Active",
 	},
 	{
 		key: "samurai-game",
@@ -107,6 +109,7 @@ export const PROJECTS: ProjectMeta[] = [
 			"Designed reusable combat systems for power-ups and specials",
 		],
 		repoUrl: "https://github.com/luffynokaizoku/pixel-samurai",
+		status: "Completed",
 	},
 	{
 		key: "restaurant-landing",
@@ -122,6 +125,7 @@ export const PROJECTS: ProjectMeta[] = [
 			"Optimized layout for readability and CTA flow across breakpoints",
 			"Maintained visual hierarchy with lightweight static stack",
 		],
+		status: "Completed",
 	},
 	{
 		key: "dsa",
@@ -138,6 +142,7 @@ export const PROJECTS: ProjectMeta[] = [
 			"Improved interview readiness through organized concept modules",
 		],
 		repoUrl: "https://github.com/suresurya/DSA",
+		status: "Active",
 	},
 	{
 		key: "iqac",
@@ -154,6 +159,7 @@ export const PROJECTS: ProjectMeta[] = [
 			"Automated insight workflows for performance and accreditation tracking",
 		],
 		repoUrl: "https://github.com/suresurya/IQAC",
+		status: "Active",
 	},
 ];
 
