@@ -53,7 +53,8 @@ export type ProjectKey =
 	| "dsa"
 	| "iqac"
 	| "sure-prompt"
-	| "heatmap-view";
+	| "heatmap-view"
+	| "checkstyle";
 
 export type ProjectCategory =
 	| "frontend"
@@ -192,6 +193,22 @@ export const PROJECTS: ProjectMeta[] = [
 			"Optimized SVG coordinate calculations for seamless 4x2 widget rendering",
 			"Implemented automated streak retrieval and widget state updates",
 			"Achieved 100% visual parity with top-tier platform contribution graphs",
+		],
+		status: "Completed",
+	},
+	{
+		key: "checkstyle",
+		title: "Checkstyle GSoC Core",
+		route: "/projects/checkstyle",
+		summary: "Contributions to the Checkstyle project during GSoC 2026, focusing on LaTeX formatting and technical rigour.",
+		tech: "Java, Checkstyle Core, LaTeX, JUnit",
+		category: "algorithms",
+		tags: ["Open Source", "GSoC 2026", "Java Core", "Quality Assurance"],
+		highlight: "Deep technical contribution to enterprise-grade static analysis tools.",
+		impact: [
+			"Refined GSoC proposal into peer-reviewed LaTeX standards for mentor readiness",
+			"Eliminated prohibited symbolic overhead in Checkstyle technical documentation",
+			"Participated in rigorous open-source code reviews and technical audits",
 		],
 		status: "Completed",
 	},
