@@ -117,6 +117,23 @@ body {
 	animation: pageFadeIn 320ms ease-out;
 }
 
+/* Scroll reveal animation */
+@keyframes reveal {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.reveal {
+	opacity: 0;
+	animation: reveal 0.6s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
+}
+
 /* Tech stack pop-up animation */
 .tech-pop {
 	animation: tech-pop-up 260ms ease-out;

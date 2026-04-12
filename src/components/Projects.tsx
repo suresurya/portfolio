@@ -84,10 +84,11 @@ const Projects = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {filteredProjects.map((project) => (
+        {filteredProjects.map((project, index) => (
           <article
             key={project.key}
-            className="theme-card-glass rounded-xl p-4 sm:p-5 hover:translate-y-0.5 hover:shadow-xl transition-all duration-300 flex flex-col gap-4"
+            className="theme-card-glass rounded-xl p-4 sm:p-5 hover:translate-y-0.5 hover:shadow-xl transition-all duration-300 flex flex-col gap-4 reveal"
+            style={{ animationDelay: `${index * 80}ms` }}
           >
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-3">
