@@ -1,9 +1,24 @@
 import { FaCopyright } from "react-icons/fa"
 import { CiAt } from "react-icons/ci"
 import { SOCIAL } from "../data/constants"
+import { useEffect, useState } from "react"
+
+const QUOTES = [
+  { text: "I will become the king of the pirates", author: "Monkey D. Luffy" },
+  { text: "First, solve the problem. Then, write the code.", author: "John Johnson" },
+  { text: "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.", author: "Martin Fowler" },
+  { text: "Programs must be written for people to read, and only incidentally for machines to execute.", author: "Harold Abelson" },
+  { text: "If you don't take risks, you can't create a future.", author: "Monkey D. Luffy" },
+]
 
 const Footer = () => {
   const year = new Date().getFullYear()
+  const [quote, setQuote] = useState(QUOTES[0])
+
+  useEffect(() => {
+    const randomQuote = QUOTES[Math.floor(Math.random() * QUOTES.length)]
+    setQuote(randomQuote)
+  }, [])
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" })
@@ -14,10 +29,10 @@ const Footer = () => {
 
       <div className="flex flex-col items-center justify-center text-center gap-3 sm:gap-4">
         <p className="font-medium font-google text-lg sm:text-2xl text-[color:var(--color-text-main)]/80 leading-snug">
-          “I will become the king of the pirates”
+          “{quote.text}”
         </p>
         <span className="text-sm text-[color:var(--color-text-subtle)]">
-          — Monkey D. Luffy
+          — {quote.author}
         </span>
       </div>
 
