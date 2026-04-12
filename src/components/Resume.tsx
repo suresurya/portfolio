@@ -1,13 +1,24 @@
 const ResumeFile = "/resume.pdf";
 import { FaLongArrowAltLeft, FaRegFilePdf } from "react-icons/fa"
-import { FiDownload } from "react-icons/fi"
+import { FiDownload, FiMaximize, FiMinimize } from "react-icons/fi"
 import { useNavigate } from "react-router"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const Resume = () => {
   const navigate = useNavigate()
   const [isLoadingPreview, setIsLoadingPreview] = useState(true)
   const [previewLoadFailed, setPreviewLoadFailed] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+
+  // Prevent scroll when fullscreen
+  useEffect(() => {
+    if (isFullscreen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => { document.body.style.overflow = "unset"; }
+  }, [isFullscreen]);
 
   return (
     <section className="relative w-full px-4 py-8 sm:px-8 sm:py-12 border border-gray-300/20 rounded-3xl font-jetMono overflow-hidden group transition-all duration-700 hover:border-gray-300/40 hover:shadow-[0_0_40px_rgba(255,255,255,0.03)] bg-gradient-to-b from-transparent to-[color:var(--color-accent-soft)]">
@@ -49,8 +60,31 @@ const Resume = () => {
         </h1>
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-5xl" aria-busy={isLoadingPreview && !previewLoadFailed}>
-        <div className="relative bg-[#0A0A0A] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10 transition-all duration-700 hover:ring-white/20">
+      <div className={isFullscreen ? "fixed inset-0 z-[100] w-full h-full bg-black/90 backdrop-blur-md p-4 sm:p-8 flex flex-col" : "relative z-10 mx-auto w-full max-w-5xl"} aria-busy={isLoadingPreview && !previewLoadFailed}>
+        
+        {isFullscreen && (
+          <div className="flex justify-end mb-4">
+             <button
+              onClick={() => setIsFullscreen(false)}
+              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl backdrop-blur-md transition-all flex items-center gap-2 cursor-pointer"
+             >
+               <FiMinimize /> Exit Fullscreen
+             </button>
+          </div>
+        )}
+
+        <div className={`relative bg-[#0A0A0A] overflow-hidden shadow-2xl ring-1 ring-white/10 transition-all duration-700 hover:ring-white/20 ${isFullscreen ? "flex-1 w-full rounded-2xl" : "rounded-2xl"}`}>
+
+          {!previewLoadFailed && !isFullscreen && (
+            <button
+              onClick={() => setIsFullscreen(true)}
+              className="absolute top-4 right-4 z-30 p-2.5 bg-black/40 hover:bg-black/70 rounded-xl text-white/70 hover:text-white transition-all cursor-pointer backdrop-blur-md border border-white/10 hover:scale-105"
+              aria-label="Enter fullscreen"
+              title="Fullscreen Preview"
+            >
+              <FiMaximize size={18} />
+            </button>
+          )}
 
           {isLoadingPreview && !previewLoadFailed && (
             <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#0A0A0A]/80 backdrop-blur-xl">
@@ -86,7 +120,7 @@ const Resume = () => {
           ) : (
             <iframe
               src={`${ResumeFile}#toolbar=0&navpanes=0&scrollbar=1&zoom=page-width`}
-              className={`w-full h-[68vh] sm:h-[80vh] transition-all duration-1000 ${isLoadingPreview ? "opacity-0 scale-[0.98]" : "opacity-100 scale-100"}`}
+              className={`w-full transition-all duration-1000 ${isLoadingPreview ? "opacity-0 scale-[0.98]" : "opacity-100 scale-100"} ${isFullscreen ? "h-full min-h-[80vh]" : "h-[68vh] sm:h-[80vh]"}`}
               title="Sure Surya Resume"
               style={{ backgroundColor: '#0A0A0A' }}
               onLoad={() => {
