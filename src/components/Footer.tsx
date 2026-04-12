@@ -50,9 +50,9 @@ const Footer = () => {
             type="button"
             onClick={handleCopyEmail}
             title={`Copy ${SOCIAL.email}`}
-            className="flex items-center gap-1 hover:underline underline-offset-4 transition text-[color:var(--color-accent)] font-medium"
+            className="flex items-center gap-1.5 hover:scale-105 active:scale-95 transition-transform text-[color:var(--color-accent)] font-bold decoration-[color:var(--color-accent)]/30 hover:underline underline-offset-4"
           >
-            <CiAt />
+            <CiAt className="text-lg" />
             Sure Surya 
           </button>
         </p>
