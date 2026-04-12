@@ -54,7 +54,8 @@ export type ProjectKey =
 	| "iqac"
 	| "sure-prompt"
 	| "heatmap-view"
-	| "checkstyle";
+	| "checkstyle"
+	| "registrar";
 
 export type ProjectCategory =
 	| "frontend"
@@ -209,6 +210,22 @@ export const PROJECTS: ProjectMeta[] = [
 			"Refined GSoC proposal into peer-reviewed LaTeX standards for mentor readiness",
 			"Eliminated prohibited symbolic overhead in Checkstyle technical documentation",
 			"Participated in rigorous open-source code reviews and technical audits",
+		],
+		status: "Completed",
+	},
+	{
+		key: "registrar",
+		title: "Registrar Management System",
+		route: "/projects/registrar",
+		summary: "An enterprise-grade institutional workflow system for automating letter chains, leaves, and approvals.",
+		tech: "Java, Spring Boot, MySQL, Thymeleaf",
+		category: "backend",
+		tags: ["Enterprise", "Java Boot", "Workflow Automation", "RDBMS"],
+		highlight: "Complex institutional approval system with role-based letter chains and stock approvals.",
+		impact: [
+			"Automated multi-step approval workflow for letter chains and institutional leaves",
+			"Designed a robust RDBMS schema to ensure perfect data integrity for registrar workflows",
+			"Integrated payroll and stock approval modules into a centralized backend dashboard",
 		],
 		status: "Completed",
 	},

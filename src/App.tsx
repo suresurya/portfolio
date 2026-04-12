@@ -18,6 +18,7 @@ const IQAC = lazy(() => import("./components/projects/IQAC"))
 const SurePrompt = lazy(() => import("./components/projects/SurePrompt"))
 const HeatmapView = lazy(() => import("./components/projects/HeatmapView"))
 const Checkstyle = lazy(() => import("./components/projects/Checkstyle"))
+const Registrar = lazy(() => import("./components/projects/Registrar"))
 
 const routeLoadingFallback = <PageSkeleton />
 
@@ -47,6 +48,7 @@ const router = createBrowserRouter([
           { path:"sure-prompt", element: withSuspense(<SurePrompt />) },
           { path:"heatmap-view", element: withSuspense(<HeatmapView />) },
           { path:"checkstyle", element: withSuspense(<Checkstyle />) },
+          { path:"registrar", element: withSuspense(<Registrar />) },
         ]
       },
       {
