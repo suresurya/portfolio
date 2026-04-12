@@ -26,6 +26,8 @@ export type ProjectActionLink = {
 type ProjectPageTemplateProps = {
   title: string;
   summary: string;
+  category?: string;
+  status?: string;
   summaryClassName?: string;
   infoCards?: ProjectInfoCard[];
   caseStudy: ProjectCaseStudyPoint[];
@@ -41,6 +43,8 @@ const surfaceCardClassName =
 const ProjectPageTemplate = ({
   title,
   summary,
+  category,
+  status,
   summaryClassName,
   infoCards,
   caseStudy,
@@ -52,7 +56,21 @@ const ProjectPageTemplate = ({
   return (
     <div className="mt-10 space-y-5">
       <ProjectBackLink />
-      <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
+      <div className="space-y-2">
+        <div className="flex flex-wrap items-center gap-3">
+          <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
+          {status && (
+            <span className="rounded-md bg-[color:var(--color-accent)]/10 px-2 py-0.5 text-[11px] font-medium text-[color:var(--color-accent)] ring-1 ring-inset ring-[color:var(--color-accent)]/20">
+              {status}
+            </span>
+          )}
+          {category && (
+            <span className="text-[11px] uppercase tracking-[0.12em] text-[color:var(--color-text-subtle)]">
+              {category}
+            </span>
+          )}
+        </div>
+      </div>
 
       <p
         className={cn(
