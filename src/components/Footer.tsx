@@ -62,6 +62,14 @@ const Footer = () => {
           {year} All Rights Reserved
         </p>
 
+        <div className="flex items-center gap-2 px-2.5 py-1 rounded-full border theme-border-subtle bg-[color:var(--color-surface-muted)] text-[10px] uppercase tracking-widest font-bold">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+          </span>
+          System Status: Online
+        </div>
+
         <button
           type="button"
           onClick={scrollToTop}
