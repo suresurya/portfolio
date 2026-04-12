@@ -21,11 +21,16 @@ https://suresurya.github.io/portfolio/
 ## Features
 
 - Clean, responsive layout focused on readability
-- Dark and light themes with smooth animated transitions
-- Custom mouse tracking and subtle motion effects
-- Projects section highlighting multiple real-world projects
-- GitHub activity calendar using `react-github-calendar`
-- Resume and contact sections so people can reach out easily
+- Dark and light themes with smooth animated transitions (System sync enabled)
+- Viewport scroll progress bar for visual reading depth
+- Floating "Back to Top" animated button
+- Custom mouse tracking and subtle motion effects (Delta-time corrected)
+- Projects section with dedicated project pages and real-time status badges
+- GitHub activity calendar with interactive hover tooltips
+- Resume section with integrated Fullscreen Preview mode
+- Modern toast notifications for user interactions (Email, Copy logic)
+- Delightful "Celebration Confetti" on successful form submissions
+- Contact sections with persistent draft caching for better UX
 
 ### Sections Overview
 
@@ -42,9 +47,11 @@ https://suresurya.github.io/portfolio/
 - **Language:** TypeScript
 - **Bundler/Dev Server:** Vite
 - **Styling:** Tailwind CSS 4, custom CSS variables, Google Fonts
-- **Routing:** React Router
-- **UI Helpers:** `react-icons`, `clsx`, `tailwind-merge`
-- **Tooling:** ESLint, TypeScript
+- **Routing:** React Router 7
+- **SEO & Metadata:** `react-helmet-async`
+- **Feedback & Interactions:** `sonner` (Toasts), `canvas-confetti`, `react-tooltip`
+- **UI Helpers:** `lucide-react`, `react-icons`, `clsx`, `tailwind-merge`
+- **Tooling:** Vitest (Testing), ESLint, TypeScript 5.9
 
 ---
 
