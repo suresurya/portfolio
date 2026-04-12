@@ -72,6 +72,19 @@ const router = createBrowserRouter([
 
 const App = () => {
   const [showLoading, setShowLoading] = useState(true);
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        document.title = "Come back soon! | Sure Surya"
+      } else {
+        document.title = "Sure Surya | Java Developer Portfolio"
+      }
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange)
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange)
+  }, [])
+
   const handleLoadingComplete = useCallback(() => {
     setShowLoading(false);
   }, []);
