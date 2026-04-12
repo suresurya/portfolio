@@ -70,7 +70,7 @@ const Projects = () => {
         </div>
 
         <div className="flex flex-wrap gap-2">
-          {categories.map((category) => {
+          {categories.map((category, index) => {
             const isActive = activeCategory === category;
 
             return (
@@ -78,11 +78,12 @@ const Projects = () => {
                 key={category}
                 type="button"
                 onClick={() => setActiveCategory(category as typeof activeCategory)}
-                className={`rounded-full border px-3 py-1.5 text-xs sm:text-sm capitalize transition-colors ${
+                className={`rounded-full border px-3 py-1.5 text-xs sm:text-sm capitalize transition-colors reveal ${
                   isActive
                     ? "theme-border-subtle bg-[color:var(--color-accent-soft)] text-[color:var(--color-text-main)]"
                     : "theme-border-subtle text-[color:var(--color-text-subtle)] hover:text-[color:var(--color-text-main)]"
                 }`}
+                style={{ animationDelay: `${index * 50}ms` }}
               >
                 {category}
               </button>
