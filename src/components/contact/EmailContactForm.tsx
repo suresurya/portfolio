@@ -29,7 +29,7 @@ const EmailContactForm = ({ compact = false }: EmailContactFormProps) => {
       if (saved) {
         try {
           return JSON.parse(saved);
-        } catch (e) { /* ignore */ }
+        } catch { /* ignore */ }
       }
     }
     return initialFormFields;

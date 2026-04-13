@@ -1,7 +1,7 @@
 import { FaCopyright } from "react-icons/fa"
 import { CiAt } from "react-icons/ci"
 import { SOCIAL } from "../data/constants"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { toast } from "sonner"
 
 const QUOTES = [
@@ -14,12 +14,7 @@ const QUOTES = [
 
 const Footer = () => {
   const year = new Date().getFullYear()
-  const [quote, setQuote] = useState(QUOTES[0])
-
-  useEffect(() => {
-    const randomQuote = QUOTES[Math.floor(Math.random() * QUOTES.length)]
-    setQuote(randomQuote)
-  }, [])
+  const [quote] = useState(() => QUOTES[Math.floor(Math.random() * QUOTES.length)])
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(SOCIAL.email).then(() => {

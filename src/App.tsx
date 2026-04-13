@@ -1,4 +1,4 @@
-import { Suspense, lazy, useCallback, useState, type ReactNode } from "react"
+import { Suspense, lazy, useCallback, useState, useEffect, type ReactNode } from "react"
 import { createBrowserRouter , RouterProvider } from "react-router"
 import ErrorPage from "./components/Error"
 import LoadingScreen from "./components/LoadingScreen"
