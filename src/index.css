@@ -81,6 +81,28 @@ body {
 	overflow-x: hidden;
 }
 
+@media (prefers-reduced-motion: reduce) {
+	html:focus-within {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+
+	.reveal,
+	.page-transition {
+		opacity: 1 !important;
+		animation: none !important;
+		transform: none !important;
+	}
+}
+
 /* Surfaces & glassmorphism */
 .theme-surface {
 	background-color: var(--color-bg-surface);

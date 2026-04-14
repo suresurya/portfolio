@@ -4,17 +4,23 @@ import { useMemo, useState } from "react";
 import { FiExternalLink, FiGithub, FiShare2 } from "react-icons/fi";
 import { Helmet } from "react-helmet-async";
 import { toast } from "sonner";
+import { buildAbsoluteAppUrl, copyTextToClipboard } from "../utils/clipboard";
 
 const Projects = () => {
   const outlet = useOutlet();
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<"all" | (typeof PROJECTS)[number]["category"]>("all");
 
-  const handleShare = (route: string, title: string) => {
-    const url = `${window.location.origin}${window.location.pathname.replace(/\/$/, "")}${route}`;
-    navigator.clipboard.writeText(url).then(() => {
+  const handleShare = async (route: string, title: string) => {
+    const url = buildAbsoluteAppUrl(route);
+    const didCopy = await copyTextToClipboard(url);
+
+    if (didCopy) {
       toast.success(`Link to "${title}" copied to clipboard!`);
-    });
+      return;
+    }
+
+    toast.error("Unable to copy link automatically. Please copy from the address bar.");
   };
 
   const categories = useMemo(
@@ -169,7 +175,9 @@ const Projects = () => {
 
               <button
                 type="button"
-                onClick={() => handleShare(project.route, project.title)}
+                onClick={() => {
+                  void handleShare(project.route, project.title);
+                }}
                 title="Share case study"
                 className="inline-flex items-center justify-center gap-1 rounded-full border theme-border-subtle px-3 py-1.5 text-sm text-[color:var(--color-text-main)] transition-colors hover:bg-[color:var(--color-accent-soft)]"
               >

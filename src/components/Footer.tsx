@@ -3,6 +3,7 @@ import { CiAt } from "react-icons/ci"
 import { SOCIAL } from "../data/constants"
 import { useState } from "react"
 import { toast } from "sonner"
+import { copyTextToClipboard } from "../utils/clipboard"
 
 const QUOTES = [
   { text: "I will become the king of the pirates", author: "Monkey D. Luffy" },
@@ -16,10 +17,15 @@ const Footer = () => {
   const year = new Date().getFullYear()
   const [quote] = useState(() => QUOTES[Math.floor(Math.random() * QUOTES.length)])
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(SOCIAL.email).then(() => {
+  const handleCopyEmail = async () => {
+    const didCopy = await copyTextToClipboard(SOCIAL.email)
+
+    if (didCopy) {
       toast.success("Email copied to clipboard!")
-    })
+      return
+    }
+
+    toast.error("Unable to copy email automatically.")
   }
 
   const scrollToTop = () => {
@@ -43,7 +49,9 @@ const Footer = () => {
           Designed & Developed By
           <button
             type="button"
-            onClick={handleCopyEmail}
+            onClick={() => {
+              void handleCopyEmail()
+            }}
             title={`Copy ${SOCIAL.email}`}
             className="flex items-center gap-1.5 hover:scale-105 active:scale-95 transition-transform text-[color:var(--color-accent)] font-bold decoration-[color:var(--color-accent)]/30 hover:underline underline-offset-4"
           >

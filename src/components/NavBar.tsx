@@ -7,6 +7,7 @@ import { ThemeToggle } from "./ThemeToggle";
 import { SOCIAL, SOCIAL_LINKS, type SocialPlatform } from "../data/constants";
 import type { IconType } from "react-icons";
 import { toast } from "sonner";
+import { copyTextToClipboard } from "../utils/clipboard";
 
 const NavBar = () => {
     const socialIconMap: Record<SocialPlatform, IconType> = {
@@ -31,6 +32,17 @@ const NavBar = () => {
         }
 
     ]
+
+    const handleCopyDiscord = async () => {
+        const didCopy = await copyTextToClipboard(SOCIAL.discord);
+
+        if (didCopy) {
+            toast.success("Discord handle copied!");
+            return;
+        }
+
+        toast.error("Unable to copy Discord handle automatically.");
+    };
   return (
         <header className="py-3 sm:py-4 sticky top-0 backdrop-blur-sm z-100 rounded-2xl">
             <nav className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4"> 
@@ -88,8 +100,7 @@ const NavBar = () => {
                                                 <span className="hidden sm:inline">{SOCIAL.discord}</span>
                                                 <button
                                                     onClick={() => {
-                                                        navigator.clipboard.writeText(SOCIAL.discord);
-                                                        toast.success("Discord handle copied!");
+                                                        void handleCopyDiscord();
                                                     }}
                                                     className="ml-1 p-1 hover:text-[color:var(--color-accent)] transition-colors cursor-pointer rounded-md hover:bg-[color:var(--color-accent-soft)]"
                                                     title="Copy handle"
