@@ -23,28 +23,9 @@ const WeatherFlow = lazy(() => import("./components/projects/WeatherFlow"))
 
 const routeLoadingFallback = <PageSkeleton />
 
-const LOADER_SEEN_KEY = "portfolio-loader-seen"
-
 const withSuspense = (element: ReactNode) => (
   <Suspense fallback={routeLoadingFallback}>{element}</Suspense>
 )
-
-const shouldShowLoaderInitially = (): boolean => {
-  if (typeof window === "undefined") {
-    return true
-  }
-
-  const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false
-  if (prefersReducedMotion) {
-    return false
-  }
-
-  try {
-    return window.sessionStorage.getItem(LOADER_SEEN_KEY) !== "1"
-  } catch {
-    return true
-  }
-}
 
 const router = createBrowserRouter([
   {
@@ -90,7 +71,7 @@ const router = createBrowserRouter([
 
 
 const App = () => {
-  const [showLoading, setShowLoading] = useState(shouldShowLoaderInitially);
+  const [showLoading, setShowLoading] = useState(true);
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === "hidden") {
@@ -105,12 +86,7 @@ const App = () => {
   }, [])
 
   const handleLoadingComplete = useCallback(() => {
-    setShowLoading(false)
-    try {
-      window.sessionStorage.setItem(LOADER_SEEN_KEY, "1")
-    } catch {
-      // Ignore storage errors in private contexts.
-    }
+    setShowLoading(false);
   }, []);
 
   return (

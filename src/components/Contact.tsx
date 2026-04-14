@@ -8,32 +8,48 @@ import { SOCIAL } from "../data/constants";
 import EmailContactForm from "./contact/EmailContactForm";
 import { Helmet } from "react-helmet-async";
 import { toast } from "sonner";
-import { copyTextToClipboard } from "../utils/clipboard";
 
 const Contact = () => {
   const navigate = useNavigate();
   const [copyState, setCopyState] = useState<"idle" | "success" | "error">("idle");
 
   const copyDiscord = async () => {
-    const didCopy = await copyTextToClipboard(SOCIAL.discord);
-
-    if (didCopy) {
+    try {
+      await navigator.clipboard.writeText(SOCIAL.discord);
       toast.success("Discord handle copied!");
-      return;
+    } catch {
+      toast.error("Failed to copy Discord handle.");
     }
+  };
 
-    toast.error("Failed to copy Discord handle.");
+  const copyWithExecCommand = (value: string) => {
+    const helper = document.createElement("textarea");
+    helper.value = value;
+    helper.setAttribute("readonly", "true");
+    helper.style.position = "fixed";
+    helper.style.opacity = "0";
+    document.body.appendChild(helper);
+    helper.select();
+    const didCopy = document.execCommand("copy");
+    document.body.removeChild(helper);
+    return didCopy;
   };
 
   const copyEmail = async () => {
-    const didCopy = await copyTextToClipboard(SOCIAL.email);
-
-    if (didCopy) {
-      setCopyState("success");
-      toast.success("Email copied to clipboard!");
-    } else {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(SOCIAL.email);
+        setCopyState("success");
+        toast.success("Email copied to clipboard!");
+      } else if (copyWithExecCommand(SOCIAL.email)) {
+        setCopyState("success");
+        toast.success("Email copied to clipboard!");
+      } else {
+        setCopyState("error");
+        toast.error("Failed to copy email.");
+      }
+    } catch {
       setCopyState("error");
-      toast.error("Failed to copy email.");
     }
 
     window.setTimeout(() => setCopyState("idle"), 1800);

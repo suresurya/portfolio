@@ -1,15 +1,17 @@
 import Profile from "../../assets/pfp.webp";
+import { GoDotFill, GoDot } from "react-icons/go";
 import { IoDocumentLockSharp } from "react-icons/io5";
 import { FaRegPaperPlane } from "react-icons/fa";
 import { FiBriefcase } from "react-icons/fi";
 
 type ProfileIntroProps = {
+  online: boolean;
   onResumeClick: () => void;
   onContactClick: () => void;
   onProjectsClick: () => void;
 };
 
-const ProfileIntro = ({ onResumeClick, onContactClick, onProjectsClick }: ProfileIntroProps) => {
+const ProfileIntro = ({ online, onResumeClick, onContactClick, onProjectsClick }: ProfileIntroProps) => {
   return (
     <section>
       <div className="mb-5 w-fit relative p-0">
@@ -22,17 +24,15 @@ const ProfileIntro = ({ onResumeClick, onContactClick, onProjectsClick }: Profil
           loading="lazy"
           decoding="async"
         />
-        <span
-          className="absolute bottom-0 right-0 inline-flex h-5 w-5 items-center justify-center"
-          role="status"
-          aria-label="Currently available for opportunities"
-        >
-          <span
-            className="absolute inline-flex h-4 w-4 rounded-full bg-green-400/60 animate-ping"
-            aria-hidden="true"
-          />
-          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-500 ring-2 ring-[color:var(--color-bg)]" />
-        </span>
+        {online ? (
+          <span className="text-2xl text-green-500 absolute bottom-0 right-0">
+            <GoDotFill />
+          </span>
+        ) : (
+          <span className="text-2xl text-green-500 bottom-0 right-0 absolute">
+            <GoDot />
+          </span>
+        )}
       </div>
 
       <div className="flex flex-wrap items-baseline gap-x-3 sm:gap-x-5 gap-y-2">
