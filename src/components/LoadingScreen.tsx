@@ -26,6 +26,10 @@ const T_EXIT = 900;   // exit transition
 const T_MAX = 9500;   // hard safety limit
 const STROKE_GAP = 100;   // gap between signature groups
 const T_RAF_PAD = 250;
+const MOBILE_BREAKPOINT = 640;
+const MOBILE_WIDTH_RATIO = 0.92;
+const DESKTOP_WIDTH_RATIO = 0.8;
+const DPR_MAX = 2.25;
 
 // ─── Visual constants ─────────────────────────────────────────────────────────
 const VB_W = 2048;
@@ -158,11 +162,17 @@ interface Props { onComplete?: () => void }
 export default function SureSuryaLoader({ onComplete }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const glowRef = useRef<HTMLCanvasElement>(null);   // offscreen glow layer
+  const exitTimeoutRef = useRef<number | null>(null);
   const [phase, setPhase] = useState<"drawing" | "exiting" | "done">("drawing");
 
   const startExit = useCallback(() => {
-    setPhase("exiting");
-    setTimeout(() => {
+    setPhase((prev) => (prev === "drawing" ? "exiting" : prev));
+
+    if (exitTimeoutRef.current !== null) {
+      window.clearTimeout(exitTimeoutRef.current);
+    }
+
+    exitTimeoutRef.current = window.setTimeout(() => {
       setPhase("done");
       onComplete?.();
       // Clean up all per-d path elements and the container
@@ -182,11 +192,29 @@ export default function SureSuryaLoader({ onComplete }: Props) {
     let cancelled = false;
     let rafId = 0;
 
-    // ── Canvas sizing (HiDPI) ────────────────────────────────────────────────
-    const dpr = window.devicePixelRatio || 1;
+    // ── Canvas sizing (HiDPI + mobile fallback) ─────────────────────────────
     const rect = canvas.getBoundingClientRect();
-    const W = Math.round(rect.width * dpr);
-    const H = Math.round(rect.height * dpr);
+    const isMobileViewport =
+      window.matchMedia?.(`(max-width: ${MOBILE_BREAKPOINT}px)`)?.matches ??
+      window.innerWidth <= MOBILE_BREAKPOINT;
+
+    const fallbackCssWidth = Math.min(
+      window.innerWidth * (isMobileViewport ? MOBILE_WIDTH_RATIO : DESKTOP_WIDTH_RATIO),
+      980,
+    );
+    const fallbackCssHeight = fallbackCssWidth * (VB_H / VB_W);
+
+    const cssWidth = rect.width > 2 ? rect.width : fallbackCssWidth;
+    const cssHeight = rect.height > 2 ? rect.height : fallbackCssHeight;
+
+    if (rect.width <= 2 || rect.height <= 2) {
+      canvas.style.width = `${cssWidth}px`;
+      canvas.style.height = `${cssHeight}px`;
+    }
+
+    const dpr = Math.min(window.devicePixelRatio || 1, DPR_MAX);
+    const W = Math.max(2, Math.round(cssWidth * dpr));
+    const H = Math.max(2, Math.round(cssHeight * dpr));
     canvas.width = W;
     canvas.height = H;
 
@@ -200,7 +228,8 @@ export default function SureSuryaLoader({ onComplete }: Props) {
     const sx = W / VB_W;
     const sy = H / VB_H;
     const avgScale = Math.min(sx, sy);
-    const LW = Math.max(2.2, W * 0.0052);
+    const compactMode = cssWidth <= 520;
+    const LW = Math.max(compactMode ? 2.8 : 2.2, W * (compactMode ? 0.0058 : 0.0052));
 
     // ── Colours ──────────────────────────────────────────────────────────────
     // Main ink: slightly warm white
@@ -473,6 +502,10 @@ export default function SureSuryaLoader({ onComplete }: Props) {
       cancelAnimationFrame(rafId);
       clearTimeout(exitT);
       clearTimeout(safeT);
+      if (exitTimeoutRef.current !== null) {
+        window.clearTimeout(exitTimeoutRef.current);
+        exitTimeoutRef.current = null;
+      }
       document.removeEventListener("visibilitychange", onVisChange);
       pathElMap.forEach(el => el.remove());
       pathElMap.clear();
@@ -489,6 +522,7 @@ export default function SureSuryaLoader({ onComplete }: Props) {
         position: "fixed", inset: 0, zIndex: 9999,
         display: "flex", alignItems: "center", justifyContent: "center",
         background: "#000",
+        padding: "max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left))",
         transition: `opacity ${T_EXIT}ms cubic-bezier(.76,0,.24,1), transform ${T_EXIT}ms cubic-bezier(.76,0,.24,1)`,
         opacity: phase === "exiting" ? 0 : 1,
         transform: phase === "exiting" ? "scale(1.04) translateY(-28px)" : "scale(1) translateY(0)",
@@ -499,7 +533,7 @@ export default function SureSuryaLoader({ onComplete }: Props) {
         ref={canvasRef}
         aria-label="Sure Surya"
         style={{
-          width: "min(80vw, 920px)",
+          width: "min(92vw, 980px)",
           aspectRatio: `${VB_W} / ${VB_H}`,
           display: "block",
           zIndex: 1,
