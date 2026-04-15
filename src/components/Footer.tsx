@@ -3,11 +3,11 @@ import { CiAt } from "react-icons/ci"
 import { SOCIAL } from "../data/constants"
 import { useState } from "react"
 import { toast } from "sonner"
-import { getRandomQuoteForReload, type QuoteItem } from "../data/quotes"
+import { getRandomQuoteForReload } from "../data/quotes"
 
 const Footer = () => {
   const year = new Date().getFullYear()
-  const [quote, setQuote] = useState<QuoteItem>(() => getRandomQuoteForReload())
+  const [quote] = useState(() => getRandomQuoteForReload())
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(SOCIAL.email).then(() => {
@@ -17,10 +17,6 @@ const Footer = () => {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" })
-  }
-
-  const setAnotherQuote = () => {
-    setQuote(getRandomQuoteForReload())
   }
 
   return (
@@ -33,30 +29,6 @@ const Footer = () => {
         <span className="text-sm text-[color:var(--color-text-subtle)]">
           — {quote.author}
         </span>
-        <div className="flex flex-wrap items-center justify-center gap-1.5">
-          {quote.tags.slice(0, 3).map((tag) => (
-            <span
-              key={`${quote.author}-${tag}`}
-              className="rounded-full border theme-border-subtle px-2 py-0.5 text-[10px] uppercase tracking-wider text-[color:var(--color-text-subtle)]"
-            >
-              {tag}
-            </span>
-          ))}
-          {quote.isGenerated && (
-            <span className="rounded-full border theme-border-subtle bg-[color:var(--color-accent-soft)] px-2 py-0.5 text-[10px] uppercase tracking-wider text-[color:var(--color-accent)]">
-              live generated
-            </span>
-          )}
-        </div>
-        <button
-          type="button"
-          onClick={setAnotherQuote}
-          className="rounded-full border theme-border-subtle px-3 py-1 text-xs hover:bg-[color:var(--color-accent-soft)] transition-colors cursor-pointer"
-          aria-label="Show another quote"
-          title="Show another quote"
-        >
-          Another Quote
-        </button>
       </div>
 
       <div className="mt-10 sm:mt-12 flex flex-col items-center gap-2 text-xs sm:text-sm text-[color:var(--color-text-subtle)]">
