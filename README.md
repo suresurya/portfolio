@@ -8,7 +8,7 @@ The site is optimized for desktop and mobile, includes a theme toggle (light/dar
 
 ## About Me
 
-Hi, I'm **Surya (vathsav)** – a developer who enjoys building clean UIs, experimenting with animations, and solving problems through code. This portfolio is my place to highlight the projects, technologies, and ideas I'm currently exploring.
+Hi, I'm **Surya ** – a developer who enjoys building clean UIs, experimenting with animations, and solving problems through code. This portfolio is my place to highlight the projects, technologies, and ideas I'm currently exploring.
 
 ### Live Demo
 
@@ -71,6 +71,25 @@ git clone https://github.com/suresurya/portfolio.git
 cd portfolio
 npm install
 ```
+
+### Configure EmailJS (required for contact form)
+
+```bash
+cp .env.example .env.local
+```
+
+Fill these values in `.env.local` from your EmailJS dashboard:
+
+- `VITE_EMAILJS_SERVICE_ID`
+- `VITE_EMAILJS_PUBLIC_KEY`
+- `VITE_EMAILJS_OWNER_TEMPLATE_ID`
+
+Optional values:
+
+- `VITE_EMAILJS_AUTO_REPLY_TEMPLATE_ID`
+- `VITE_OWNER_RECEIVE_EMAIL`
+
+After updating env values, restart the dev server.
 
 ### Run in development
 
@@ -162,7 +181,7 @@ You can customize this section in the UI, but typically it will include:
 - LinkedIn / GitHub profile links
 - Any other social/contact options
 
-This portfolio is maintained by **Sure Surya (vathsav)**.
+This portfolio is maintained by **Sure Surya **.
 
 ---
 

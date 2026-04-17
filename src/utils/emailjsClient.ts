@@ -33,16 +33,78 @@ export class ContactSendError extends Error {
 
 const env = import.meta.env as Record<string, string | undefined>;
 
-const EMAILJS_SERVICE_ID = env.VITE_EMAILJS_SERVICE_ID || "";
-const EMAILJS_PUBLIC_KEY = env.VITE_EMAILJS_PUBLIC_KEY || "";
-const EMAILJS_OWNER_TEMPLATE_ID =
-  env.VITE_EMAILJS_OWNER_TEMPLATE_ID || "";
-const EMAILJS_AUTO_REPLY_TEMPLATE_ID =
-  env.VITE_EMAILJS_AUTO_REPLY_TEMPLATE_ID || "";
+const EMAILJS_SERVICE_ID_KEYS = [
+  "VITE_EMAILJS_SERVICE_ID",
+  "VITE_SERVICE_ID",
+  "VITE_EMAIL_SERVICE_ID",
+  "VITE_REACT_APP_EMAILJS_SERVICE_ID",
+];
+const EMAILJS_PUBLIC_KEY_KEYS = [
+  "VITE_EMAILJS_PUBLIC_KEY",
+  "VITE_EMAILJS_KEY",
+  "VITE_PUBLIC_KEY",
+  "VITE_REACT_APP_EMAILJS_PUBLIC_KEY",
+  "VITE_EMAILJS_USER_ID",
+];
+const EMAILJS_OWNER_TEMPLATE_ID_KEYS = [
+  "VITE_EMAILJS_OWNER_TEMPLATE_ID",
+  "VITE_EMAILJS_TEMPLATE_ID",
+  "VITE_OWNER_TEMPLATE_ID",
+  "VITE_REACT_APP_EMAILJS_OWNER_TEMPLATE_ID",
+];
+const EMAILJS_AUTO_REPLY_TEMPLATE_ID_KEYS = [
+  "VITE_EMAILJS_AUTO_REPLY_TEMPLATE_ID",
+  "VITE_EMAILJS_REPLY_TEMPLATE_ID",
+  "VITE_AUTO_REPLY_TEMPLATE_ID",
+  "VITE_REACT_APP_EMAILJS_AUTO_REPLY_TEMPLATE_ID",
+];
+const OWNER_RECEIVE_EMAIL_KEYS = [
+  "VITE_OWNER_RECEIVE_EMAIL",
+  "VITE_EMAILJS_OWNER_EMAIL",
+  "VITE_CONTACT_RECEIVE_EMAIL",
+];
+
+const getFirstEnvValue = (keys: string[]): string => {
+  for (const key of keys) {
+    const value = env[key];
+    if (typeof value === "string" && value.trim()) {
+      return value.trim();
+    }
+  }
+  return "";
+};
+
+const EMAILJS_SERVICE_ID = getFirstEnvValue(EMAILJS_SERVICE_ID_KEYS);
+const EMAILJS_PUBLIC_KEY = getFirstEnvValue(EMAILJS_PUBLIC_KEY_KEYS);
+const EMAILJS_OWNER_TEMPLATE_ID = getFirstEnvValue(EMAILJS_OWNER_TEMPLATE_ID_KEYS);
+const EMAILJS_AUTO_REPLY_TEMPLATE_ID = getFirstEnvValue(EMAILJS_AUTO_REPLY_TEMPLATE_ID_KEYS);
 const OWNER_RECEIVE_EMAIL =
-  env.VITE_OWNER_RECEIVE_EMAIL || "suresrivenkatramasurya@gmail.com";
+  getFirstEnvValue(OWNER_RECEIVE_EMAIL_KEYS) || "suresrivenkatramasurya@gmail.com";
 
 let isEmailJsInitialized = false;
+
+const ensureRequiredEmailJsConfig = () => {
+  if (!EMAILJS_PUBLIC_KEY || !EMAILJS_SERVICE_ID) {
+    const details =
+      `Missing EmailJS service/public key. Set one of ${EMAILJS_SERVICE_ID_KEYS.join(", ")} for service ID and one of ${EMAILJS_PUBLIC_KEY_KEYS.join(", ")} for public key.`;
+    throw new ContactSendError(
+      details,
+      "service-configuration",
+      undefined,
+      details
+    );
+  }
+
+  if (!EMAILJS_OWNER_TEMPLATE_ID) {
+    const details = `Missing owner template ID. Set one of ${EMAILJS_OWNER_TEMPLATE_ID_KEYS.join(", ")}.`;
+    throw new ContactSendError(
+      details,
+      "template-configuration",
+      undefined,
+      details
+    );
+  }
+};
 
 const asMessageText = (error: unknown): string => {
   if (typeof error === "string") {
@@ -128,7 +190,7 @@ export const getContactSendErrorMessage = (error: unknown): string => {
   }
 
   if (normalized.code === "service-configuration") {
-    return `Failed to send message. Verify EmailJS Service ID and Public Key.${devSuffix}`;
+    return `Failed to send message. Configure VITE_EMAILJS_SERVICE_ID and VITE_EMAILJS_PUBLIC_KEY, then restart the app.${devSuffix}`;
   }
 
   if (normalized.code === "template-configuration") {
@@ -143,10 +205,14 @@ export const getContactSendErrorMessage = (error: unknown): string => {
 };
 
 export const sendContactMessage = async (payload: ContactPayload): Promise<ContactSendResult> => {
+  ensureRequiredEmailJsConfig();
+
   if (!isEmailJsInitialized) {
     emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
     isEmailJsInitialized = true;
   }
+
+  const sendOptions = { publicKey: EMAILJS_PUBLIC_KEY };
 
   const ownerParams = {
     name: payload.name,
@@ -176,13 +242,22 @@ export const sendContactMessage = async (payload: ContactPayload): Promise<Conta
   };
 
   try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_OWNER_TEMPLATE_ID, ownerParams);
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_OWNER_TEMPLATE_ID, ownerParams, sendOptions);
   } catch (error) {
     throw toContactSendError(error);
   }
 
+  if (!EMAILJS_AUTO_REPLY_TEMPLATE_ID) {
+    return { autoReplySent: false };
+  }
+
   try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_AUTO_REPLY_TEMPLATE_ID, autoReplyParams);
+    await emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_AUTO_REPLY_TEMPLATE_ID,
+      autoReplyParams,
+      sendOptions
+    );
 
     return { autoReplySent: true };
   } catch (error) {

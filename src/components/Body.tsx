@@ -21,18 +21,27 @@ const Body = () => {
 
   return (
     <div className="font-jetMono mt-6 sm:mt-10">
-      <ProfileIntro
-        online={online}
-        onProjectsClick={() => navigate("/projects")}
-        onResumeClick={() => navigate("/resume")}
-        onContactClick={() => navigate("/contact")}
-      />
+      <div className="premium-pop" style={{ animationDelay: "40ms" }}>
+        <ProfileIntro
+          online={online}
+          onProjectsClick={() => navigate("/projects")}
+          onResumeClick={() => navigate("/resume")}
+          onContactClick={() => navigate("/contact")}
+        />
+      </div>
 
       <div className="mt-14 sm:mt-24 flex flex-col gap-8 sm:gap-10">
-        <GithubActivity username="suresurya" />
-        <TechStack />
+        <div className="premium-pop" style={{ animationDelay: "150ms" }}>
+          <GithubActivity username="suresurya" />
+        </div>
+        <div className="premium-pop" style={{ animationDelay: "230ms" }}>
+          <TechStack />
+        </div>
 
-        <section className="theme-card-glass rounded-2xl p-5 sm:p-7 space-y-4">
+        <section
+          className="theme-card-glass rounded-2xl p-5 sm:p-7 space-y-4 premium-pop"
+          style={{ animationDelay: "310ms" }}
+        >
           <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--color-text-subtle)]">
             Quick Contact
           </p>
