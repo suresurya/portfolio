@@ -181,7 +181,7 @@ You can customize this section in the UI, but typically it will include:
 - LinkedIn / GitHub profile links
 - Any other social/contact options
 
-This portfolio is maintained by **Sure Surya **.
+This portfolio is maintained by **Sure Surya (vathsav)**.
 
 ---
 

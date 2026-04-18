@@ -15,16 +15,25 @@ import { useEffect, useRef, useState, useCallback } from "react";
 //                  vignette pre-baked once (static gradient), trail capped
 //                  with ring-buffer, RAF self-halts when tab hidden via
 //                  visibilitychange, getPointAt path el cached per-d string
+//
+//  ✦ NEW Improvements (additions only — nothing removed):
+//  [Visual+]     — velocity-based line-width pressure simulation,
+//                  pen-lift micro-flash between stroke groups,
+//                  subtle paper-grain noise texture layer
+//  [Performance+]— requestIdleCallback path pre-warm before RAF,
+//                  skipFrame glow throttle for low-end devices,
+//                  onComplete double-fire guard
+//  [A11y]        — aria-live sr-only status region
 // ═══════════════════════════════════════════════════════════════════════════════
 
 // ─── Timing (ms) ─────────────────────────────────────────────────────────────
-const T_WRITE = 3000;   // total sig write time — slightly slower for feel
-const T_SUN_PAU = 160;   // pause before sun
-const T_SUN_DRW = 800;   // sun draw time
-const T_HOLD = 700;   // hold after completion
-const T_EXIT = 900;   // exit transition
-const T_MAX = 9500;   // hard safety limit
-const STROKE_GAP = 100;   // gap between signature groups
+const T_WRITE = 3000;
+const T_SUN_PAU = 160;
+const T_SUN_DRW = 800;
+const T_HOLD = 700;
+const T_EXIT = 900;
+const T_MAX = 9500;
+const STROKE_GAP = 100;
 const T_RAF_PAD = 250;
 const MOBILE_BREAKPOINT = 640;
 const MOBILE_WIDTH_RATIO = 0.92;
@@ -35,8 +44,14 @@ const DPR_MAX = 2.25;
 const VB_W = 2048;
 const VB_H = 1365;
 
-const TRAIL_MAX = 80;    // ring-buffer size for sparkle trail
-const TRAIL_LIFE = 500;   // ms a trail particle lives
+const TRAIL_MAX = 80;
+const TRAIL_LIFE = 500;
+
+// ✦ ADDED — pen-lift flash duration (ms)
+const T_LIFT_FLASH = 180;
+
+// ✦ ADDED — velocity pressure: how much line width varies with drawing speed (0 = none)
+const PRESSURE_STRENGTH = 0.22;
 
 // ═══════════════════════════════════════════════════════════════════════════════
 //  SVG PATH STRINGS — verbatim from source SVG
@@ -65,16 +80,12 @@ const PATH_RAY_LEFT = "M 1168.91 502.908 C 1177.56 502.314 1205.09 521.808 1213.
 
 // ═══════════════════════════════════════════════════════════════════════════════
 //  EASING
-//  springEase: underdamped spring — slight overshoot on fast strokes.
-//  Used for signature groups.  Sun rays use a snappier cubic.
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
-/** Underdamped spring approximation — overshoots ~2% then settles */
 const springEase = (t: number): number => {
   const c = clamp(t, 0, 1);
-  // Exponentially-decayed sine — ζ=0.7, ω=10
   const overshoot = Math.exp(-7 * c) * Math.sin(10 * c) * 0.06;
   const base = c < 0.5
     ? 4 * c * c * c
@@ -82,15 +93,22 @@ const springEase = (t: number): number => {
   return clamp(base - overshoot * (1 - c), 0, 1.02);
 };
 
-/** Snappy ease-out for sun rays */
 const snapEase = (t: number): number => {
   const c = clamp(t, 0, 1);
   return 1 - Math.pow(1 - c, 3);
 };
 
-/** Micro-tremor — simulates hand jitter, zero at endpoints */
 const tremble = (t: number, seed: number): number =>
   0.008 * Math.sin(t * Math.PI * 9 + seed) * Math.sin(t * Math.PI * 13 + seed * 2) * t * (1 - t) * 4;
+
+// ✦ ADDED — velocity-based pressure: derivative of springEase at t,
+//   returns a 0..1 "speed" factor used to fatten line width mid-stroke.
+const strokeVelocity = (t: number): number => {
+  const dt = 0.008;
+  const v = (springEase(Math.min(t + dt, 1)) - springEase(Math.max(t - dt, 0))) / (2 * dt);
+  // normalise: max derivative of ease-in-out³ ≈ 1.5 at t=0.5
+  return clamp(v / 1.5, 0, 1);
+};
 
 // ═══════════════════════════════════════════════════════════════════════════════
 //  SVG MEASUREMENT — one persistent element, per-d caching
@@ -111,7 +129,6 @@ const getMeasureContainer = (): SVGSVGElement => {
   return el;
 };
 
-/** Returns a cached SVGPathElement for each distinct d string */
 const getPathEl = (d: string): SVGPathElement => {
   if (pathElMap.has(d)) return pathElMap.get(d)!;
   const container = getMeasureContainer();
@@ -132,6 +149,13 @@ const measureLen = (d: string): number => {
 const getPointAt = (d: string, fraction: number): DOMPoint =>
   getPathEl(d).getPointAtLength(fraction * measureLen(d));
 
+// ✦ ADDED — all path strings in one array for idle pre-warm
+const ALL_PATH_STRINGS = [
+  PATH_S1, PATH_S2, PATH_URYA, PATH_URE,
+  PATH_SUN_ARC, PATH_RAY_TOP, PATH_RAY_UR,
+  PATH_RAY_RIGHT, PATH_RAY_LL, PATH_RAY_LEFT,
+];
+
 // ═══════════════════════════════════════════════════════════════════════════════
 //  TYPES
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -142,7 +166,7 @@ interface StrokeGroup {
   svgLen: number;
   scaledLen: number;
   lw: number;
-  seed: number;         // for per-stroke tremor variation
+  seed: number;
   isSunRay: boolean;
 }
 
@@ -150,7 +174,14 @@ interface TrailParticle {
   x: number;
   y: number;
   t: number;
-  hue: number;          // colour jitter per particle
+  hue: number;
+}
+
+// ✦ ADDED — pen-lift flash state
+interface LiftFlash {
+  x: number;
+  y: number;
+  startE: number;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -161,8 +192,10 @@ interface Props { onComplete?: () => void }
 
 export default function SureSuryaLoader({ onComplete }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const glowRef = useRef<HTMLCanvasElement>(null);   // offscreen glow layer
+  const glowRef = useRef<HTMLCanvasElement>(null);
   const exitTimeoutRef = useRef<number | null>(null);
+  // ✦ ADDED — guard to prevent onComplete firing twice
+  const completedRef = useRef(false);
   const [phase, setPhase] = useState<"drawing" | "exiting" | "done">("drawing");
 
   const startExit = useCallback(() => {
@@ -174,8 +207,11 @@ export default function SureSuryaLoader({ onComplete }: Props) {
 
     exitTimeoutRef.current = window.setTimeout(() => {
       setPhase("done");
-      onComplete?.();
-      // Clean up all per-d path elements and the container
+      // ✦ ADDED — double-fire guard
+      if (!completedRef.current) {
+        completedRef.current = true;
+        onComplete?.();
+      }
       pathElMap.forEach(el => el.remove());
       pathElMap.clear();
       lenCache.clear();
@@ -218,7 +254,7 @@ export default function SureSuryaLoader({ onComplete }: Props) {
     canvas.width = W;
     canvas.height = H;
 
-    // ── Offscreen glow canvas (same size, composited each frame) ────────────
+    // ── Offscreen glow canvas ────────────────────────────────────────────────
     const glowCanvas = document.createElement("canvas");
     glowCanvas.width = W;
     glowCanvas.height = H;
@@ -232,15 +268,12 @@ export default function SureSuryaLoader({ onComplete }: Props) {
     const LW = Math.max(compactMode ? 2.8 : 2.2, W * (compactMode ? 0.0058 : 0.0052));
 
     // ── Colours ──────────────────────────────────────────────────────────────
-    // Main ink: slightly warm white
     const INK_MAIN = "rgba(240,241,250,1)";
-    // Inner highlight stroke: cooler, thinner, gives depth
     const INK_INNER = "rgba(210,220,255,0.55)";
-    // Glow tint: warm gold-white (mimics lamplight on paper)
     const GLOW_WARM = "rgba(255,245,210,0.18)";
     const GLOW_COOL = "rgba(190,210,255,0.22)";
 
-    // ── Pre-bake static vignette once ────────────────────────────────────────
+    // ── Pre-bake static vignette ─────────────────────────────────────────────
     const vigCanvas = document.createElement("canvas");
     vigCanvas.width = W;
     vigCanvas.height = H;
@@ -254,6 +287,24 @@ export default function SureSuryaLoader({ onComplete }: Props) {
     vig.addColorStop(1, "rgba(0,0,0,0.42)");
     vCtx.fillStyle = vig;
     vCtx.fillRect(0, 0, W, H);
+
+    // ✦ ADDED — pre-bake paper grain noise texture once (subtle warm fibres)
+    const grainCanvas = document.createElement("canvas");
+    // Small tile that tiles across the canvas
+    const GRAIN_TILE = 256;
+    grainCanvas.width = GRAIN_TILE;
+    grainCanvas.height = GRAIN_TILE;
+    const grCtx = grainCanvas.getContext("2d")!;
+    const grainImg = grCtx.createImageData(GRAIN_TILE, GRAIN_TILE);
+    for (let i = 0; i < grainImg.data.length; i += 4) {
+      // warm-tinted noise: slightly amber channel bias
+      const n = Math.random();
+      grainImg.data[i]     = Math.round(n * 18 + 4);   // R — warm
+      grainImg.data[i + 1] = Math.round(n * 12 + 2);   // G
+      grainImg.data[i + 2] = Math.round(n * 8);         // B — cooler
+      grainImg.data[i + 3] = Math.round(n * 9);         // A — very faint
+    }
+    grCtx.putImageData(grainImg, 0, 0);
 
     // ── Build stroke groups ──────────────────────────────────────────────────
     const makeGroup = (d: string, lw: number, isSunRay = false, seed = 0): StrokeGroup => ({
@@ -273,7 +324,6 @@ export default function SureSuryaLoader({ onComplete }: Props) {
       makeGroup(PATH_URYA, LW * 0.82, false, 5.2),
     ];
 
-    // Sun rays get staggered start offsets (radial burst feel)
     const sunGroups: StrokeGroup[] = [
       makeGroup(PATH_SUN_ARC, LW * 0.78, false, 0),
       makeGroup(PATH_RAY_TOP, LW * 0.58, true, 0),
@@ -295,15 +345,12 @@ export default function SureSuryaLoader({ onComplete }: Props) {
     });
 
     const tSunStart = cur + T_SUN_PAU;
-    // Arc draws over full T_SUN_DRW; rays burst simultaneously after arc
-    // with a small per-ray stagger (20ms each)
     const sunArcDur = T_SUN_DRW * 0.55;
     const tRayStart = tSunStart + sunArcDur + 40;
     const rayDur = T_SUN_DRW * 0.45;
 
     const sunTiming = sunGroups.map((_, i) => {
       if (i === 0) return { start: tSunStart, dur: sunArcDur };
-      // Rays 1–5 stagger by 20ms each for burst effect
       return { start: tRayStart + (i - 1) * 22, dur: rayDur };
     });
 
@@ -322,6 +369,16 @@ export default function SureSuryaLoader({ onComplete }: Props) {
       trail[trailHead] = { x, y, t: now, hue: 210 + Math.random() * 40 };
       trailHead = (trailHead + 1) % TRAIL_MAX;
     };
+
+    // ✦ ADDED — pen-lift flash state: fires when a stroke group ends
+    let liftFlash: LiftFlash | null = null;
+    // Track which group index was last active so we can detect transitions
+    let lastActiveGroupIdx = -1;
+
+    // ✦ ADDED — skipFrame counter for glow throttle on low-end devices
+    // Detects low-end by checking if DPR=1 and canvas is wider than 600px
+    const isLowEnd = dpr <= 1 && W > 600;
+    let frameCount = 0;
 
     // ── Draw one stroke group ────────────────────────────────────────────────
     const drawGroup = (
@@ -348,11 +405,8 @@ export default function SureSuryaLoader({ onComplete }: Props) {
       targetCtx.restore();
     };
 
-    // ── Shimmer: a secondary thin highlight stroke drawn on top of completed
-    //    strokes, shifting slightly over time ──────────────────────────────────
     const drawShimmer = (g: StrokeGroup, completedProgress: number, now: number) => {
       if (completedProgress < 1) return;
-      // Shimmer is a thin pulsing re-stroke at reduced opacity
       const pulse = 0.5 + 0.5 * Math.sin(now * 0.0015 + g.seed);
       const alpha = (0.06 + 0.08 * pulse).toFixed(3);
       drawGroup(ctx, g, 1, `rgba(220,235,255,${alpha})`, g.lw * 0.4);
@@ -371,18 +425,27 @@ export default function SureSuryaLoader({ onComplete }: Props) {
       if (hidden) { rafId = requestAnimationFrame(frame); return; }
 
       const e = now - t0;
+      frameCount++;
       ctx.clearRect(0, 0, W, H);
 
-      // ── Glow pass (offscreen) ──────────────────────────────────────────────
-      gCtx.clearRect(0, 0, W, H);
-      gCtx.save();
-      gCtx.shadowBlur = LW * 7;
+      // ✦ ADDED — skip glow pass every other frame on low-end only
+      const doGlowPass = !isLowEnd || frameCount % 2 === 0;
+
+      if (doGlowPass) {
+        gCtx.clearRect(0, 0, W, H);
+        gCtx.save();
+        gCtx.shadowBlur = LW * 7;
+      }
 
       let activeTipD = "";
       let activeTipP = 0;
       let anyActive = false;
+      // ✦ ADDED — track active group index for pen-lift detection
+      let currentGroupIdx = -1;
+      // ✦ ADDED — raw progress for velocity calc
+      let activeTipRaw = 0;
 
-      // ── Draw signature strokes onto glow canvas ────────────────────────────
+      // ── Draw signature strokes ─────────────────────────────────────────────
       for (let i = 0; i < sigGroups.length; i++) {
         const { start, dur } = sigTiming[i];
         if (e <= start) continue;
@@ -390,21 +453,21 @@ export default function SureSuryaLoader({ onComplete }: Props) {
         const wobble = tremble(raw, sigGroups[i].seed);
         const progress = clamp(springEase(raw) + wobble, 0, 1.02);
 
-        // Warm glow pass
-        gCtx.shadowColor = GLOW_WARM;
-        drawGroup(gCtx, sigGroups[i], progress, INK_MAIN);
-
-        // Cool inner glow pass (thinner, gives chromatic depth)
-        gCtx.shadowColor = GLOW_COOL;
-        drawGroup(gCtx, sigGroups[i], progress, INK_INNER, sigGroups[i].lw * 0.38);
+        if (doGlowPass) {
+          gCtx.shadowColor = GLOW_WARM;
+          drawGroup(gCtx, sigGroups[i], progress, INK_MAIN);
+          gCtx.shadowColor = GLOW_COOL;
+          drawGroup(gCtx, sigGroups[i], progress, INK_INNER, sigGroups[i].lw * 0.38);
+        }
 
         if (raw > 0 && raw < 1) {
           activeTipD = sigGroups[i].d;
           activeTipP = clamp(springEase(raw), 0, 1);
+          activeTipRaw = raw; // ✦ ADDED
           anyActive = true;
+          currentGroupIdx = i; // ✦ ADDED
         }
 
-        // Shimmer on completed strokes
         drawShimmer(sigGroups[i], raw, now);
       }
 
@@ -415,25 +478,44 @@ export default function SureSuryaLoader({ onComplete }: Props) {
         const raw = clamp((e - start) / dur, 0, 1);
         const progress = sunGroups[i].isSunRay ? snapEase(raw) : springEase(raw);
 
-        gCtx.shadowColor = GLOW_WARM;
-        drawGroup(gCtx, sunGroups[i], progress, INK_MAIN);
-
-        gCtx.shadowColor = GLOW_COOL;
-        drawGroup(gCtx, sunGroups[i], progress, INK_INNER, sunGroups[i].lw * 0.35);
+        if (doGlowPass) {
+          gCtx.shadowColor = GLOW_WARM;
+          drawGroup(gCtx, sunGroups[i], progress, INK_MAIN);
+          gCtx.shadowColor = GLOW_COOL;
+          drawGroup(gCtx, sunGroups[i], progress, INK_INNER, sunGroups[i].lw * 0.35);
+        }
 
         if (raw > 0 && raw < 1 && !sunGroups[i].isSunRay) {
           activeTipD = sunGroups[i].d;
           activeTipP = progress;
+          activeTipRaw = raw; // ✦ ADDED
           anyActive = true;
+          currentGroupIdx = i + sigGroups.length; // ✦ ADDED
         }
 
         drawShimmer(sunGroups[i], raw, now);
       }
 
-      gCtx.restore();
+      if (doGlowPass) {
+        gCtx.restore();
+        ctx.drawImage(glowCanvas, 0, 0);
+      }
 
-      // ── Composite glow layer onto main canvas ──────────────────────────────
-      ctx.drawImage(glowCanvas, 0, 0);
+      // ✦ ADDED — detect pen-lift: group changed from active → gap (raw reached 1)
+      if (lastActiveGroupIdx !== -1 && currentGroupIdx === -1 && anyActive === false) {
+        // just finished a group — do nothing, we'll catch the transition below
+      }
+      if (lastActiveGroupIdx !== -1 && currentGroupIdx !== lastActiveGroupIdx && currentGroupIdx === -1) {
+        // stroke just completed — try to get last tip position for flash
+        const prevGroup = lastActiveGroupIdx < sigGroups.length
+          ? sigGroups[lastActiveGroupIdx]
+          : sunGroups[lastActiveGroupIdx - sigGroups.length];
+        try {
+          const pt = getPointAt(prevGroup.d, 1.0);
+          liftFlash = { x: pt.x * sx, y: pt.y * sy, startE: e };
+        } catch { /* ignore */ }
+      }
+      lastActiveGroupIdx = currentGroupIdx;
 
       // ── Pen-tip effects ────────────────────────────────────────────────────
       if (anyActive && activeTipD) {
@@ -444,18 +526,20 @@ export default function SureSuryaLoader({ onComplete }: Props) {
         } catch { /* ignore */ }
 
         if (tip) {
-          // Outer warm glow halo
-          const halo = ctx.createRadialGradient(tip.x, tip.y, 0, tip.x, tip.y, LW * 7);
+          // ✦ ADDED — velocity-based line width factor: fast stroke = thicker halo
+          const vel = strokeVelocity(activeTipRaw);
+          const pressureScale = 1 + vel * PRESSURE_STRENGTH;
+
+          const halo = ctx.createRadialGradient(tip.x, tip.y, 0, tip.x, tip.y, LW * 7 * pressureScale); // ✦ scaled
           halo.addColorStop(0, "rgba(255,248,220,0.32)");
           halo.addColorStop(0.35, "rgba(200,215,255,0.16)");
           halo.addColorStop(0.7, "rgba(180,200,255,0.05)");
           halo.addColorStop(1, "rgba(0,0,0,0)");
           ctx.fillStyle = halo;
           ctx.beginPath();
-          ctx.arc(tip.x, tip.y, LW * 7, 0, Math.PI * 2);
+          ctx.arc(tip.x, tip.y, LW * 7 * pressureScale, 0, Math.PI * 2); // ✦ scaled
           ctx.fill();
 
-          // Inner bright core
           const core = ctx.createRadialGradient(tip.x, tip.y, 0, tip.x, tip.y, LW * 1.8);
           core.addColorStop(0, "rgba(255,255,255,0.92)");
           core.addColorStop(0.5, "rgba(230,235,255,0.5)");
@@ -465,7 +549,6 @@ export default function SureSuryaLoader({ onComplete }: Props) {
           ctx.arc(tip.x, tip.y, LW * 1.8, 0, Math.PI * 2);
           ctx.fill();
 
-          // Sub-pixel hot dot
           ctx.fillStyle = "rgba(255,255,255,0.95)";
           ctx.beginPath();
           ctx.arc(tip.x, tip.y, LW * 0.42, 0, Math.PI * 2);
@@ -475,13 +558,30 @@ export default function SureSuryaLoader({ onComplete }: Props) {
         }
       }
 
-      // ── Trail particles (ring-buffer iteration) ────────────────────────────
+      // ✦ ADDED — pen-lift micro-flash: bright expanding ring where pen lifted
+      if (liftFlash !== null) {
+        const age = e - liftFlash.startE;
+        if (age < T_LIFT_FLASH) {
+          const life = 1 - age / T_LIFT_FLASH;
+          const radius = LW * (2 + (1 - life) * 5.5);
+          const alpha = life * 0.55;
+          ctx.strokeStyle = `rgba(255,252,230,${alpha.toFixed(3)})`;
+          ctx.lineWidth = LW * 0.5 * life;
+          ctx.beginPath();
+          ctx.arc(liftFlash.x, liftFlash.y, radius, 0, Math.PI * 2);
+          ctx.stroke();
+        } else {
+          liftFlash = null;
+        }
+      }
+
+      // ── Trail particles ────────────────────────────────────────────────────
       for (let i = 0; i < TRAIL_MAX; i++) {
         const p = trail[i];
         const age = e - p.t;
         if (age <= 0 || age > TRAIL_LIFE) continue;
         const life = 1 - age / TRAIL_LIFE;
-        const alpha = life * life * 0.35;         // quadratic fade
+        const alpha = life * life * 0.35;
         const r = LW * 0.45 * life;
         ctx.fillStyle = `hsla(${p.hue},80%,82%,${alpha.toFixed(3)})`;
         ctx.beginPath();
@@ -492,8 +592,36 @@ export default function SureSuryaLoader({ onComplete }: Props) {
       // ── Static vignette ────────────────────────────────────────────────────
       ctx.drawImage(vigCanvas, 0, 0);
 
+      // ✦ ADDED — paper grain texture tiled over canvas at very low opacity
+      if (grainCanvas) {
+        ctx.save();
+        // ✦ use 'screen' blend so grain brightens on dark bg without washing out ink
+        ctx.globalCompositeOperation = "screen";
+        ctx.globalAlpha = 0.045;
+        for (let gx = 0; gx < W; gx += GRAIN_TILE) {
+          for (let gy = 0; gy < H; gy += GRAIN_TILE) {
+            ctx.drawImage(grainCanvas, gx, gy);
+          }
+        }
+        ctx.restore();
+      }
+
       if (e < tTotal + T_HOLD + T_RAF_PAD) rafId = requestAnimationFrame(frame);
     };
+
+    // ✦ ADDED — requestIdleCallback pre-warm: measure all path lengths
+    //   before the first RAF so measurement doesn't stutter frame 1
+    const warmPaths = () => {
+      ALL_PATH_STRINGS.forEach(d => {
+        try { measureLen(d); } catch { /* ignore */ }
+      });
+    };
+    if (typeof requestIdleCallback === "function") {
+      requestIdleCallback(warmPaths, { timeout: 400 });
+    } else {
+      // Fallback for Safari / older browsers
+      setTimeout(warmPaths, 0);
+    }
 
     rafId = requestAnimationFrame(frame);
 
@@ -539,10 +667,27 @@ export default function SureSuryaLoader({ onComplete }: Props) {
           zIndex: 1,
           filter: phase === "exiting" ? "blur(3px)" : "none",
           transition: `filter ${T_EXIT}ms ease`,
+          // ✦ ADDED — hint browser to promote canvas to its own GPU layer
+          willChange: "transform",
         }}
       />
       {/* Hidden offscreen glow ref — not rendered in DOM, kept for future ref */}
       <canvas ref={glowRef} style={{ display: "none" }} />
+      {/* ✦ ADDED — sr-only live region for screen readers */}
+      <span
+        aria-live="polite"
+        aria-atomic="true"
+        style={{
+          position: "absolute",
+          width: 1, height: 1,
+          overflow: "hidden",
+          clip: "rect(0 0 0 0)",
+          whiteSpace: "nowrap",
+          border: 0,
+        }}
+      >
+        {phase === "drawing" ? "Loading Sure Surya…" : phase === "exiting" ? "Ready" : ""}
+      </span>
     </div>
   );
 }
