@@ -1,0 +1,59 @@
+.meteors {
+  position: absolute;
+  inset: -10% -12%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.meteor {
+  position: absolute;
+  width: var(--meteor-size, 2px);
+  height: var(--meteor-size, 2px);
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(188, 255, 240, 1) 0%, rgba(143, 255, 221, 0.55) 55%, rgba(143, 255, 221, 0) 100%);
+  box-shadow: 0 0 18px rgba(152, 255, 227, 0.68), 0 0 34px rgba(102, 255, 201, 0.35);
+  transform: rotate(-38deg);
+  opacity: 0;
+  animation-name: meteor-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.meteor::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: calc(var(--meteor-size, 2px) * 0.5);
+  width: var(--meteor-tail, 100px);
+  height: calc(var(--meteor-size, 2px) * 0.9);
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, rgba(161, 255, 232, 0.85) 0%, rgba(161, 255, 232, 0.08) 70%, rgba(161, 255, 232, 0) 100%);
+  border-radius: 999px;
+}
+
+@keyframes meteor-fall {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-38deg);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 0.92;
+  }
+
+  100% {
+    transform: translate3d(-430px, 430px, 0) rotate(-38deg);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .meteor {
+    animation: none;
+    opacity: 0;
+  }
+}

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react";
+import Meteors from "./Meteors";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 //  S U R E   S U R Y A  —  Loading Screen
@@ -657,20 +658,32 @@ export default function SureSuryaLoader({ onComplete }: Props) {
         pointerEvents: phase === "exiting" ? "none" : "auto",
       }}
     >
-      <canvas
-        ref={canvasRef}
-        aria-label="Sure Surya"
+      <div
         style={{
           width: "min(92vw, 980px)",
           aspectRatio: `${VB_W} / ${VB_H}`,
-          display: "block",
-          zIndex: 1,
-          filter: phase === "exiting" ? "blur(3px)" : "none",
-          transition: `filter ${T_EXIT}ms ease`,
-          // ✦ ADDED — hint browser to promote canvas to its own GPU layer
-          willChange: "transform",
+          position: "relative",
+          overflow: "hidden",
+          borderRadius: "20px",
         }}
-      />
+      >
+        <Meteors number={30} />
+        <canvas
+          ref={canvasRef}
+          aria-label="Sure Surya"
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "block",
+            position: "relative",
+            zIndex: 1,
+            filter: phase === "exiting" ? "blur(3px)" : "none",
+            transition: `filter ${T_EXIT}ms ease`,
+            // ✦ ADDED — hint browser to promote canvas to its own GPU layer
+            willChange: "transform",
+          }}
+        />
+      </div>
       {/* Hidden offscreen glow ref — not rendered in DOM, kept for future ref */}
       <canvas ref={glowRef} style={{ display: "none" }} />
       {/* ✦ ADDED — sr-only live region for screen readers */}
