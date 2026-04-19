@@ -199,7 +199,7 @@ const GithubActivity = ({ username }: GithubActivityProps) => {
   }, [username]);
 
   return (
-    <section>
+    <section className="space-y-4">
       <p className="text-xl font-bold hover:underline cursor-pointer underline-offset-8 transition-all duration-300">
         My Github Contributions :
       </p>

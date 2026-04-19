@@ -1,8 +1,11 @@
+import { useEffect } from "react";
 import Profile from "../../assets/pfp.webp";
+import ProfileHover from "../../assets/profilepic.png";
 import { GoDotFill, GoDot } from "react-icons/go";
 import { IoDocumentLockSharp } from "react-icons/io5";
 import { FaRegPaperPlane } from "react-icons/fa";
 import { FiBriefcase } from "react-icons/fi";
+import PixelTransition from "../PixelTransition";
 
 type ProfileIntroProps = {
   online: boolean;
@@ -12,24 +15,49 @@ type ProfileIntroProps = {
 };
 
 const ProfileIntro = ({ online, onResumeClick, onContactClick, onProjectsClick }: ProfileIntroProps) => {
+  useEffect(() => {
+    const hoverImage = new Image();
+    hoverImage.src = ProfileHover;
+  }, []);
+
   return (
     <section>
       <div className="mb-5 w-fit relative p-0">
-        <img
-          src={Profile}
-          alt="Sure Surya profile photo"
-          className="rounded-full size-20 sm:size-24 object-cover"
-          height={96}
-          width={96}
-          loading="lazy"
-          decoding="async"
+        <PixelTransition
+          firstContent={
+            <img
+              src={Profile}
+              alt="Sure Surya profile photo"
+              className="h-full w-full object-cover"
+              height={96}
+              width={96}
+              loading="lazy"
+              decoding="async"
+            />
+          }
+          secondContent={
+            <img
+              src={ProfileHover}
+              alt="Sure Surya profile hover photo"
+              className="h-full w-full object-cover"
+              height={96}
+              width={96}
+              loading="eager"
+              decoding="async"
+            />
+          }
+          gridSize={10}
+          pixelColor="#ffffff"
+          animationStepDuration={0.38}
+          className="profile-pixel-transition"
+          aspectRatio="100%"
         />
         {online ? (
-          <span className="text-2xl text-green-500 absolute bottom-0 right-0">
+          <span className="z-10 text-2xl text-green-500 absolute bottom-0 right-0">
             <GoDotFill />
           </span>
         ) : (
-          <span className="text-2xl text-green-500 bottom-0 right-0 absolute">
+          <span className="z-10 text-2xl text-green-500 bottom-0 right-0 absolute">
             <GoDot />
           </span>
         )}

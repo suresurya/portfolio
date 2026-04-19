@@ -2,6 +2,7 @@ import { createRoot } from "react-dom/client"
 import "./index.css"
 import App from "./App.tsx"
 import MouseTracker from "./components/MouseTracker.tsx"
+import ClickSpark from "./components/ClickSpark.tsx"
 import { ThemeProvider } from "./components/ThemeProvider"
 import ErrorBoundary from "./components/ErrorBoundary.tsx"
 import { HelmetProvider } from "react-helmet-async"
@@ -24,8 +25,16 @@ createRoot(document.getElementById("root")!).render(
   >
     <HelmetProvider>
       <ThemeProvider>
-        <MouseTracker />
-        <App />
+        <ClickSpark
+          sparkColor="#ffffff"
+          sparkSize={10}
+          sparkRadius={15}
+          sparkCount={8}
+          duration={400}
+        >
+          <MouseTracker />
+          <App />
+        </ClickSpark>
       </ThemeProvider>
     </HelmetProvider>
   </ErrorBoundary>
