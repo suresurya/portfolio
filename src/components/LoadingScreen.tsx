@@ -44,6 +44,7 @@ const DPR_MAX = 2.25;
 // ─── Visual constants ─────────────────────────────────────────────────────────
 const VB_W = 2048;
 const VB_H = 1365;
+const FRAME_ASPECT = VB_W / VB_H;
 
 const TRAIL_MAX = 80;
 const TRAIL_LIFE = 500;
@@ -199,6 +200,11 @@ export default function SureSuryaLoader({ onComplete }: Props) {
   const completedRef = useRef(false);
   const [phase, setPhase] = useState<"drawing" | "exiting" | "done">("drawing");
 
+  const isMobileScreen =
+    typeof window !== "undefined" && window.innerWidth <= MOBILE_BREAKPOINT;
+  const meteorCount = isMobileScreen ? 24 : 72;
+  const frameWidth = `min(92vw, calc((100vh - 24px) * ${FRAME_ASPECT}), 980px)`;
+
   const startExit = useCallback(() => {
     setPhase((prev) => (prev === "drawing" ? "exiting" : prev));
 
@@ -235,8 +241,11 @@ export default function SureSuryaLoader({ onComplete }: Props) {
       window.matchMedia?.(`(max-width: ${MOBILE_BREAKPOINT}px)`)?.matches ??
       window.innerWidth <= MOBILE_BREAKPOINT;
 
+    const frameWidthFromHeight = Math.max(300, (window.innerHeight - 24) * FRAME_ASPECT);
+
     const fallbackCssWidth = Math.min(
       window.innerWidth * (isMobileViewport ? MOBILE_WIDTH_RATIO : DESKTOP_WIDTH_RATIO),
+      frameWidthFromHeight,
       980,
     );
     const fallbackCssHeight = fallbackCssWidth * (VB_H / VB_W);
@@ -249,7 +258,8 @@ export default function SureSuryaLoader({ onComplete }: Props) {
       canvas.style.height = `${cssHeight}px`;
     }
 
-    const dpr = Math.min(window.devicePixelRatio || 1, DPR_MAX);
+    const dprCap = isMobileViewport ? 1.6 : DPR_MAX;
+    const dpr = Math.min(window.devicePixelRatio || 1, dprCap);
     const W = Math.max(2, Math.round(cssWidth * dpr));
     const H = Math.max(2, Math.round(cssHeight * dpr));
     canvas.width = W;
@@ -361,14 +371,15 @@ export default function SureSuryaLoader({ onComplete }: Props) {
     const safeT = setTimeout(() => { if (!cancelled) startExit(); }, T_MAX);
 
     // ── Ring-buffer trail ────────────────────────────────────────────────────
-    const trail: TrailParticle[] = new Array(TRAIL_MAX).fill(null).map(() => ({
+    const trailCount = isMobileViewport ? 32 : TRAIL_MAX;
+    const trail: TrailParticle[] = new Array(trailCount).fill(null).map(() => ({
       x: 0, y: 0, t: -Infinity, hue: 220,
     }));
     let trailHead = 0;
 
     const pushTrail = (x: number, y: number, now: number) => {
       trail[trailHead] = { x, y, t: now, hue: 210 + Math.random() * 40 };
-      trailHead = (trailHead + 1) % TRAIL_MAX;
+      trailHead = (trailHead + 1) % trailCount;
     };
 
     // ✦ ADDED — pen-lift flash state: fires when a stroke group ends
@@ -378,7 +389,7 @@ export default function SureSuryaLoader({ onComplete }: Props) {
 
     // ✦ ADDED — skipFrame counter for glow throttle on low-end devices
     // Detects low-end by checking if DPR=1 and canvas is wider than 600px
-    const isLowEnd = dpr <= 1 && W > 600;
+    const isLowEnd = isMobileViewport || (dpr <= 1 && W > 600);
     let frameCount = 0;
 
     // ── Draw one stroke group ────────────────────────────────────────────────
@@ -435,7 +446,7 @@ export default function SureSuryaLoader({ onComplete }: Props) {
       if (doGlowPass) {
         gCtx.clearRect(0, 0, W, H);
         gCtx.save();
-        gCtx.shadowBlur = LW * 7;
+        gCtx.shadowBlur = LW * (isMobileViewport ? 4.5 : 7);
       }
 
       let activeTipD = "";
@@ -577,7 +588,7 @@ export default function SureSuryaLoader({ onComplete }: Props) {
       }
 
       // ── Trail particles ────────────────────────────────────────────────────
-      for (let i = 0; i < TRAIL_MAX; i++) {
+      for (let i = 0; i < trailCount; i++) {
         const p = trail[i];
         const age = e - p.t;
         if (age <= 0 || age > TRAIL_LIFE) continue;
@@ -594,7 +605,7 @@ export default function SureSuryaLoader({ onComplete }: Props) {
       ctx.drawImage(vigCanvas, 0, 0);
 
       // ✦ ADDED — paper grain texture tiled over canvas at very low opacity
-      if (grainCanvas) {
+      if (grainCanvas && !isMobileViewport) {
         ctx.save();
         // ✦ use 'screen' blend so grain brightens on dark bg without washing out ink
         ctx.globalCompositeOperation = "screen";
@@ -659,10 +670,11 @@ export default function SureSuryaLoader({ onComplete }: Props) {
         pointerEvents: phase === "exiting" ? "none" : "auto",
       }}
     >
-      <Meteors number={72} className="meteors--fullscreen" />
+      <Meteors number={meteorCount} className="meteors--fullscreen" />
       <div
         style={{
-          width: "min(92vw, 980px)",
+          width: frameWidth,
+          maxHeight: "calc(100vh - 24px)",
           aspectRatio: `${VB_W} / ${VB_H}`,
           position: "relative",
           overflow: "hidden",

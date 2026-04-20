@@ -36,6 +36,16 @@
   border-radius: 999px;
 }
 
+@media (max-width: 640px) {
+  .meteor {
+    box-shadow: 0 0 10px rgba(152, 255, 227, 0.38), 0 0 18px rgba(102, 255, 201, 0.2);
+  }
+
+  .meteor::before {
+    background: linear-gradient(90deg, rgba(161, 255, 232, 0.58) 0%, rgba(161, 255, 232, 0.06) 70%, rgba(161, 255, 232, 0) 100%);
+  }
+}
+
 @keyframes meteor-fall {
   0% {
     transform: translate3d(0, 0, 0) rotate(-38deg);
