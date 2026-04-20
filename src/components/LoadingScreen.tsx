@@ -650,6 +650,7 @@ export default function SureSuryaLoader({ onComplete }: Props) {
       style={{
         position: "fixed", inset: 0, zIndex: 9999,
         display: "flex", alignItems: "center", justifyContent: "center",
+        overflow: "hidden",
         background: "#000",
         padding: "max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left))",
         transition: `opacity ${T_EXIT}ms cubic-bezier(.76,0,.24,1), transform ${T_EXIT}ms cubic-bezier(.76,0,.24,1)`,
@@ -658,16 +659,17 @@ export default function SureSuryaLoader({ onComplete }: Props) {
         pointerEvents: phase === "exiting" ? "none" : "auto",
       }}
     >
+      <Meteors number={72} className="meteors--fullscreen" />
       <div
         style={{
           width: "min(92vw, 980px)",
           aspectRatio: `${VB_W} / ${VB_H}`,
           position: "relative",
           overflow: "hidden",
+          zIndex: 1,
           borderRadius: "20px",
         }}
       >
-        <Meteors number={30} />
         <canvas
           ref={canvasRef}
           aria-label="Sure Surya"

@@ -28,11 +28,11 @@ export default function Meteors({ number = 30, className = "" }: MeteorsProps) {
     () =>
       Array.from({ length: number }, (_, id) => ({
         id,
-        left: randomBetween(35, 120),
-        top: randomBetween(-20, 55),
-        delay: randomBetween(0, 5),
+        left: randomBetween(-10, 130),
+        top: randomBetween(-35, 70),
+        delay: randomBetween(0, 6),
         duration: randomBetween(2.8, 6.2),
-        tail: randomBetween(60, 150),
+        tail: randomBetween(70, 180),
         size: randomBetween(1.2, 2.8),
       })),
     [number]

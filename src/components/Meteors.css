@@ -5,6 +5,11 @@
   pointer-events: none;
 }
 
+.meteors--fullscreen {
+  inset: 0;
+  z-index: 0;
+}
+
 .meteor {
   position: absolute;
   width: var(--meteor-size, 2px);
@@ -46,7 +51,7 @@
   }
 
   100% {
-    transform: translate3d(-430px, 430px, 0) rotate(-38deg);
+    transform: translate3d(-120vw, 120vh, 0) rotate(-38deg);
     opacity: 0;
   }
 }
